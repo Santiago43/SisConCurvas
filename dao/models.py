@@ -54,3 +54,9 @@ class Inventario:
         self.precioCosto=precioCosto
         self.precioVenta=precioVenta
         self.categorias=categorias
+
+
+class Rol:
+    def __init__(self,idRol,nombre):
+        self.idRol=idRol
+        self.nombre=nombre
