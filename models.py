@@ -9,3 +9,8 @@ class Persona:
         self.documento=documento
         self.telefono=telefono
         self.correo=correo
+class Cliente(Persona):
+    def __init__(self,cliente_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo):
+        self.cliente_ID=cliente_ID
+        Persona.__init__(persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo)
+        
