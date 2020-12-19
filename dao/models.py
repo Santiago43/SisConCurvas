@@ -56,7 +56,7 @@ class Usuario(persona):
         self.rol_ID=rol_ID
         self.permiso_ID=permiso_ID
         Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo)
-class 
+
 class Direccion:
     """
     Clase direccion 
