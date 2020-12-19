@@ -95,6 +95,11 @@ class RolesDao(dao):
             raise e
         
     def removerPermiso(self, rol, permiso):
+        """
+        Método que permite retirar permiso a un rol
+        - rol : que es el rol al que se le retirará el permiso
+        - permiso : que es el permiso que se le retirará al rol
+        """
         try:
             sql='delete from rol_tiene_permiso where (Rol_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
