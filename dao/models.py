@@ -50,12 +50,14 @@ class Usuario(persona):
     - contraseña
     - Id del rol
     """
-    def __init__(self,usuario_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo, contraseña, rol_ID):
+    def __init__(self,usuario_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo, contraseña, rol_ID,permiso_ID):
         self.usuario_ID=usuario_ID
         self.contraseña=contraseña
         self.rol_ID=rol_ID
+        self.permiso_ID=permiso_ID
         Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo)
-class Direccion():
+class 
+class Direccion:
     """
     Clase direccion 
     Parámetros:
@@ -69,7 +71,7 @@ class Direccion():
         self.ciudad_ID=ciudad_ID
         self.departamento_ID=departamento_ID
         self.barrio=barrio
-class Departamento():
+class Departamento:
     """
     Clase direccion 
     Parámetros:
@@ -79,7 +81,7 @@ class Departamento():
     def __init__(self,departamento_ID,departamento):
         self.departamento_ID=departamento_ID
         self.departamento=departamento
-class Ciudad():
+class Ciudad:
     """
     Clase ciudad 
     Parámetros:
@@ -110,7 +112,7 @@ class Categoria:
         self.id=id
         self.nombre=nombre
         self.idPadre=idPadre
-class Pago_Domiciliario():
+class Pago_Domiciliario:
     """
     Clase Pago domiciliario 
     Parámetros:
@@ -126,7 +128,7 @@ class Pago_Domiciliario():
         self.monto
         self.domiciliario_ID=domiciliario_ID
         self.financiero_ID=financiero_ID
-class Empaque():
+class Empaque:
     """
     Clase Empaque 
     Parámetros:
@@ -146,6 +148,98 @@ class Empaque():
         self.numero_prendas=numero_prendas
         self.estado=estado
         self.observaciones=observaciones
+class despacho:
+    """
+    Clase despacho 
+    Parámetros:
+    - Id del despacho 
+    - Id del motivo
+    - Id del usuario 
+    - Id de la orden de venta 
+    - Id de la ruta
+    - estado
+    - fecha de despacho
+    """
+    def __init__(self,despacho_ID,motivo_ID,usuario_ID,orden_venta_ID,ruta_ID,estado,fecha_despacho):
+        self.despacho_ID=despacho_ID
+        self.motivo_ID=motivo_ID
+        self.usuario_ID=usuario_ID
+        self.orden_venta_ID=orden_venta_ID
+        self.ruta_ID=ruta_ID
+        self.estado=estado
+        self.fecha_despacho=fecha_despacho
+class Distribucion:
+    """
+    Clase Distribucion 
+    Parámetros:
+    - Id de la Distribucion 
+    - Id del motivo
+    - Id del despacho
+    - estado 
+    - venta neta
+    - costo de distribucion 
+    - productos
+    """
+    def __init__(self,distribucion_ID, motivo_ID,despacho_ID,estado,venta_neta,costo_distribucion,productos):
+        self.distribucion_ID=distribucion_ID
+        self.motivo_ID=motivo_ID
+        self.despacho_ID=despacho_ID
+        self.estado=estado
+        self.venta_neta=venta_neta
+        self.costo_distribucion=costo_distribucion
+        self.productos=productos
+class motivo:
+    """
+    Clase motivo
+    Parámetros:
+    - Id del motivo
+    - tipo del motivo
+    - motivo
+    """
+    def __init__(self,motivo_ID,tipo,motivo):
+        self.motivo_ID=motivo_ID
+        self.tipo=tipo
+        self.motivo=motivo
+class Ruta:
+    """
+    Clase Ruta
+    Parámetros:
+    - Id de la ruta
+    - nombre
+    """
+    def __init__(self,ruta_ID,nombre):
+        self.ruta_ID=ruta_ID
+        self.nombre=nombre
+class Metodo_compra:
+    """
+    Clase Metodo_compra
+    Parámetros:
+    - Id del metodo de compra
+    - tipo
+    """
+    def __init__(self,metodo_compra_ID,tipo):
+        self.metodo_compra_ID=metodo_compra_ID
+        self.tipo=tipo
+class Modalidad_pago:
+    """
+    Clase Modalidad_pago
+    Parámetros:
+    - Id de la modalidad de pago
+    - madalidad
+    """
+    def __init__(self,modalidad_pago_ID,modalidad):
+        self.modalidad_pago_ID=modalidad_pago_ID
+        self.modalidad=modalidad
+class Origen:
+    """
+    Clase Origen
+    Parámetros:
+    - Id del origen
+    - nombre
+    """
+    def __init__(self,origen_ID,nombre):
+        self.origen_ID=origen_ID
+        self.nombre=nombre
 class Inventario:
     """
     Clase inventario
@@ -166,9 +260,117 @@ class Inventario:
         self.precioCosto=precioCosto
         self.precioVenta=precioVenta
         self.categorias=categorias
-
+class Contro_inventario:
+    """
+    Clase Contro_inventario
+    Parámetros:
+    - Id del Contro_inventario
+    - referencia del producto
+    - fecha
+    - inventario inicial
+    - numero de prendas
+    - tipo 
+    """   
+    def __init__(self, control_inventario_ID,referenciaProducto,fecha,inventario_inicial,detalle,numero_prendas,tipo):
+        self.control_inventario_ID=control_inventario_ID
+        self.referenciaProducto=referenciaProducto
+        self.fecha=fecha
+        self.inventario_inicial=inventario_inicial
+        self.detalle=detalle
+        self.numero_prendas=numero_prendas
+        self.tipo=tipo
 
 class Rol:
-    def __init__(self,idRol,nombre):
+    """
+    Clase rol
+    Parámetros:
+    - Id del rol 
+    - nombre del rol 
+    """
+    def __init__(self,idRol,nombre,permisos):
         self.idRol=idRol
         self.nombre=nombre
+        self.permisos=permisos
+class Control_rol:
+    """
+    Clase Control_rol:
+    Parámetros:
+    - Id de Control_rol:
+    - Id del rol 
+    - Id del usuario 
+    - fecha de modificacion
+    - tipo 
+    - detalle
+    """
+    def __init__(self,control_rol_ID, rol_ID,usuario_ID,fecha_modificacion,tipo,detalle):
+        self.control_rol_ID=control_rol_ID
+        self.rol_ID=rol_ID
+        self.usuario_ID=usuario_ID
+        self.fecha_modificacion=fecha_modificacion
+        self.tipo=tipo
+        self.detalle=detalle
+
+class permiso:
+    """
+    Clase permiso
+    Parámetros:
+    - Id del permiso
+    - nombre del permiso
+    """
+    def __init__(self,permiso_ID,nombre):
+        self.permiso_ID=permiso_ID
+        self.nombre=nombre
+
+class Orden_venta:
+    """
+    Clase Orden_venta
+    Parámetros:
+    - Id del motivo
+    - Id del origen 
+    - Id de la modalida de pago
+    - Id del metodo de compra
+    - Id de la direccion
+    - Id del cliente 
+    - Id del usuario 
+    - estado 
+    - fecha de venta 
+    - precio 
+    - nota 
+    - fecha de entrega 
+    - tipo de venta 
+    - descuento 
+    - productos 
+    """
+    def __init__(self,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,fecha_venta,precio,nota,fecha_entrega,tipo_venta,descuento,productos):
+        self.motivo_ID=motivo_ID
+        self.origen_ID=origen_ID
+        self.modalidad_pago_ID=modalidad_pago_ID
+        self.metodo_compra_ID=metodo_compra_ID
+        self.direccion_ID=direccion_ID
+        self.cliente_ID=cliente_ID
+        self.usuario_ID=usuario_ID
+        self.estado=estado
+        self.fecha_venta=fecha_venta
+        self.precio=precio
+        self.nota=nota
+        self.fecha_entrega=fecha_entrega
+        self.tipo_venta=tipo_venta
+        self.descuento=descuento
+        self.productos=productos
+class Control_venta:
+    """
+    Clase Control_venta
+    Parámetros:
+    - Id del Control_venta
+    - Id del usuario 
+    - Id de la orden de venta 
+    - fecha de la modificacion 
+    - cambio 
+    """
+    def __init__(self,control_venta_ID,usuario_ID,orden_venta_ID,fecha_modificacion,cambio):
+        self.control_venta_ID=control_venta_ID
+        self.usuario_ID=usuario_ID
+        self.orden_venta_ID=orden_venta_ID
+        self.fecha_modificacion=fecha_modificacion
+        self.cambio=cambio
+
