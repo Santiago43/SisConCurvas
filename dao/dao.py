@@ -12,3 +12,6 @@ class dao:
     def connectDB(self):
         cnx = mysql.connector.connect(user=self.user, password = self.password, database=self.database, host=self.host)
         return cnx
+    def cerrarConexion(self,cursor,cnx):
+        cursor.close()
+        cnx.close()
