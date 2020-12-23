@@ -52,10 +52,20 @@ class UsuariosDao(dao):
         - usuario : que es el usuario que se actualizará
         """
         try:
-            sql = 'update usuario set Nombre=%s where usuario_ID = %s;'
+            sql = 'update persona as p, usuario as u set 
+            sql+='p.Primer_nombre="%s, '
+            sql+='p.Segundo_nombre=%s, '
+            sql+='p.Primer_apellido=%s, '
+            sql+='p.Segundo_apellido=%s, '
+            sql+='p.Tipo_documento=%s, '
+            sql+='p.Telefono=%s, '
+            sql+='p.correo=%s, '
+            sql+='u.Rol_ID=%s, '
+            sql+='where p.Documento=%s and p.Persona_ID=u.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(usuario.nombre,usuario.idusuario))
+            args=(usuario.primerNombre,usuario.segundoNombre,usuario.PrimerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.telefono,usuario.correo,)
+            cursor.execute(sql,)
         except Exception as e:
             raise e
 
