@@ -148,7 +148,7 @@ class Empaque:
         self.numero_prendas=numero_prendas
         self.estado=estado
         self.observaciones=observaciones
-class despacho:
+class Despacho:
     """
     Clase despacho 
     Parámetros:
@@ -188,7 +188,7 @@ class Distribucion:
         self.venta_neta=venta_neta
         self.costo_distribucion=costo_distribucion
         self.productos=productos
-class motivo:
+class Motivo:
     """
     Clase motivo
     Parámetros:
@@ -310,7 +310,7 @@ class Control_rol:
         self.tipo=tipo
         self.detalle=detalle
 
-class permiso:
+class Permiso:
     """
     Clase permiso
     Parámetros:
