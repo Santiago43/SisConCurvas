@@ -91,16 +91,6 @@ class Ciudad:
     def __init__(self,ciudad_ID,nombre):
         self.ciudad_ID=ciudad_ID
         self.nombre=nombre
-class PadreCategoria:
-    """
-    Clase PadreCategoria 
-    Parámetros:
-    - Id de la categoria padre 
-    - nombre de la categoria padre 
-    """
-    def __init__(self, id, nombre):
-        self.id=id
-        self.nombre=nombre
 class Categoria:
     """
     Clase Categoria 
