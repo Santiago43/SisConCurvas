@@ -40,8 +40,8 @@ class RolesDao(dao):
             cursor.execute(sql2,(id))
             for row in cursor:
                 rol.permisos.append(Permiso(row[0],row[1]))
-            return rol
             super().cerrarConexion(cursor,cnx)
+            return rol
         except Exception as e:
             raise e
 

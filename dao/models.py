@@ -9,7 +9,7 @@ class Persona:
     - correo
     - Direccion
     """
-    def __init__(self, persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direccion):
+    def __init__(self, persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones):
         self.persona_ID=persona_ID
         self.primerNombre=primerNombre
         self.segundoNombre=segundoNombre
@@ -19,7 +19,7 @@ class Persona:
         self.documento=documento
         self.telefono=telefono
         self.correo=correo
-        self.direccion
+        self.direcciones=direcciones
 class Cliente(Persona):
     """
     Clase Cliente 
@@ -32,11 +32,11 @@ class Cliente(Persona):
     - correo
     - Direccion
     """
-    def __init__(self,cliente_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,tipoCliente):
+    def __init__(self,cliente_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones,tipoCliente):
         self.cliente_ID=cliente_ID
         self.tipoCliente=tipoCliente
-        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo)
-class Usuario(persona):
+        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones)
+class Usuario(Persona):
     """
     Clase Usuario 
     Parámetros:
@@ -50,12 +50,12 @@ class Usuario(persona):
     - contraseña
     - Id del rol
     """
-    def __init__(self,usuario_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo, contraseña, rol_ID,permiso_ID):
+    def __init__(self,usuario_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, contraseña, rol_ID,permiso_ID):
         self.usuario_ID=usuario_ID
         self.contraseña=contraseña
         self.rol_ID=rol_ID
         self.permiso_ID=permiso_ID
-        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo)
+        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones)
 
 class Direccion:
     """
@@ -108,7 +108,7 @@ class Categoria:
     - Id de la categoria  
     - nombre de la categoria  
     """
-    def __init__(self,id,nombre,idPadre):
+    def __init__(self,id,idPadre,nombre):
         self.id=id
         self.nombre=nombre
         self.idPadre=idPadre
@@ -124,8 +124,8 @@ class Pago_Domiciliario:
     """
     def __init__(self,Pago_domiciliario_ID,estado,monto,domiciliario_ID,financiero_ID):
         self.Pago_domiciliario_ID=Pago_domiciliario_ID
-        self.estado
-        self.monto
+        self.estado=estado
+        self.monto=monto
         self.domiciliario_ID=domiciliario_ID
         self.financiero_ID=financiero_ID
 class Empaque:
