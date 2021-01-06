@@ -16,8 +16,8 @@ class ClienteDao(dao):
         try:
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=[cliente.primerNombre,cliente.segundoNombre,cliente.primerApellido,cliente.segundoApellido,cliente.tipoDocumento,cliente.documento,cliente.telefono,cliente.correo,cliente.rol_ID,cliente.contraseña]
-            cursor.callproc("insertarcliente",args)
+            args=[cliente.primerNombre,cliente.segundoNombre,cliente.primerApellido,cliente.segundoApellido,cliente.tipoDocumento,cliente.documento,cliente.telefono,cliente.correo,cliente.tipoCliente]
+            cursor.callproc("insertarCliente",args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
@@ -31,16 +31,12 @@ class ClienteDao(dao):
         - cedula : que es la cédula de cliente 
         """
         try:
-            sql= 'select * from persona as p inner join cliente as u on u.Persona_ID=p.Persona_ID where Documento=1234567890;'
+            sql= 'select * from Persona as p inner join Cliente as c on c.Persona_ID=p.Persona_ID where Documento=%s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(id))
+            cursor.execute(sql,(cedula))
             result = cursor.fetchone()
-            cliente = cliente(result[0],result[1],None)
-            sql2='select p.* from cliente_tiene_permiso as rp inner join cliente as r on r.cliente_ID=rp.cliente_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.cliente_ID=%s;'
-            cursor.execute(sql2,(id))
-            for row in cursor:
-                cliente.permisos.append(Permiso(row[0],row[1]))
+            cliente = Cliente(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10])
             return cliente
         except Exception as e:
             raise e
@@ -52,19 +48,17 @@ class ClienteDao(dao):
         - cliente : que es el cliente que se actualizará
         """
         try:
-            sql = 'update persona as p, cliente as u set '
+            sql = 'update Persona as p, Cliente as u set '
             sql+='p.Primer_nombre="%s, '
             sql+='p.Segundo_nombre=%s, '
             sql+='p.Primer_apellido=%s, '
             sql+='p.Segundo_apellido=%s, '
             sql+='p.Tipo_documento=%s, '
             sql+='p.Telefono=%s, '
-            sql+='p.correo=%s, '
-            sql+='u.Rol_ID=%s, '
             sql+='where p.Documento=%s and p.Persona_ID=u.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(cliente.primerNombre,cliente.segundoNombre,cliente.PrimerApellido,cliente.segundoApellido,cliente.tipoDocumento,cliente.telefono,cliente.correo,)
+            args=(cliente.primerNombre,cliente.segundoNombre,cliente.PrimerApellido,cliente.segundoApellido,cliente.tipoDocumento,cliente.telefono,cliente.correo)
             cursor.execute(sql,)
         except Exception as e:
             raise e

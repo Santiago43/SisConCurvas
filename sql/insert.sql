@@ -24,7 +24,8 @@ insert into Categoria(Nombre) values ("Elegante");
 /*Insertar categoría*/
 insert into Categoria(Nombre,Padre_categoria_ID) values ("Gala",null);
 
-
+/*Insert cliente*/
+call insertarCliente("Carlos","Juan","Rodriguez","Ramirez","Cédula de ciudadanía","123456","3257550034","carlos@example.com",false);
 /*Insertar producto a inventario*/
 call insertarProducto("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,1);
 

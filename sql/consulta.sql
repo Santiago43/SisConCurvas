@@ -45,3 +45,8 @@ select * from Inventario where Referencia_Producto_ID="abdcdf";
 select c.* from Categoria as c
 inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
 where Inventario_Referencia_Producto_ID="abdcdf";
+
+/* consulta cliente*/
+select * from Persona as p 
+inner join Cliente as c on c.Persona_ID=p.Persona_ID 
+where Documento=123456
