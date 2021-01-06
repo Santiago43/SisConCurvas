@@ -150,7 +150,7 @@ class Despacho:
     - estado
     - fecha de despacho
     """
-    def __init__(self,despacho_ID,motivo_ID,usuario_ID,orden_venta_ID,ruta_ID,estado,fecha_despacho):
+    def __init__(self,despacho_ID,motivo_ID,usuario_ID,orden_venta_ID,ruta_ID,estado,fecha_despacho,id_envia):
         self.despacho_ID=despacho_ID
         self.motivo_ID=motivo_ID
         self.usuario_ID=usuario_ID
@@ -158,6 +158,7 @@ class Despacho:
         self.ruta_ID=ruta_ID
         self.estado=estado
         self.fecha_despacho=fecha_despacho
+        self.id_envia
 class Distribucion:
     """
     Clase Distribucion 
@@ -170,9 +171,10 @@ class Distribucion:
     - costo de distribucion 
     - productos
     """
-    def __init__(self,distribucion_ID, motivo_ID,despacho_ID,estado,venta_neta,costo_distribucion,productos):
+    def __init__(self,distribucion_ID, motivo_ID,usuario_ID,despacho_ID,estado,venta_neta,costo_distribucion,productos):
         self.distribucion_ID=distribucion_ID
         self.motivo_ID=motivo_ID
+        self.usuario_ID=usuario_ID
         self.despacho_ID=despacho_ID
         self.estado=estado
         self.venta_neta=venta_neta

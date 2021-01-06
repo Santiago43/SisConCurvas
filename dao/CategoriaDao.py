@@ -21,7 +21,7 @@ class CategoriaDao(dao):
             return True
         except Exception as e:
             raise e
-
+        
     def consultarcategoria(self,id):
         """
         Método que permite consultar un categoria mediante su ID

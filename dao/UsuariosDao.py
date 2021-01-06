@@ -52,7 +52,7 @@ class UsuariosDao(dao):
         - usuario : que es el usuario que se actualizará
         """
         try:
-            sql = 'update persona as p, usuario as u set 
+            sql = 'update persona as p, usuario as u set '
             sql+='p.Primer_nombre="%s, '
             sql+='p.Segundo_nombre=%s, '
             sql+='p.Primer_apellido=%s, '
