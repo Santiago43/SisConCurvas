@@ -47,7 +47,7 @@ class CategoriaDao(dao):
         - categoria : que es el categoria que se actualizará
         """
         try:
-            sql = 'update categoria set Nombre=%s, Padre_categoria_ID=%s,where categoria_ID = %s;'
+            sql = 'update categoria set Nombre=%s, Padre_categoria_ID=%s where categoria_ID = %s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(categoria.nombre,categoria.idPadre,categoria.id))
