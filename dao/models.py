@@ -65,12 +65,14 @@ class Direccion:
     - Id de la ciudad 
     - id del departamento
     - barrio
+    - direccion
     """
-    def __init__(self,direccion_ID,ciudad_ID,departamento_ID,barrio):
+    def __init__(self,direccion_ID,ciudad_ID,departamento_ID,barrio,direccion):
         self.direccion_ID=direccion_ID
         self.ciudad_ID=ciudad_ID
         self.departamento_ID=departamento_ID
         self.barrio=barrio
+        self.direccion=direccion
 class Departamento:
     """
     Clase direccion 
