@@ -37,9 +37,9 @@ class InventarioDao(dao):
             cursor.execute(sql,(id))
             result = cursor.fetchone()
             producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5])
-            sql2='''select c.* from categoria as c
-            inner join Inventario_tiene_categoria as ic on c.Categoria_ID=ic.Categoria_ID
-            where Inventario_Referencia_Producto_ID=%s;'''
+            sql2='''select c.* from Categoria as c
+            inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
+            where ic.Inventario_Referencia_Producto_ID=%s;'''
             cursor.execute(sql2,(id))
             for row in cursor:
                 producto.categorias.append(Categoria(row[0],row[1],row[2]))           
@@ -76,7 +76,7 @@ class InventarioDao(dao):
         - producto : que es el producto que se elinará
         """
         try:
-            sql="delete from producto where producto_ID=%s;"
+            sql="delete from Producto where producto_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(producto.referenciaProducto))
@@ -93,7 +93,7 @@ class InventarioDao(dao):
         - categoria: que es el categoria que se le agregará al producto
         """
         try:
-            sql='insert into Inventario_tiene_categoria (Referencia_producto_ID,categoria_ID) values (%s,%s);'
+            sql='insert into Inventario_tiene_Categoria (Referencia_producto_ID,categoria_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(producto.referenciaProducto,categoria.id))
@@ -105,7 +105,7 @@ class InventarioDao(dao):
         
     def removerCategoria(self, producto, categoria):
         try:
-            sql='delete from Inventario_tiene_categoria where (Referencia_producto_ID,categoria_ID) values (%s,%s)'
+            sql='delete from Inventario_tiene_Categoria where (Referencia_producto_ID,categoria_ID) values (%s,%s)'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(producto.referenciaProducto,categoria.id))

@@ -75,7 +75,7 @@ class UsuariosDao(dao):
         - usuario : que es el usuario que se elinará
         """
         try:
-            sql="delete from usuario where usuario_ID=%s;"
+            sql="delete from Usuario where usuario_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(usuario.idusuario))
@@ -90,7 +90,7 @@ class UsuariosDao(dao):
         - permiso : que es el permiso que se le agregará al usuario
         """
         try:
-            sql='insert into usuario_tiene_permiso (usuario_ID,Permiso_ID) values (%s,%s);'
+            sql='insert into Usuario_tiene_Permiso (usuario_ID,Permiso_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(usuario.id,permiso.id))
@@ -100,7 +100,7 @@ class UsuariosDao(dao):
         
     def removerPermiso(self, usuario, permiso):
         try:
-            sql='delete from usuario_tiene_permiso where (usuario_ID,Permiso_ID) =(%s,%s);'
+            sql='delete from Usuario_tiene_Permiso where (Usuario_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(usuario.id,permiso.id))

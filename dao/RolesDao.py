@@ -14,7 +14,7 @@ class RolesDao(dao):
         - rol : que es el rol que se registrará 
         """
         try:
-            sql= "insert into rol (Nombre) values (%s);"
+            sql= "insert into Rol (Nombre) values (%s);"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(rol.nombre))
@@ -30,13 +30,13 @@ class RolesDao(dao):
         - id : que es el ID de rol 
         """
         try:
-            sql= "select * from rol where Rol_ID=%s;"
+            sql= "select * from Rol where Rol_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(id))
             result = cursor.fetchone()
             rol = Rol(result[0],result[1],None)
-            sql2='select p.* from rol_tiene_permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=%s;'
+            sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=%s;'
             cursor.execute(sql2,(id))
             for row in cursor:
                 rol.permisos.append(Permiso(row[0],row[1]))
@@ -52,7 +52,7 @@ class RolesDao(dao):
         - rol : que es el rol que se actualizará
         """
         try:
-            sql = 'update rol set Nombre=%s where Rol_ID = %s;'
+            sql = 'update Rol set Nombre=%s where Rol_ID = %s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(rol.nombre,rol.idRol))
@@ -67,7 +67,7 @@ class RolesDao(dao):
         - rol : que es el rol que se elinará
         """
         try:
-            sql="delete from rol where Rol_ID=%s;"
+            sql="delete from Rol where Rol_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(rol.idRol))
@@ -84,7 +84,7 @@ class RolesDao(dao):
         - permiso : que es el permiso que se le agregará al rol
         """
         try:
-            sql='insert into rol_tiene_permiso (Rol_ID,Permiso_ID) values (%s,%s);'
+            sql='insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(rol.id,permiso.id))
@@ -96,7 +96,7 @@ class RolesDao(dao):
         
     def removerPermiso(self, rol, permiso):
         try:
-            sql='delete from rol_tiene_permiso where (Rol_ID,Permiso_ID) =(%s,%s);'
+            sql='delete from Rol_tiene_Permiso where (Rol_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(rol.id,permiso.id))
