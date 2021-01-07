@@ -313,7 +313,7 @@ class Permiso:
         self.permiso_ID=permiso_ID
         self.nombre=nombre
 
-class Orden_venta:
+class OrdenVenta:
     """
     Clase Orden_venta
     Parámetros:
