@@ -29,7 +29,7 @@ class CategoriaDao(dao):
         - id : que es el ID de categoria 
         """
         try:
-            sql= "select * from categoria where categoria_ID=%s;"
+            sql= "select * from Categoria where categoria_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(id))
@@ -47,7 +47,7 @@ class CategoriaDao(dao):
         - categoria : que es el categoria que se actualizará
         """
         try:
-            sql = 'update categoria set Nombre=%s, Padre_categoria_ID=%s where categoria_ID = %s;'
+            sql = 'update Categoria set Nombre=%s, Padre_categoria_ID=%s where categoria_ID = %s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(categoria.nombre,categoria.idPadre,categoria.id))
@@ -62,12 +62,31 @@ class CategoriaDao(dao):
         - categoria : que es el categoria que se elinará
         """
         try:
-            sql="delete from categoria where categoria_ID=%s;"
+            sql="delete from Categoria where categoria_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(categoria.id))
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
+        except Exception as e:
+            raise e
+
+    def consultarcategoria(self):
+        """
+        Método que permite consultar las categorias
+        """
+        try:
+            categorias = list()
+            sql= "select * from Categoria;"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            for i in result:
+                categoria = Categoria(i[0],i[1],i[2])
+                categorias.append(categoria)
+            super().cerrarConexion(cursor,cnx)
+            return categorias
         except Exception as e:
             raise e

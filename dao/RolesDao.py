@@ -105,3 +105,27 @@ class RolesDao(dao):
             return True
         except Exception as e:
             raise e
+
+    def consultarRoles(self):
+        """
+        Método que permite consultar todos los roles
+        """
+        try:
+            roles = list()
+            sql= "select * from Rol;"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            for i in result:
+                sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=%s;'
+                cursor=cnx.cursor()
+                cursor.execute(sql2,i[0])
+                for row in cursor:
+                    permiso = Permiso(row[0],row[1])
+                rol = Rol(i[0],i[1],permiso)
+                roles.append(rol)
+            super().cerrarConexion(cursor,cnx)
+            return roles
+        except Exception as e:
+            raise e
