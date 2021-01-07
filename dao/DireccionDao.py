@@ -66,7 +66,7 @@ class DireccionDao(dao):
         - direccion : que es la direccion que se elinará
         """
         try:
-            sql="delete from Direccion where Direccion_id=%s;"
+            sql="delete from Direccion where direccion_ID = %s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(direccion.direccion_id))
