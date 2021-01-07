@@ -50,11 +50,11 @@ class Usuario(Persona):
     - contraseña
     - Id del rol
     """
-    def __init__(self,usuario_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, contraseña, rol_ID,permiso_ID):
+    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, contraseña, rol_ID,usuario_ID,permisos):
         self.usuario_ID=usuario_ID
         self.contraseña=contraseña
         self.rol_ID=rol_ID
-        self.permiso_ID=permiso_ID
+        self.permisos=permisos
         Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones)
 
 class Direccion:
@@ -160,7 +160,7 @@ class Despacho:
         self.ruta_ID=ruta_ID
         self.estado=estado
         self.fecha_despacho=fecha_despacho
-        self.id_envia
+        self.id_envia=id_envia
 class Distribucion:
     """
     Clase Distribucion 
