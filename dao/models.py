@@ -160,7 +160,7 @@ class Despacho:
         self.ruta_ID=ruta_ID
         self.estado=estado
         self.fecha_despacho=fecha_despacho
-        self.id_envia
+        self.id_envia=id_envia
 class Distribucion:
     """
     Clase Distribucion 
