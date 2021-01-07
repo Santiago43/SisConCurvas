@@ -2,6 +2,9 @@ import mysql.connector
 from mysql.connector import errorcode
 from dao.dao import dao
 from dao.models import OrdenVenta
+from dao.models import ProductoEnOrden
+from dao.models import Inventario
+from dao.models import Categoria
 class OrdenDao(dao):
     """
     Clase de objeto de acceso a datos que maneja las órdenes de venta
@@ -21,33 +24,46 @@ class OrdenDao(dao):
             (%s,%s,%s,%s,%s,%s,%s,cast(sysdate() as DATE),%s,%s,%s,%s,%s);
             '''
             cursor.execute(sql,(orden.origen_ID,orden.modalidadad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.precio,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento))
+            for productoEnOrden in orden.productos:
+                sql2=''' insert into Orden_venta_tiene_producto 
+                (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
+                values (%s,%s,%s);  '''
+                cursor.execute(sql2,(orden.orden_ID,productoEnOrden.producto.referenciaProducto,productoEnOrden.cantidad))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
             raise e
 
-    def consultarorden(self,id):
+    def consultarOrden(self,id):
         """
-        Método que permite consultar un producto mediante su ID
+        Método que permite consultar una orden de venta mediante su ID
         Parámetros:
-        - id : que es el ID de producto 
+        - id : que es el ID de la orden
         """
         try:
-            sql= "select * from inventario where Referencia_Producto_ID=%s;"
+            sql='''select * from Orden_venta where Orden_venta_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(id))
             result = cursor.fetchone()
-            producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5])
-            sql2='''select c.* from Categoria as c
-            inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
-            where ic.Inventario_Referencia_Producto_ID=%s;'''
-            cursor.execute(sql2,(id))
-            for row in cursor:
-                producto.categorias.append(Categoria(row[0],row[1],row[2]))           
+            ordenVenta=OrdenVenta(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],[])
+            sql2= '''select i.*, oc.cantidad from Inventario as i
+            inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+            inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+            where o.Orden_venta_ID=%s;'''
+            result2= cursor.fetchall()
+            for row in result2:
+                productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],[]),row[6])
+                sql3='''select c.* from Categoria as c
+                inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
+                where ic.Inventario_Referencia_Producto_ID=%s;'''
+                cursor.execute(sql3,(productoEnOrden.producto.referenciaProducto))
+                for row in cursor:
+                    productoEnOrden.producto.categorias.append(Categoria(row[0],row[1],row[2]))  
+                ordenVenta.productos.append(productoEnOrden)
             super().cerrarConexion(cursor,cnx)
-            return producto
+            return ordenVenta
         except Exception as e:
             raise e
 
