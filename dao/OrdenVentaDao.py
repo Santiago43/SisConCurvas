@@ -52,6 +52,7 @@ class OrdenDao(dao):
             inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
             inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
             where o.Orden_venta_ID=%s;'''
+            cursor.execute(sql2,(id))
             result2= cursor.fetchall()
             for row in result2:
                 productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],[]),row[6])
