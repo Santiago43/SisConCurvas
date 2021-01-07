@@ -76,28 +76,3 @@ class ClienteDao(dao):
             return True
         except Exception as e:
             raise e
-
-    def agregarPermiso(self, cliente, permiso):
-        """
-        Método que permite agregar permiso a un cliente
-        - cliente : que es el cliente al que se le agregará el permiso
-        - permiso : que es el permiso que se le agregará al cliente
-        """
-        try:
-            sql='insert into cliente_tiene_permiso (cliente_ID,Permiso_ID) values (%s,%s);'
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
-            cursor.execute(sql,(cliente.id,permiso.id))
-            return True
-        except Exception as e:
-            raise e
-        
-    def removerPermiso(self, cliente, permiso):
-        try:
-            sql='delete from cliente_tiene_permiso where (cliente_ID,Permiso_ID) =(%s,%s);'
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
-            cursor.execute(sql,(cliente.id,permiso.id))
-            return True
-        except Exception as e:
-            raise e
