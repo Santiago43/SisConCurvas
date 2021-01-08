@@ -16,8 +16,6 @@ insert into Permiso (Nombre) values ("Orden.eliminar");
 insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID)
 values (1,1);
 
-select * from Rol;
-
 insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
 values (
 (select Rol_ID from Rol where Nombre="Vendedor"),
@@ -90,5 +88,5 @@ null
 );
 
 insert into Orden_venta_tiene_producto (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
-values (2,"abdcdf",3);
+values (1,"abdcdf",3);
 /*Insertar distribución*/

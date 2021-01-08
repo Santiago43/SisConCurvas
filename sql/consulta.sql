@@ -68,3 +68,8 @@ inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
 where o.Orden_venta_ID=2;
 
 select * from Empaque;
+
+
+select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID 
+inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1
+select * from Permiso;
