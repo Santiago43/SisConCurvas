@@ -118,14 +118,37 @@ class RolesDao(dao):
             cursor.execute(sql)
             result = cursor.fetchall()
             for i in result:
-                sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=%s;'
+                sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID= '+str(i[0])+';'
                 cursor=cnx.cursor()
-                cursor.execute(sql2,i[0])
+                cursor.execute(sql2)
+                permisos=[]
                 for row in cursor:
                     permiso = Permiso(row[0],row[1])
-                rol = Rol(i[0],i[1],permiso)
+                    permisos.append(permiso)
+                rol = Rol(i[0],i[1],permisos)
                 roles.append(rol)
             super().cerrarConexion(cursor,cnx)
             return roles
+        except Exception as e:
+            raise e
+    def consultarRolPorNombre(self,nombre):
+        """
+        Método que permite consultar un rol mediante su ID
+        Parámetros:
+        - nombre : que es el nombre del rol
+        """
+        try:
+            sql= "select * from Rol where Nombre=%s;"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql,(nombre))
+            result = cursor.fetchone()
+            rol = Rol(result[0],result[1],None)
+            sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=%s;'
+            cursor.execute(sql2,(id))
+            for row in cursor:
+                rol.permisos.append(Permiso(row[0],row[1]))
+            super().cerrarConexion(cursor,cnx)
+            return rol
         except Exception as e:
             raise e
