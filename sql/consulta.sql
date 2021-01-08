@@ -66,3 +66,5 @@ select i.*, oc.cantidad from Inventario as i
 inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
 inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
 where o.Orden_venta_ID=2;
+
+select * from Empaque;

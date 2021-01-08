@@ -45,3 +45,25 @@ p.correo="pedro@example.com",
 u.Rol_ID=1,
 u.Contraseña=sha("1234")
 where p.Documento="1234567890" and p.Persona_ID=u.Persona_ID;
+
+
+/*Actualizar una orden de venta*/
+update Orden_venta set
+Motivo_ID =1,
+Origen_ID=1,
+Modalidad_pago_ID=1,
+Metodo_compra_ID=1,
+Direccion_id=1,
+Cliente_ID=1,
+Usuario_ID=1,
+Estado="No empacado",
+Precio=(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
+		inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+		inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+		where o.Orden_venta_ID=2) as q),
+Nota="Es una prueba",
+Fecha_entrega="2021-01-15",
+Tipo_venta=true,
+Descuento=null
+where Orden_venta_ID=2;
+
