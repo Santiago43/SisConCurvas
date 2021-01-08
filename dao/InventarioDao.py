@@ -88,8 +88,8 @@ class InventarioDao(dao):
 
     def agregarCategoria(self, producto, categoria):
         """
-        Método que permite agregar categoria a un producto
-        - producto : que es el producto al que se le agregará el categoria
+        Método que permite agregar categoría a un producto
+        - producto : que es el producto al que se le agregará la categoría
         - categoria: que es el categoria que se le agregará al producto
         """
         try:
@@ -104,6 +104,11 @@ class InventarioDao(dao):
             raise e
         
     def removerCategoria(self, producto, categoria):
+        """
+        Método que permite eliminar categoría de un producto
+        - producto : que es el producto al que se le removerá la categoría
+        - categoria: que es el categoría que se le removerá al producto
+        """
         try:
             sql='delete from Inventario_tiene_Categoria where (Referencia_producto_ID,categoria_ID) values (%s,%s)'
             cnx=super().connectDB()
@@ -112,5 +117,30 @@ class InventarioDao(dao):
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
+        except Exception as e:
+            raise e
+
+    def consultarProductos(self):
+        """
+        Método que permite consultar la lista de productos existentes 
+        """
+        try:
+            sql= "select * from inventario;"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            productos=[]
+            for row in cursor:
+                producto = Inventario(row[0],row[1],row[2],row[3],row[4],row[5])
+                productos.append(producto)
+            for producto in productos:
+                sql2='''select c.* from Categoria as c
+                inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
+                where ic.Inventario_Referencia_Producto_ID=%s;'''
+                cursor.execute(sql2,(producto.referenciaProducto))
+                for row in cursor:
+                    producto.categorias.append(Categoria(row[0],row[1],row[2]))           
+            super().cerrarConexion(cursor,cnx)
+            return productos
         except Exception as e:
             raise e

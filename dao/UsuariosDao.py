@@ -28,17 +28,17 @@ class UsuariosDao(dao):
         """
         Método que permite consultar un usuario mediante su cedula
         Parámetros:
-        - cedula : que es la cédula de usuario 
+        - cedula : que es el documento del usuario 
         """
         try:
-            sql= 'select * from persona as p inner join usuario as u on u.Persona_ID=p.Persona_ID where Documento=1234567890;'
+            sql= 'select * from persona as p inner join usuario as u on u.Persona_ID=p.Persona_ID where Documento=%s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(id))
+            cursor.execute(sql,(cedula))
             result = cursor.fetchone()
-            usuario = Usuario(result[0],result[1],None)
+            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],list())
             sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID=%s;'
-            cursor.execute(sql2,(id))
+            cursor.execute(sql2,(usuario.usuario_ID))
             for row in cursor:
                 usuario.permisos.append(Permiso(row[0],row[1]))
             return usuario
@@ -64,8 +64,8 @@ class UsuariosDao(dao):
             sql+='where p.Documento=%s and p.Persona_ID=u.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(usuario.primerNombre,usuario.segundoNombre,usuario.PrimerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.telefono,usuario.correo,)
-            cursor.execute(sql,)
+            args=(usuario.primerNombre,usuario.segundoNombre,usuario.PrimerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.telefono,usuario.correo,usuario.documento)
+            cursor.execute(sql,args)
         except Exception as e:
             raise e
 
@@ -78,7 +78,7 @@ class UsuariosDao(dao):
             sql="delete from Usuario where usuario_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(usuario.idusuario))
+            cursor.execute(sql,(usuario.usuario_ID))
             return True
         except Exception as e:
             raise e
@@ -93,7 +93,7 @@ class UsuariosDao(dao):
             sql='insert into Usuario_tiene_Permiso (usuario_ID,Permiso_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(usuario.id,permiso.id))
+            cursor.execute(sql,(usuario.usuario_ID,permiso.permiso_ID))
             return True
         except Exception as e:
             raise e
@@ -103,7 +103,27 @@ class UsuariosDao(dao):
             sql='delete from Usuario_tiene_Permiso where (Usuario_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(usuario.id,permiso.id))
+            cursor.execute(sql,(usuario.usuario_ID,permiso.permiso_ID))
             return True
+        except Exception as e:
+            raise e
+    def consultarUsuarios(self):
+        """
+        Método que permite consultar la lista de usuarios existentes
+        """
+        try:
+            sql= 'select * from persona as p inner join usuario as u on u.Persona_ID=p.Persona_ID;'
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            usuarios=list()
+            results = cursor.fetchall()
+            for result in results:
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],list())
+                sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID=%s;'
+                cursor.execute(sql2,(usuario.usuario_ID))
+                for row in cursor:
+                    usuario.permisos.append(Permiso(row[0],row[1]))
+            return usuarios
         except Exception as e:
             raise e

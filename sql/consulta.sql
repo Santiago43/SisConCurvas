@@ -46,7 +46,25 @@ select c.* from Categoria as c
 inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
 where Inventario_Referencia_Producto_ID="abdcdf";
 
-/* consulta cliente*/
-select * from Persona as p 
-inner join Cliente as c on c.Persona_ID=p.Persona_ID 
-where Documento=123456
+/*Clientes*/
+select p.*,c.Cliente_ID,tipo_cliente from Persona as p 
+inner join Cliente as c 
+on c.Persona_ID=p.Persona_ID;
+
+
+/*Consultar vendedores*/
+
+select p.*,u.* from Usuario as u
+inner join Persona as p on p.Persona_ID=u.Persona_ID
+inner join Rol as r on u.Rol_ID=r.Rol_ID
+where r.Rol_ID = (select Rol_ID from Rol where Nombre="Vendedor");
+
+
+/*Consultar orden de venta*/
+select * from Orden_venta where Orden_venta_ID=2;
+select i.*, oc.cantidad from Inventario as i
+inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+where o.Orden_venta_ID=2;
+
+select * from Empaque;
