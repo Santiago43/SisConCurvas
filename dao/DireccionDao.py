@@ -14,7 +14,7 @@ class DireccionDao(dao):
         - direccion : que es la direccion que se registrará 
         """
         try:
-            sql= "insert into Direccion (ciudad_ID, Departamento_ID, Barrio, Direccion) values (%s,%s,%s,%s);"
+            sql= "insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (%s,%s,%s,%s);"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(direccion.ciudad_ID,direccion.departamento_ID,direccion.barrio,direccion.direccion))
