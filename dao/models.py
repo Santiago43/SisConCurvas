@@ -335,7 +335,8 @@ class OrdenVenta:
     - descuento 
     - productos 
     """
-    def __init__(self,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,fecha_venta,precio,nota,fecha_entrega,tipo_venta,descuento,productos):
+    def __init__(self,ordenVenta_ID,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,fecha_venta,precio,nota,fecha_entrega,tipo_venta,descuento,productos):
+        self.ordenVenta_ID=ordenVenta_ID
         self.motivo_ID=motivo_ID
         self.origen_ID=origen_ID
         self.modalidad_pago_ID=modalidad_pago_ID
@@ -367,4 +368,7 @@ class Control_venta:
         self.orden_venta_ID=orden_venta_ID
         self.fecha_modificacion=fecha_modificacion
         self.cambio=cambio
-
+class ProductoEnOrden:
+    def __init__(self,producto,cantidad):
+        self.producto=producto
+        self.cantidad=cantidad
