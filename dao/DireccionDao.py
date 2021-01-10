@@ -1,7 +1,9 @@
 import mysql.connector
 from mysql.connector import errorcode
+
 from dao.dao import dao
-from dao.models import Direccion
+from dao.models import Ciudad, Departamento, Direccion
+
 
 class DireccionDao(dao):
     """
@@ -71,5 +73,36 @@ class DireccionDao(dao):
             cursor=cnx.cursor()
             cursor.execute(sql,(direccion.direccion_id))
             return True
+        except Exception as e:
+            raise e
+
+    def consultarCiudades(self):
+        """
+        Método que permite consultar todas las ciudades
+        """
+        try:
+            sql="select * from Ciudad;"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            ciudades=list()
+            for row in cursor:
+                ciudades.append(Ciudad(row[0],row[1]))
+            return ciudades
+        except Exception as e:
+            raise e
+    def consultarDepartamentos(self):
+        """
+        Método que permite consultar todos los departamentos
+        """
+        try:
+            sql="select * from Departamento;"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            departamento=list()
+            for row in cursor:
+                departamento.append(Departamento(row[0],row[1]))
+            return departamento
         except Exception as e:
             raise e
