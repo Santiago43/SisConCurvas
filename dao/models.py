@@ -50,7 +50,7 @@ class Usuario(Persona):
     - contraseña
     - Id del rol
     """
-    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, contraseña, rol_ID,usuario_ID,permisos):
+    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, rol_ID, contraseña,usuario_ID,permisos):
         self.usuario_ID=usuario_ID
         self.contraseña=contraseña
         self.rol_ID=rol_ID
