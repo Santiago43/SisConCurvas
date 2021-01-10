@@ -18,9 +18,15 @@ where r.Rol_ID=1;
 #Usuarios
 
 /*Consultar usuario por cédula*/
-select p.*,u.Rol_ID,u.Contraseña from Persona as p
+select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID from Persona as p
 inner join Usuario as u on u.Persona_ID=p.Persona_ID
 where Documento=1234567890;
+
+/*Y sus direcciones asociadas*/
+select d.* from Direccion as d
+inner join Persona_tiene_direccion as pd on d.Direccion_id
+inner join Persona as p on p.Persona_ID=pd.Persona_ID
+where p.Documento=1234567890;
 #Categorías
 
 /*Consultar categoría padre*/
@@ -71,5 +77,7 @@ select * from Empaque;
 
 
 select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID 
-inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1
+inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1;
 select * from Permiso;
+
+

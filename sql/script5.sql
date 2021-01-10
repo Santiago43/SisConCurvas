@@ -302,12 +302,12 @@ CREATE TABLE Orden_venta (
       ON UPDATE NO ACTION
 );
 
-CREATE TABLE Persona_has_Direccion (
+CREATE TABLE Persona_tiene_Direccion (
   Persona_ID INTEGER UNSIGNED NOT NULL,
   Direccion_id BIGINT NOT NULL,
   PRIMARY KEY(Persona_ID, Direccion_id),
-  INDEX Persona_has_Direccion_FKIndex1(Persona_ID),
-  INDEX Persona_has_Direccion_FKIndex2(Direccion_id),
+  INDEX Persona_tiene_Direccion_FKIndex1(Persona_ID),
+  INDEX Persona_tiene_Direccion_FKIndex2(Direccion_id),
   FOREIGN KEY(Persona_ID)
     REFERENCES Persona(Persona_ID)
       ON DELETE cascade

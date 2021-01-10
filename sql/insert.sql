@@ -47,15 +47,21 @@ call insertarProducto("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,1);
 
 
 /*Insertar ciudad*/
-insert into Ciudad (Nombre) values("Bogotá D.C.");
-insert into Ciudad (Nombre) values("Medellín");
+insert into Ciudad(Nombre) values("Bogotá D.C.");
+insert into Ciudad(Nombre) values("Medellín");
+insert into Ciudad(Nombre) values("Soacha");
 
 /*Insertar Departamento*/
 insert into Departamento (Departamento) values ("Cundinamarca");
+insert into Departamento (Departamento) values ("Antioquia");
+
 
 /*Insertar dirección*/
 insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (1,1,"Las Cruces",'cra 7 # 2-24 sur');
+insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (3,1,"San Mateo",'cra 14 este # 32a');
 
+/*insert into Persona_tiene_direccion(Persona_ID,Direccion_id)
+values (3,1);*/
 
 /*Insertar origen*/
 
@@ -89,4 +95,8 @@ null
 
 insert into Orden_venta_tiene_producto (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
 values (1,"abdcdf",3);
+
 /*Insertar distribución*/
+
+
+/**/
