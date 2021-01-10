@@ -3,6 +3,7 @@ from mysql.connector import errorcode
 from dao.dao import dao
 from dao.models import Usuario
 from dao.models import Permiso
+from dao.models import Direccion
 class UsuariosDao(dao):
     """
     Clase de objeto de acceso a datos que maneja los usuarios y sus permisos
@@ -112,7 +113,40 @@ class UsuariosDao(dao):
         Método que permite consultar la lista de usuarios existentes
         """
         try:
-            sql= 'select * from persona as p inner join usuario as u on u.Persona_ID=p.Persona_ID;'
+            contador=0
+            sql= 'select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            usuarios=list()
+            results = cursor.fetchall()
+            for result in results:
+                contador+=1
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],list(),result[9],result[10],result[11],list())
+                sql2='select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.usuario_ID=up.usuario_ID inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.usuario_ID='+str(usuario.usuario_ID)+';'
+                cursor.execute(sql2,(usuario.usuario_ID))
+                for row in cursor:
+                    usuario.permisos.append(Permiso(row[0],row[1]))
+                sql3='''select d.* from Direccion as d
+                inner join Persona_tiene_direccion as pd on d.Direccion_id
+                inner join Persona as p on p.Persona_ID=pd.Persona_ID
+                where p.Documento='''+str(usuario.documento)+''';'''
+                cursor.execute(sql3)
+                for row in cursor:
+                    direccion = Direccion(row[0],row[1],row[2],row[3],row[4])
+                    usuario.direcciones.append(direccion)
+                usuarios.append(usuario)
+            return usuarios
+        except Exception as e:
+            raise e
+    def agregarDireccion(self,usuario,direccion):
+        """
+        Método que permite agregar una dirección a un usuario
+        - usuario: que es el usuario al que se le agregará la dirección
+        - dirección: que es la dirección que se le agregará al usuario
+        """
+        try:
+            sql= ''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
