@@ -49,9 +49,12 @@ def consultarOrdenes(response_object):
             productoEnOrdenDict['producto']['categorias']=categoriasDict
             productosDict.append(productoEnOrdenDict)
         ordenDict['productos']=productosDict
-        objFecha=ordenDict['fecha_entrega']
-        nuevaFecha=objFecha.strftime('%m/%d/%Y')
-        ordenDict['fecha_entrega']=nuevaFecha
+        objFechaEntrega=ordenDict['fecha_entrega']
+        nuevaFechaEntrega=objFechaEntrega.strftime('%m/%d/%Y')
+        ordenDict['fecha_entrega']=nuevaFechaEntrega
+        objFechaVenta=ordenDict['fecha_venta']
+        nuevaFechaVenta=objFechaVenta.strftime('%m/%d/%Y,%H:%M:%S')
+        ordenDict['fecha_venta']=nuevaFecha_venta
         ordenesDict.append(ordenDict)
     response_object['ordenes']=ordenesDict
     print(ordenesDict)
