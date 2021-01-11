@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from ControladorRol import crearRol, consultarRoles, agregarPermisoARol
 from ControladorUsuarios import crearUsuario, consultarUsuarios
+from ControladorOrdenVenta import consultarOrdenes
 
 app = Flask(__name__)
 
@@ -61,7 +62,7 @@ def ordenVenta():
         data=request.get_json()
         response_object=crearUsuario(data,response_object)  
     elif request.method=="GET":
-        response_object=consultarUsuarios(response_object)  
+        response_object=consultarOrdenes(response_object)  
     return jsonify(response_object)
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
