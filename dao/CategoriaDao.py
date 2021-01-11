@@ -72,7 +72,7 @@ class CategoriaDao(dao):
         except Exception as e:
             raise e
 
-    def consultarcategoria(self):
+    def consultarCategorias(self):
         """
         Método que permite consultar las categorias
         """
