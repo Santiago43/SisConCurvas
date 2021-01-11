@@ -67,11 +67,14 @@ where r.Rol_ID = (select Rol_ID from Rol where Nombre="Vendedor");
 
 
 /*Consultar orden de venta*/
-select * from Orden_venta where Orden_venta_ID=2;
+select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
+		inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+		inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+		where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov;
 select i.*, oc.cantidad from Inventario as i
 inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
 inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
-where o.Orden_venta_ID=2;
+where o.Orden_venta_ID=1;
 
 select * from Empaque;
 
@@ -80,4 +83,4 @@ select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_I
 inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1;
 select * from Permiso;
 
-
+select cast("01/31/2021" as date) as fecha from dual;

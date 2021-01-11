@@ -148,6 +148,7 @@ CREATE TABLE Usuario (
   Rol_ID INTEGER UNSIGNED NOT NULL,
   Persona_ID INTEGER UNSIGNED NOT NULL,
   Contraseña VARCHAR(200) NOT NULL,
+  Url_imagen varchar(200) null,
   PRIMARY KEY(Usuario_ID),
   INDEX Usuario_FKIndex1(Persona_ID),
   INDEX Usuario_FKIndex2(Rol_ID),
@@ -258,8 +259,7 @@ CREATE TABLE Orden_venta (
   Cliente_ID Integer NOT NULL,
   Usuario_ID INTEGER UNSIGNED NOT NULL,
   Estado VARCHAR(50) NOT NULL,
-  Fecha_venta DATE NOT NULL,
-  Precio DOUBLE NOT NULL,#
+  Fecha_venta timestamp NOT NULL,
   Nota VARCHAR(150) NULL,#
   Fecha_entrega DATE NOT NULL,
   Tipo_venta BOOL NULL,
@@ -468,5 +468,6 @@ CREATE TABLE Distribucion_tiene_prendas_Devueltas (
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 );
+
 
 

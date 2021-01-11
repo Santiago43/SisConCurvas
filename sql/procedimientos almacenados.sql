@@ -12,12 +12,13 @@ in _Documento varchar(20),
 in _Telefono varchar(20),
 in _Correo varchar(30),
 in _Rol_ID int,
-in _Contraseña varchar(200)
+in _Contraseña varchar(200),
+in _Url_imagen varchar(200)
 )
 begin
 insert into Persona (Primer_nombre,Segundo_nombre,Primer_apellido,Segundo_apellido,Tipo_documento,Documento,Telefono,Correo)
 values(_Primer_nombre,_Segundo_nombre,_Primer_apellido,_Segundo_apellido,_Tipo_documento,_Documento,_Telefono,_Correo);
-insert into Usuario (Rol_ID, Persona_ID,Contraseña) values (_Rol_ID, (select Persona_ID from Persona order by Persona_ID desc limit 1),sha(_Contraseña));
+insert into Usuario (Rol_ID, Persona_ID,Contraseña,Url_imagen) values (_Rol_ID, (select Persona_ID from Persona order by Persona_ID desc limit 1),sha(_Contraseña),_Url_imagen);
 end $$
 
 drop procedure insertarProducto;

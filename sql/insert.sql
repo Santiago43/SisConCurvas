@@ -60,8 +60,9 @@ insert into Departamento (Departamento) values ("Antioquia");
 insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (1,1,"Las Cruces",'cra 7 # 2-24 sur');
 insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (3,1,"San Mateo",'cra 14 este # 32a');
 
-/*insert into Persona_tiene_direccion(Persona_ID,Direccion_id)
-values (3,1);*/
+insert into Persona_tiene_direccion(Persona_ID,Direccion_id)
+values (3,1);
+
 
 /*Insertar origen*/
 
@@ -76,17 +77,17 @@ insert into Metodo_compra (Tipo) values ("Contra entrega");
 
 /*Insertar orden de venta*/
 insert into Orden_venta 
-(Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Precio,Nota,Fecha_entrega,Tipo_venta,Descuento)
+(Origen_ID,Motivo_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento)
 values
 ((select Origen_ID from Origen where Nombre_origen="Facebook"),
+(select Motivo_ID from Motivo where Motivo="Venta"),
 (select Modalidad_pago_ID from Modalidad_pago where Modalidad="Efectivo"),
 (select Metodo_compra_ID from Metodo_compra where Tipo="Contra entrega"),
 (select d.Direccion_id from Direccion as d where d.Direccion='cra 7 # 2-24 sur'),
 1,
 2,
 "No empacado",
-cast(sysdate() as DATE),
-5000,
+sysdate(),
 "Es prueba",
 "2021-01-31",
 false,
