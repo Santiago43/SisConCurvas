@@ -19,9 +19,9 @@ class OrdenDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             sql=''' insert into Orden_venta 
-            (Motivo_ID,Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Precio,Nota,Fecha_entrega,Tipo_venta,Descuento)
+            (Motivo_ID,Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento)
             values
-            (%s,%s,%s,%s,%s,%s,%s,cast(sysdate() as DATE),%s,%s,%s,%s,%s);
+            (%s,%s,%s,%s,%s,%s,%s,cast(sysdate() as DATE),%s,%s,%s,%s);
             '''
             cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidadad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.precio,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento))
             for productoEnOrden in orden.productos:
@@ -42,24 +42,27 @@ class OrdenDao(dao):
         - id : que es el ID de la orden
         """
         try:
-            sql='''select * from Orden_venta where Orden_venta_ID=%s;'''
+            sql='''select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
+            inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+            inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+            where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov where Orden_venta='''+str(id)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(id))
+            cursor.execute(sql)
             result = cursor.fetchone()
             ordenVenta=OrdenVenta(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],[])
             sql2= '''select i.*, oc.cantidad from Inventario as i
             inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
             inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
-            where o.Orden_venta_ID=%s;'''
-            cursor.execute(sql2,(id))
+            where o.Orden_venta_ID='''+str(id)+''';'''
+            cursor.execute(sql2)
             result2= cursor.fetchall()
             for row in result2:
                 productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],[]),row[6])
                 sql3='''select c.* from Categoria as c
                 inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
-                where ic.Inventario_Referencia_Producto_ID=%s;'''
-                cursor.execute(sql3,(productoEnOrden.producto.referenciaProducto))
+                where ic.Inventario_Referencia_Producto_ID='''+productoEnOrden.producto.referenciaProducto+''';'''
+                cursor.execute(sql3)
                 for row in cursor:
                     productoEnOrden.producto.categorias.append(Categoria(row[0],row[1],row[2]))  
                 ordenVenta.productos.append(productoEnOrden)
@@ -146,5 +149,41 @@ class OrdenDao(dao):
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
+        except Exception as e:
+            raise e
+    def consultarOrdenes(self):
+        """
+        Método que permite consultar todas las órdenes de venta
+        """
+        try:
+            sql='''select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
+            inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+            inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+            where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov;'''
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            ordenesVenta=list()
+            for result in results:
+                ordenVenta=OrdenVenta(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],[],result[14])
+                sql2= '''select i.*, oc.cantidad from Inventario as i
+                inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
+                inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
+                where o.Orden_venta_ID='''+str(ordenVenta.ordenVenta_ID)+''';'''
+                cursor.execute(sql2)
+                result2= cursor.fetchall()
+                for row in result2:
+                    productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],list()),row[6])
+                    sql3='''select c.* from Categoria as c
+                    inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
+                    where ic.Inventario_Referencia_Producto_ID="'''+productoEnOrden.producto.referenciaProducto+'''";'''
+                    cursor.execute(sql3)
+                    for row in cursor:
+                        productoEnOrden.producto.categorias.append(Categoria(row[0],row[1],row[2]))  
+                    ordenVenta.productos.append(productoEnOrden)
+                ordenesVenta.append(ordenVenta)
+            super().cerrarConexion(cursor,cnx)
+            return ordenesVenta
         except Exception as e:
             raise e
