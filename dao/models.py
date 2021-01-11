@@ -50,11 +50,12 @@ class Usuario(Persona):
     - contraseña
     - Id del rol
     """
-    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, rol_ID, contraseña,usuario_ID,permisos):
+    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones, rol_ID, contraseña,usuario_ID,permisos,urlImagen):
         self.usuario_ID=usuario_ID
         self.contraseña=contraseña
         self.rol_ID=rol_ID
         self.permisos=permisos
+        self.urlImagen=urlImagen
         Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones)
 
 class Direccion:
@@ -335,7 +336,7 @@ class OrdenVenta:
     - descuento 
     - productos 
     """
-    def __init__(self,ordenVenta_ID,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,fecha_venta,precio,nota,fecha_entrega,tipo_venta,descuento,productos):
+    def __init__(self,ordenVenta_ID,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,fecha_venta,nota,fecha_entrega,tipo_venta,descuento,productos,precio):
         self.ordenVenta_ID=ordenVenta_ID
         self.motivo_ID=motivo_ID
         self.origen_ID=origen_ID
@@ -346,12 +347,12 @@ class OrdenVenta:
         self.usuario_ID=usuario_ID
         self.estado=estado
         self.fecha_venta=fecha_venta
-        self.precio=precio
         self.nota=nota
         self.fecha_entrega=fecha_entrega
         self.tipo_venta=tipo_venta
         self.descuento=descuento
         self.productos=productos
+        self.precio=precio
 class Control_venta:
     """
     Clase Control_venta
