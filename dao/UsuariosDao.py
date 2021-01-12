@@ -124,7 +124,7 @@ class UsuariosDao(dao):
                 contador+=1
                 usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],list(),result[9],result[10],result[11],list(),result[12])
                 sql2='select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.usuario_ID=up.usuario_ID inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.usuario_ID='+str(usuario.usuario_ID)+';'
-                cursor.execute(sql2,(usuario.usuario_ID))
+                cursor.execute(sql2)
                 for row in cursor:
                     usuario.permisos.append(Permiso(row[0],row[1]))
                 sql3='''select d.* from Direccion as d
