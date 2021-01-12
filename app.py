@@ -1,9 +1,13 @@
 from flask import Flask, jsonify, request
-from ControladorRol import crearRol, consultarRoles, agregarPermisoARol
-from ControladorUsuarios import crearUsuario, consultarUsuarios
+from flask_cors import CORS
+
 from ControladorOrdenVenta import consultarOrdenes
+from ControladorRol import agregarPermisoARol, consultarRoles, crearRol
+from ControladorUsuarios import consultarUsuarios, crearUsuario, login
 
 app = Flask(__name__)
+
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 @app.route("/")
 def main_():
@@ -52,6 +56,7 @@ def usuarios():
     elif request.method=="GET":
         response_object=consultarUsuarios(response_object)  
     return jsonify(response_object)
+
 @app.route("/orden",methods=['POST','GET'])
 def ordenVenta():
     """
@@ -64,5 +69,16 @@ def ordenVenta():
     elif request.method=="GET":
         response_object=consultarOrdenes(response_object)  
     return jsonify(response_object)
+
+@app.route("/login", methods=['POST'])
+def loginUsuario():
+    """
+    Controlador de login
+    """
+    response_object = {'tipo': 'OK'}
+    data=request.get_json()
+    response_object=login(data,response_object)  
+    return jsonify(response_object)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
