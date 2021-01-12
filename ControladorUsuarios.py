@@ -22,7 +22,8 @@ def crearUsuario(data,response_object):
     direcciones=data.get('direcciones')
     rol_ID=data.get('rol_ID')
     contraseña=data.get('contraseña')
-    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,None,contraseña,rol_ID,None,None)
+    urlImagen=data.get('urlImagen')
+    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,None,contraseña,rol_ID,None,None,urlImagen)
     dao = UsuariosDao()
     direccionDao=DireccionDao()
     if(dao.consultarUsuario(documento) is None):
@@ -35,7 +36,7 @@ def crearUsuario(data,response_object):
             response_object['mensaje']="Error al crear usuario"
     else:
         response_object['tipo']="error"
-        response_object['mensaje']="Ya existe un usuario con ese documento"
+        response_object['mensaje']="Ya existe un usuario con ese documento o con ese correo"
     return response_object
 
 def consultarUsuarios(response_object):
@@ -76,4 +77,34 @@ def consultarUsuarios(response_object):
         usuarioDict.pop('rol_ID')
         usuariosJson.append(usuarioDict)
     response_object['usuarios']=usuariosJson
+    return response_object
+
+def login(data,response_object):
+    dao = UsuariosDao()
+    correo = data.get_json('correo')
+    contraseña=data.get_json('contraseña')
+    usuario=dao.consultarUsuarioPorCredenciales(correo,contraseña)
+    if (usuario is not None):
+        usuarioDict=usuario.__dict__
+        rolesDao=RolesDao()
+        rol=rolesDao.consultarRol(usuarioDict['rol_ID'])
+        permisosUsuario=usuario.permisos
+        permisosUsuarioDict=list()
+        for permiso in permisosUsuario:
+            permisoDict=permiso.__dict__
+            permisosUsuarioDict.append(permisoDict)
+        permisosRolDict=list()
+        permisosRol=rol.permisos
+        for permiso in permisosRol:
+            permisoDict=permiso.__dict__
+            permisosRolDict.append(permisoDict)
+        rolDict['permisos']=permisosRolDict
+        usuarioDict['rol']=rolDict
+        usuarioDict['permisos']=permisosUsuarioDict
+        usuarioDict.pop('contraseña')
+        usuarioDict.pop('rol_ID')
+        response_object['usuario']=usuarioDict
+    else:
+        response_object['tipo']='error'
+        response_object['mensaje']='Usuario o contraseña incorrectos'
     return response_object
