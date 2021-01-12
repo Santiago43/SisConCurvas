@@ -114,7 +114,7 @@ class UsuariosDao(dao):
         """
         try:
             contador=0
-            sql= 'select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.urlImagen from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'
+            sql= 'select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
