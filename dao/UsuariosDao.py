@@ -114,7 +114,7 @@ class UsuariosDao(dao):
         """
         try:
             contador=0
-            sql= 'select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'
+            sql= 'select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.urlImagen from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
@@ -122,7 +122,7 @@ class UsuariosDao(dao):
             results = cursor.fetchall()
             for result in results:
                 contador+=1
-                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],list(),result[9],result[10],result[11],list())
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],list(),result[9],result[10],result[11],list(),result[12])
                 sql2='select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.usuario_ID=up.usuario_ID inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.usuario_ID='+str(usuario.usuario_ID)+';'
                 cursor.execute(sql2,(usuario.usuario_ID))
                 for row in cursor:
@@ -169,7 +169,7 @@ class UsuariosDao(dao):
             cursor=cnx.cursor()
             cursor.execute(sql)
             result = cursor.fetchone()
-            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],list(),result[10])
+            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],list(),result)
             sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID=%s;'
             cursor.execute(sql2,(usuario.usuario_ID))
             for row in cursor:
