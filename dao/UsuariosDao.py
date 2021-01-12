@@ -162,14 +162,14 @@ class UsuariosDao(dao):
         - contraseña: que es la contraseña del usuario  
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID from Usuario as u
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen from Usuario as u
             inner join Persona as p on p.Persona_ID=u.Persona_ID
             where p.Correo = "'''+correo+'''" and u.Contraseña=sha("'''+contraseña+'''");'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
             result = cursor.fetchone()
-            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],list(),result[10])
+            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],list(),result[9],result[10],result[11],list(),result[12])
             sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID=%s;'
             cursor.execute(sql2,(usuario.usuario_ID))
             for row in cursor:

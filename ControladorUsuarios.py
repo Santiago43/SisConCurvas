@@ -88,6 +88,7 @@ def login(data,response_object):
         usuarioDict=usuario.__dict__
         rolesDao=RolesDao()
         rol=rolesDao.consultarRol(usuarioDict['rol_ID'])
+        rolDict=rol.__dict__
         permisosUsuario=usuario.permisos
         permisosUsuarioDict=list()
         for permiso in permisosUsuario:
