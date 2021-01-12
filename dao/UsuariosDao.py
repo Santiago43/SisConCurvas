@@ -128,7 +128,7 @@ class UsuariosDao(dao):
                 for row in cursor:
                     usuario.permisos.append(Permiso(row[0],row[1]))
                 sql3='''select d.* from Direccion as d
-                inner join Persona_tiene_direccion as pd on d.Direccion_id
+                inner join Persona_tiene_Direccion as pd on d.Direccion_id
                 inner join Persona as p on p.Persona_ID=pd.Persona_ID
                 where p.Documento='''+str(usuario.documento)+''';'''
                 cursor.execute(sql3)
