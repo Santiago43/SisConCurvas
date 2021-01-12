@@ -81,8 +81,8 @@ def consultarUsuarios(response_object):
 
 def login(data,response_object):
     dao = UsuariosDao()
-    correo = data.get_json('correo')
-    contraseña=data.get_json('contraseña')
+    correo = data.get('correo')
+    contraseña=data.get('contraseña')
     usuario=dao.consultarUsuarioPorCredenciales(correo,contraseña)
     if (usuario is not None):
         usuarioDict=usuario.__dict__
