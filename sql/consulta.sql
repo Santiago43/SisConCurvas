@@ -65,6 +65,10 @@ inner join Persona as p on p.Persona_ID=u.Persona_ID
 inner join Rol as r on u.Rol_ID=r.Rol_ID
 where r.Rol_ID = (select Rol_ID from Rol where Nombre="Vendedor");
 
+/*Consultar usuario mediante correo y contraseña*/
+select p.*,u.* from Usuario as u
+inner join Persona as p on p.Persona_ID=u.Persona_ID
+where p.Correo = "pedro@example.com" and u.Contraseña=sha("1234");
 
 /*Consultar orden de venta*/
 select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
@@ -83,4 +87,3 @@ select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_I
 inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1;
 select * from Permiso;
 
-select cast("01/31/2021" as date) as fecha from dual;

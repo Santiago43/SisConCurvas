@@ -22,8 +22,8 @@ values (
 (select Permiso_ID from Permiso where Nombre="Orden.crear"));
 
 /*Insertar usuario*/
-call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234");
-call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550034","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234");
+call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg");
+call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550034","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg");
 
 /*Insertar motivos en órdenes de venta*/
 insert into Motivo (Tipo, Motivo) values ("Venta","Venta");
@@ -60,10 +60,8 @@ insert into Departamento (Departamento) values ("Antioquia");
 insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (1,1,"Las Cruces",'cra 7 # 2-24 sur');
 insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (3,1,"San Mateo",'cra 14 este # 32a');
 
-insert into Persona_tiene_direccion(Persona_ID,Direccion_id)
+insert into Persona_tiene_Direccion(Persona_ID,Direccion_id)
 values (3,1);
-
-
 /*Insertar origen*/
 
 insert into Origen (Nombre_origen) values ("Facebook");
