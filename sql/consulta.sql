@@ -24,9 +24,9 @@ where Documento=1234567890;
 
 /*Y sus direcciones asociadas*/
 select d.* from Direccion as d
-inner join Persona_tiene_direccion as pd on d.Direccion_id
+inner join Persona_tiene_Direccion as pd on d.Direccion_id
 inner join Persona as p on p.Persona_ID=pd.Persona_ID
-where p.Documento=1234567890;
+where p.Telefono="3777777";
 #Categorías
 
 /*Consultar categoría padre*/
@@ -57,6 +57,10 @@ select p.*,c.Cliente_ID,tipo_cliente from Persona as p
 inner join Cliente as c 
 on c.Persona_ID=p.Persona_ID;
 
+select p.*,c.Cliente_ID,tipo_cliente from Persona as p 
+inner join Cliente as c 
+on c.Persona_ID=p.Persona_ID
+where p.Telefono="3777777";
 
 /*Consultar vendedores*/
 
@@ -75,6 +79,7 @@ select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.
 		inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
 		inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
 		where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov;
+
 select i.*, oc.cantidad from Inventario as i
 inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
 inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID

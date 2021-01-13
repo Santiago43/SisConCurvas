@@ -37,9 +37,7 @@ CREATE TABLE Persona (
   Segundo_nombre VARCHAR(20) NULL,
   Primer_apellido VARCHAR(20) NOT NULL,
   Segundo_apellido VARCHAR(20) NULL,
-  Tipo_documento VARCHAR(20) NULL,
-  Documento VARCHAR(20) not NULL unique,
-  Telefono VARCHAR(20) NULL,
+  Telefono VARCHAR(20) NULL unique,
   Correo VARCHAR(30) NOT NULL,
   PRIMARY KEY(Persona_ID)
 );
@@ -84,7 +82,13 @@ CREATE TABLE Departamento (
 CREATE TABLE Ciudad (
   Ciudad_ID BIGINT NOT NULL AUTO_INCREMENT,
   Nombre VARCHAR(50) NULL,
-  PRIMARY KEY(Ciudad_ID)
+  Departamento_ID integer unsigned not null,
+  PRIMARY KEY(Ciudad_ID),
+  INDEX Ciudad_FKIndex1(Departamento_ID),
+  FOREIGN KEY(Departamento_ID)
+    REFERENCES Departamento(Departamento_ID)
+      ON DELETE cascade
+      ON UPDATE cascade
 );
 
 CREATE TABLE Cliente (
@@ -149,6 +153,8 @@ CREATE TABLE Usuario (
   Persona_ID INTEGER UNSIGNED NOT NULL,
   Contraseña VARCHAR(200) NOT NULL,
   Url_imagen varchar(200) null,
+  Tipo_documento VARCHAR(20) NULL,
+  Documento VARCHAR(20) not NULL unique,
   PRIMARY KEY(Usuario_ID),
   INDEX Usuario_FKIndex1(Persona_ID),
   INDEX Usuario_FKIndex2(Rol_ID),

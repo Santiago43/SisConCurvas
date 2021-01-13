@@ -23,7 +23,7 @@ values (
 
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg");
-call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550034","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg");
+call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg");
 
 /*Insertar motivos en órdenes de venta*/
 insert into Motivo (Tipo, Motivo) values ("Venta","Venta");
@@ -33,7 +33,7 @@ insert into Motivo (Tipo, Motivo) values ("No empaque","Falta de existencias en 
 
 
 /*Insertar cliente*/
-call insertarCliente("Juan","Sebastián","Bueno","Ramírez","Cédula de ciudadanía","3456789012","3257550034","juan@example.com",true);
+call insertarCliente("Juan","Sebastián","Bueno","Ramírez","3257550036","juan@example.com",true);
 /*Insertar categoria padre*/
 
 insert into Categoria(Nombre) values ("Elegante");
@@ -45,15 +45,17 @@ insert into Categoria(Nombre,Padre_categoria_ID) values ("Gala",null);
 /*Insertar producto a inventario*/
 call insertarProducto("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,1);
 
-
-/*Insertar ciudad*/
-insert into Ciudad(Nombre) values("Bogotá D.C.");
-insert into Ciudad(Nombre) values("Medellín");
-insert into Ciudad(Nombre) values("Soacha");
-
 /*Insertar Departamento*/
+insert into Departamento (Departamento) values ("Bogotá D.C.");
 insert into Departamento (Departamento) values ("Cundinamarca");
 insert into Departamento (Departamento) values ("Antioquia");
+
+/*Insertar ciudad*/
+insert into Ciudad(Nombre,Departamento_ID) values("Bogotá D.C.",1);
+insert into Ciudad(Nombre,Departamento_ID) values("Medellín",3);
+insert into Ciudad(Nombre,Departamento_ID) values("Soacha",2);
+
+
 
 
 /*Insertar dirección*/

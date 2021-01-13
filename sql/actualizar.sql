@@ -39,12 +39,10 @@ set p.Primer_nombre="Pedro",
 p.Segundo_nombre="Antonio", 
 p.Primer_apellido="Pataquiva", 
 p.Segundo_apellido="Rugeles",
-p.Tipo_documento="Cédula de ciudadanía",
 p.Telefono="3777777",
 p.correo="pedro@example.com",
-u.Rol_ID=1,
-u.Contraseña=sha("1234")
-where p.Documento="1234567890" and p.Persona_ID=u.Persona_ID;
+c.tipo_cliente=true
+where p.Telefono="3257550036" and p.Persona_ID=c.Persona_ID;
 
 
 /*Actualizar una orden de venta*/
