@@ -4,7 +4,7 @@ from flask_cors import CORS
 from ControladorOrdenVenta import consultarOrdenes
 from ControladorRol import agregarPermisoARol, consultarRoles, crearRol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, login
-
+from ControladorClientes import consultarClientes
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -78,6 +78,15 @@ def loginUsuario():
     response_object = {'tipo': 'OK'}
     data=request.get_json()
     response_object=login(data,response_object)  
+    return jsonify(response_object)
+
+@app.route("/cliente",methods=['POST','GET'])
+def cliente():
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        pass
+    else:
+        response_object=consultarClientes(response_object)
     return jsonify(response_object)
 
 if __name__ == '__main__':
