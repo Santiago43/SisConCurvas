@@ -9,14 +9,12 @@ class Persona:
     - correo
     - Direccion
     """
-    def __init__(self, persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones):
+    def __init__(self, persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones):
         self.persona_ID=persona_ID
         self.primerNombre=primerNombre
         self.segundoNombre=segundoNombre
         self.primerApellido=primerApellido
         self.segundoApellido=segundoApellido
-        self.tipoDocumento=tipoDocumento
-        self.documento=documento
         self.telefono=telefono
         self.correo=correo
         self.direcciones=direcciones
@@ -32,10 +30,10 @@ class Cliente(Persona):
     - correo
     - Direccion
     """
-    def __init__(self,cliente_ID,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones,tipoCliente):
+    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones,tipoCliente,cliente_ID):
         self.cliente_ID=cliente_ID
         self.tipoCliente=tipoCliente
-        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones)
+        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones)
 class Usuario(Persona):
     """
     Clase Usuario 
@@ -56,7 +54,9 @@ class Usuario(Persona):
         self.rol_ID=rol_ID
         self.permisos=permisos
         self.urlImagen=urlImagen
-        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,direcciones)
+        self.tipoDocumento=tipoDocumento
+        self.documento=documento
+        Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones)
 
 class Direccion:
     """
