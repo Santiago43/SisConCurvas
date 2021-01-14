@@ -33,7 +33,7 @@ class UsuariosDao(dao):
         """
         try:
             sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento
-            from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where Documento='''+str(documento)+''';'''
+            from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.Documento='''+str(documento)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
