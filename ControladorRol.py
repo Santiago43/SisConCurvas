@@ -43,7 +43,6 @@ def consultarRoles(response_object):
             permisoDict=permiso.__dict__
             rolDict['permisos'].append(permisoDict)
         rolesJson.append(rolDict)
-        print(rolDict)
     response_object['Roles']=rolesJson
     return response_object
 
