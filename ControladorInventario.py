@@ -27,7 +27,7 @@ def crearProducto(data,response_object):
             response_object['mensaje']="Error al crear producto"
     else:
         response_object['tipo']="error"
-        response_object['mensaje']="Ya existe un producto con ese documento o con ese correo"
+        response_object['mensaje']="Ya existe un producto con esa referencia"
     return response_object
 
 def consultarProductos(response_object):
