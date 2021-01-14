@@ -5,6 +5,7 @@ from ControladorOrdenVenta import consultarOrdenes
 from ControladorRol import agregarPermisoARol, consultarRoles, crearRol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, login
 from ControladorClientes import consultarClientes
+from ControladorInventario import consultarProductos
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -87,6 +88,15 @@ def cliente():
         pass
     else:
         response_object=consultarClientes(response_object)
+    return jsonify(response_object)
+
+@app.route("/producto",methods=['POST','GET'])
+def producto():
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        pass
+    else:
+        response_object=consultarProductos(response_object)
     return jsonify(response_object)
 
 if __name__ == '__main__':
