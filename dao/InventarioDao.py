@@ -125,7 +125,7 @@ class InventarioDao(dao):
         Método que permite consultar la lista de productos existentes 
         """
         try:
-            sql= "select * from inventario;"
+            sql= "select * from Inventario;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
