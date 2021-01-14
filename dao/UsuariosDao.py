@@ -132,7 +132,8 @@ class UsuariosDao(dao):
                 sql3='''select d.* from Direccion as d
                 inner join Persona_tiene_Direccion as pd on d.Direccion_id
                 inner join Persona as p on p.Persona_ID=pd.Persona_ID
-                where p.Documento='''+str(usuario.documento)+''';'''
+                inner join Usuario as u on u.Persona_ID=p.Persona_ID
+                where u.Documento='''+str(usuario.documento)+''';'''
                 cursor.execute(sql3)
                 for row in cursor:
                     direccion = Direccion(row[0],row[1],row[2],row[3],row[4])
