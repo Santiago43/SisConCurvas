@@ -55,7 +55,6 @@ def consultarUsuarios(response_object):
     usuariosJson=list()
     for usuario in usuarios:
         usuarioDict=usuario.__dict__
-        
         permisos=usuario.permisos
         usuarioDict['permisos']=list()
         for permiso in permisos:
@@ -109,3 +108,4 @@ def login(data,response_object):
         response_object['tipo']='error'
         response_object['mensaje']='Usuario o contraseña incorrectos'
     return response_object
+
