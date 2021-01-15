@@ -1,6 +1,6 @@
 from dao.models import Categoria
 from dao.CategoriaDao import CategoriaDao
-def crearcategoria(data,response_object):
+def crearCategoria(data,response_object):
     """
     Función que permite crear categorias
     Parámetros
