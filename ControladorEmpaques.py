@@ -1,10 +1,8 @@
 from dao.DireccionDao import DireccionDao
-from dao.models import Usuario
 from dao.OrdenVentaDao import OrdenDao
-from dao.RolesDao import RolesDao
 from dao.UsuariosDao import UsuariosDao
 from dao.EmpaqueDao import EmpaqueDao
-
+from dao.models import Empaque
 def crearEmpaque(data,response_object):
     """
     Función que permite crear órdenes
@@ -15,14 +13,18 @@ def crearEmpaque(data,response_object):
     Retorna el response_object modificado
     """
     ordenVenta_ID=data.get('ordenVenta_ID')
-    primerApellido=data.get('primerApellido')
     motivo_ID=data.get('motivo_ID')
     usuario_ID=data.get('usuario_ID')
     numero_prendas=data.get('numero_prendas')
     estado=data.get('estado')
     observaciones=data.get('observaciones')
-    
-    
+    dao=EmpaqueDao()
+    empaque = Empaque(None,ordenVenta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones)
+    if dao.crearEmpaque(empaque):
+        response_object['mensaje']='empaque creado'
+    else:
+        response_object['tipo']='error'
+        response_object['mensaje']='Error al crear empaque'
     return response_object
 
 def consultarOrdenes(response_object):
