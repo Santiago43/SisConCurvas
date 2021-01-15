@@ -4,9 +4,9 @@ from flask_cors import CORS
 from ControladorOrdenVenta import consultarOrdenes
 from ControladorRol import agregarPermisoARol, consultarRoles, crearRol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, login
-from ControladorClientes import consultarClientes
-from ControladorInventario import consultarProductos
-from ControladorCategorias import consultarCategorias
+from ControladorClientes import crearCliente, consultarClientes
+from ControladorInventario import crearProducto, consultarProductos
+from ControladorCategorias import crearCategoria, consultarCategorias
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -86,7 +86,8 @@ def loginUsuario():
 def cliente():
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        pass
+        data=request.get_json()
+        response_object=crearProducto(data,response_object)
     else:
         response_object=consultarClientes(response_object)
     return jsonify(response_object)
@@ -95,7 +96,8 @@ def cliente():
 def producto():
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        pass
+        data=request.get_json()
+        response_object=crearProducto(data,response_object)
     else:
         response_object=consultarProductos(response_object)
     return jsonify(response_object)
@@ -104,9 +106,21 @@ def producto():
 def categoria():
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        pass
+        data=request.get_json()
+        response_object=crearCategoria(data,response_object)  
     else:
         response_object=consultarCategorias(response_object)
     return jsonify(response_object)
+
+@app.route("/empaque",methods=['POST','GET'])
+def empaque():
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        data=request.get_json()
+        response_object=crearCategoria(data,response_object)  
+    else:
+        response_object=consultarCategorias(response_object)
+    return jsonify(response_object)
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0",debug=False)
