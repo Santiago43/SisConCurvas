@@ -45,7 +45,7 @@ class ClienteDao(dao):
         except Exception as e:
             raise e
 
-    def actualizarcliente(self,cliente):
+    def actualizarCliente(self,cliente):
         """
         Método que permite actualizar un cliente (su nombre)
         Parámetros:
@@ -68,7 +68,7 @@ class ClienteDao(dao):
         except Exception as e:
             raise e
 
-    def eliminarcliente(self,cliente):
+    def eliminarCliente(self,cliente):
         """
         Método que permite eliminar un cliente mediante su id
         - cliente : que es el cliente que se elinará
