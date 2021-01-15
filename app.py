@@ -4,7 +4,7 @@ from flask_cors import CORS
 from ControladorOrdenVenta import consultarOrdenes
 from ControladorRol import agregarPermisoARol, consultarRoles, crearRol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, login
-from ControladorClientes import crearCliente, consultarClientes
+from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos
 from ControladorCategorias import crearCategoria, consultarCategorias
 app = Flask(__name__)
@@ -84,12 +84,25 @@ def loginUsuario():
 
 @app.route("/cliente",methods=['POST','GET'])
 def cliente():
+    """
+    Ruta de clientes para crear y consultar
+    """
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
         data=request.get_json()
-        response_object=crearProducto(data,response_object)
+        response_object=crearCliente(data,response_object)
     else:
         response_object=consultarClientes(response_object)
+    return jsonify(response_object)
+
+@app.route("/cliente/<telefono>",methods=['PUT','DELETE'])
+def single_cliente(telefono):
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarCliente(data,response_object,telefono)
+    elif request.method=="DELETE":
+        response_object=eliminarCliente(response_object,telefono)
     return jsonify(response_object)
 
 @app.route("/producto",methods=['POST','GET'])
