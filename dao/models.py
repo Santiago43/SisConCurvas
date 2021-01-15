@@ -133,9 +133,9 @@ class Empaque:
     - estado
     - observaciones
     """
-    def __init__(self,empaque_ID,orden_venta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones):
+    def __init__(self,empaque_ID,ordenVenta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones):
         self.empaque_ID=empaque_ID
-        self.orden_venta_ID=orden_venta_ID
+        self.ordenVenta_ID=ordenVenta_ID
         self.motivo_ID=motivo_ID
         self.usuario_ID=usuario_ID
         self.numero_prendas=numero_prendas
