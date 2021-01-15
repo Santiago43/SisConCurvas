@@ -57,5 +57,4 @@ def consultarOrdenes(response_object):
         ordenDict['fecha_venta']=nuevaFechaVenta
         ordenesDict.append(ordenDict)
     response_object['ordenes']=ordenesDict
-    print(ordenesDict)
     return response_object
