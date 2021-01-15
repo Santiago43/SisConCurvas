@@ -16,7 +16,7 @@ class EmpaqueDao(dao):
             sql= "insert into Empaque (Orden_venta_ID, Motivo_ID, Usuario_ID, Numero_prendas, Estado, Observaciones) values (%s,%s,%s,%s,%s,%s);"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(empaque.orden_venta_ID ,empaque.motivo_ID ,empaque.usuario_ID ,empaque.numero_prendas ,empaque.estado ,empaque.observaciones ))
+            cursor.execute(sql,(empaque.ordenVenta_ID ,empaque.motivo_ID ,empaque.usuario_ID ,empaque.numero_prendas ,empaque.estado ,empaque.observaciones ))
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -29,12 +29,13 @@ class EmpaqueDao(dao):
         - id : que es el identificador del empaque 
         """
         try:
-            sql= "select * from Empaque where Empaque_id = %s;"
+            sql= 'select * from Empaque where Empaque_id = '+str(id)+';'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(id))
+            cursor.execute(sql)
             result = cursor.fetchone()
             empaque = Empaque(result[0],result[1],result[2],result[3],result[4],result[5],result[6])
+            super().cerrarConexion(cursor,cnx)
             return empaque
         except Exception as e:
             raise e
@@ -46,7 +47,7 @@ class EmpaqueDao(dao):
         """
         try:
             sql = 'update Empaque set '
-            sql+='Orden_venta_ID ="%s, '
+            sql+='Orden_venta_ID =%s, '
             sql+='Usuario_ID=%s, '
             sql+='Numero_prendas=%s, '
             sql+='Estado=%s, '
@@ -55,8 +56,10 @@ class EmpaqueDao(dao):
             sql+='where Empaque_id =%s ;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(empaque.Orden_venta_ID,empaque.Usuario_ID,empaque.Numero_prendas,empaque.Estado,empaque.Observaciones,empaque.Motivo_ID)
-            cursor.execute(sql,)
+            args=(empaque.ordenVenta_ID,empaque.usuario_ID,empaque.numero_prendas,empaque.Estado,empaque.Observaciones,empaque.Motivo_ID)
+            cursor.execute(sql,args)
+            super().cerrarConexion(cursor,cnx)
+            return True
         except Exception as e:
             raise e
 
@@ -70,8 +73,26 @@ class EmpaqueDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(empaque.Empaque_id))
+            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
             raise e
-
-    
+    def consultarEmpaques(self):
+        """
+        Método que permite consultar todos los empaques  
+        """
+        try:
+            sql= 'select * from Empaque;'
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            empaques=list()
+            for result in results:
+                empaque = Empaque(result[0],result[1],result[2],result[3],result[4],result[5],result[6])
+                empaques.append(empaque)
+            super().cerrarConexion(cursor,cnx)
+            return empaques
+        except Exception as e:
+            raise e
+        
