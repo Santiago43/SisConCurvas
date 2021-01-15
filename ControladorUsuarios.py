@@ -108,4 +108,3 @@ def login(data,response_object):
         response_object['tipo']='error'
         response_object['mensaje']='Usuario o contraseña incorrectos'
     return response_object
-
