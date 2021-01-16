@@ -1,5 +1,6 @@
 from dao.models import Rol
 from dao.RolesDao import RolesDao
+from dao.PermisoDao import PermisoDao
 def crearRol(data,response_object):
     """
     Función que permite crear roles
@@ -76,8 +77,57 @@ def actualizarRol(data,response_object,rol_ID):
         response_object['mensaje']="No existe un rol con ese ID"
     return response_object
 
-def agregarPermisoARol(data,response_object):
+def eliminarRol(response_object,rol_ID):
+    """
+    Función que permite eliminar un rol
+    
+    Parámetros:
+    - response_object: que es una referencia a la respuesta del servidor
+    - rol_ID: que es el id del rol que se quiere actualizar
+
+    Retorna el response_object modificado
+    """
+    dao=RolesDao()
+    rol=dao.consultarRol(rol_ID)
+    if rol is not None:
+        if dao.eliminarRol(rol):
+            response_object['mensaje']="Rol eliminado"
+        else:
+            response_object['tipo']="Error"
+            response_object['mensaje']="Error al eliminar el rol"
+    else:
+        response_object['tipo']="Error"
+        response_object['mensaje']="No existe un rol con ese ID"
     return response_object
 
-def removerPermisoARol(response_object):
+def agregarPermisoARol(response_object,rol_ID,permiso_ID):
+    permisoDao=PermisoDao()
+    rolDao=RolesDao()
+    permiso = permisoDao.consultarPermiso(permiso_ID)
+    rol=rolDao.consultarRol(rol_ID)
+    if permiso and rol is not None:
+        if rolDao.agregarPermiso(rol,permiso):
+            response_object['mensaje']="Permiso '"+permiso.nombre+"' agregado al rol "+rol.nombre
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al asignar permiso"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe ese permiso o ese rol"
+    return response_object
+
+def removerPermisoARol(response_object,rol_ID,permiso_ID):
+    permisoDao=PermisoDao()
+    rolDao=RolesDao()
+    permiso = permisoDao.consultarPermiso(permiso_ID)
+    rol=rolDao.consultarRol(rol_ID)
+    if permiso and rol is not None:
+        if rolDao.removerPermiso(rol,permiso):
+            response_object['mensaje']="Permiso '"+permiso.nombre+"' removido del rol "+rol.nombre
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al asignar permiso"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe ese permiso o ese rol"
     return response_object
