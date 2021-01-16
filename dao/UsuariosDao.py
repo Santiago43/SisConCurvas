@@ -68,6 +68,9 @@ class UsuariosDao(dao):
             cursor=cnx.cursor()
             args=(usuario.primerNombre,usuario.segundoNombre,usuario.PrimerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.telefono,usuario.correo,usuario.documento)
             cursor.execute(sql,args)
+            cnx.commit()
+            super().cerrarConexion(cursor,cnx)
+            return True
         except Exception as e:
             raise e
 
@@ -96,6 +99,8 @@ class UsuariosDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(usuario.usuario_ID,permiso.permiso_ID))
+            cnx.commit()
+            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
             raise e
@@ -106,6 +111,8 @@ class UsuariosDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(usuario.usuario_ID,permiso.permiso_ID))
+            cnx.commit()
+            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
             raise e
@@ -139,6 +146,7 @@ class UsuariosDao(dao):
                     direccion = Direccion(row[0],row[1],row[2],row[3],row[4])
                     usuario.direcciones.append(direccion)
                 usuarios.append(usuario)
+            super().cerrarConexion(cursor,cnx)
             return usuarios
         except Exception as e:
             raise e
