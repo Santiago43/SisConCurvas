@@ -61,7 +61,7 @@ def actualizarcategoria(data,response_object,categoria_ID):
         Padre_categoria_ID=data.get('Padre_categoria_ID')
         if Padre_categoria_ID is not None:
             categoria.Padre_categoria_ID=Padre_categoria_ID
-        if dao.actualizarcategoria(categoria_ID):
+        if dao.actualizarcategoria(categoria):
             response_object['mensaje']="Categoría actualizada"
         else:
             response_object['tipo']="error"
