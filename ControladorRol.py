@@ -28,8 +28,11 @@ def crearRol(data,response_object):
 def consultarRoles(response_object):
     """
     Función que permite consultar todos los roles
-    Parámetros
+
+    Parámetros:
+
     - response_object: que es una referencia a la respuesta del servidor
+    
     Retorna el response_object modificado
     """
     dao=RolesDao()
@@ -46,5 +49,35 @@ def consultarRoles(response_object):
     response_object['Roles']=rolesJson
     return response_object
 
+def actualizarRol(data,response_object,rol_ID):
+    """
+    Función que permite actualizar un rol
+    
+    Parámetros:
+    - data: que son los datos que vienen de la vista
+    - response_object: que es una referencia a la respuesta del servidor
+    - rol_ID: que es el id del rol que se quiere actualizar
+
+    Retorna el response_object modificado
+    """
+    dao=RolesDao()
+    rol=dao.consultarRol(rol_ID)
+    if rol is not None:
+        nombre=data.get("nombre")
+        if nombre is not None:
+            rol.nombre=nombre
+        if dao.actualizarRol(rol):
+            response_object['mensaje']="Rol actualizado"
+        else:
+            response_object['tipo']="Error"
+            response_object['mensaje']="Error al actualizar el rol"
+    else:
+        response_object['tipo']="Error"
+        response_object['mensaje']="No existe un rol con ese ID"
+    return response_object
+
 def agregarPermisoARol(data,response_object):
+    return response_object
+
+def removerPermisoARol(response_object):
     return response_object

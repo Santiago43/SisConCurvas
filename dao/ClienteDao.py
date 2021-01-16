@@ -40,7 +40,9 @@ class ClienteDao(dao):
             cursor=cnx.cursor()
             cursor.execute(sql)
             result = cursor.fetchone()
-            cliente = Cliente(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8])
+            cliente=None
+            if result is not None:
+                cliente = Cliente(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8])
             return cliente
         except Exception as e:
             raise e
@@ -58,13 +60,16 @@ class ClienteDao(dao):
             p.Primer_apellido=%s, 
             p.Segundo_apellido=%s,
             p.Telefono=%s,
-            p.correo=%s,
+            p.Correo=%s,
             c.tipo_cliente=%s
-            where p.Telefono=%s and p.Persona_ID=c.Persona_ID;'''
+            where c.Cliente_ID=%s and p.Persona_ID=c.Persona_ID;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(cliente.primerNombre,cliente.segundoNombre,cliente.PrimerApellido,cliente.segundoApellido,cliente.telefono,cliente.correo,cliente.tipoCliente)
+            args=(cliente.primerNombre,cliente.segundoNombre,cliente.primerApellido,cliente.segundoApellido,cliente.telefono,cliente.correo,cliente.tipoCliente,cliente.cliente_ID)
             cursor.execute(sql,args)
+            cnx.commit()
+            super().cerrarConexion(cursor,cnx)
+            return True
         except Exception as e:
             raise e
 
@@ -74,10 +79,11 @@ class ClienteDao(dao):
         - cliente : que es el cliente que se elinará
         """
         try:
-            sql="delete from cliente where cliente_ID=%s;"
+            sql="delete from cliente where cliente_ID="+str(cliente.cliente_ID)+";"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(cliente.cliente_ID))
+            cursor.execute(sql)
+            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
             raise e

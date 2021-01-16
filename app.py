@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from ControladorOrdenVenta import consultarOrdenes
-from ControladorRol import agregarPermisoARol, consultarRoles, crearRol
+from ControladorRol import agregarPermisoARol, consultarRoles, crearRol,actualizarRol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, login
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos
@@ -19,15 +19,28 @@ def main_():
     return "Funciona :D"
 
 @app.route("/rol", methods=['POST','GET'])
-def roles():
+def rol():
     """
-    Controlador de roles
+    Ruta de roles para crear y consultar
     """
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
         data=request.get_json()
         response_object=crearRol(data,response_object)  
     elif request.method=="GET":
+        response_object=consultarRoles(response_object)  
+    return jsonify(response_object)
+
+@app.route("/rol/<rol_ID>", methods=['PUT','DELETE'])
+def single_rol(rol_ID):
+    """
+    ruta de roles para actualizar y eliminar
+    """
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarRol(data,response_object,rol_ID)  
+    elif request.method=="DELETE":
         response_object=consultarRoles(response_object)  
     return jsonify(response_object)
 
@@ -135,5 +148,6 @@ def empaque():
         response_object=consultarCategorias(response_object)
     return jsonify(response_object)
 
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=False)
+    app.run(host="0.0.0.0",debug=True)
