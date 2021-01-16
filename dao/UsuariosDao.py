@@ -32,13 +32,13 @@ class UsuariosDao(dao):
         - documento : que es el documento del usuario 
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.Documento='''+str(documento)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
             result = cursor.fetchone()
-            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12])
+            usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13])
             sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID='+str(usuario.usuario_ID)+';'
             cursor.execute(sql2)
             for row in cursor:
@@ -54,8 +54,8 @@ class UsuariosDao(dao):
         - usuario : que es el usuario que se actualizará
         """
         try:
-            sql = 'update persona as p, usuario as u set '
-            sql+='p.Primer_nombre="%s, '
+            sql = 'update Persona as p, Usuario as u set '
+            sql+='p.Primer_nombre=%s, '
             sql+='p.Segundo_nombre=%s, '
             sql+='p.Primer_apellido=%s, '
             sql+='p.Segundo_apellido=%s, '
@@ -63,10 +63,11 @@ class UsuariosDao(dao):
             sql+='p.Telefono=%s, '
             sql+='p.correo=%s, '
             sql+='u.Rol_ID=%s, '
+            sql+='u.estado=%s'
             sql+='where p.Documento=%s and p.Persona_ID=u.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(usuario.primerNombre,usuario.segundoNombre,usuario.PrimerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.telefono,usuario.correo,usuario.documento)
+            args=(usuario.primerNombre,usuario.segundoNombre,usuario.PrimerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.telefono,usuario.correo,usuario.estado,usuario.documento)
             cursor.execute(sql,args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
@@ -83,7 +84,7 @@ class UsuariosDao(dao):
             sql="delete from Usuario where usuario_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(usuario.usuario_ID))
+            cursor.execute(sql,(usuario.usuario_ID,))
             return True
         except Exception as e:
             raise e
