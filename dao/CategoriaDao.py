@@ -66,7 +66,7 @@ class CategoriaDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(categoria.id,))
-            cursor.commit()
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
