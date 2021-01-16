@@ -57,10 +57,10 @@ select p.*,c.Cliente_ID,tipo_cliente from Persona as p
 inner join Cliente as c 
 on c.Persona_ID=p.Persona_ID;
 
-select p.*,c.Cliente_ID,tipo_cliente from Persona as p 
+select p.*,c.* from Persona as p 
 inner join Cliente as c 
 on c.Persona_ID=p.Persona_ID
-where p.Telefono="3777777";
+where p.Telefono='3257550036';
 
 /*Consultar vendedores*/
 

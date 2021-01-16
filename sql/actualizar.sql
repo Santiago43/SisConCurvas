@@ -35,12 +35,12 @@ where Referencia_Producto_ID="abdcdf";
 
 /*Actualizar los datos de un cliente*/
 update Persona as p, Cliente as c
-set p.Primer_nombre="Pedro", 
-p.Segundo_nombre="Antonio", 
-p.Primer_apellido="Pataquiva", 
-p.Segundo_apellido="Rugeles",
-p.Telefono="3777777",
-p.correo="pedro@example.com",
+set p.Primer_nombre="Juan", 
+p.Segundo_nombre="Sebastián", 
+p.Primer_apellido="Bueno", 
+p.Segundo_apellido="Ramírez",
+p.Telefono="3257550036",
+p.correo="juan@example.com",
 c.tipo_cliente=true
 where p.Telefono="3257550036" and p.Persona_ID=c.Persona_ID;
 
