@@ -51,12 +51,11 @@ def actualizarcategoria(data,response_object,categoria_ID):
     Parámetros:
     - response_object: que es una referencia a la respuesta del servidor
     Retorna el response_object modificado
-    Nombre=%s, Padre_categoria_ID=%s where categoria_ID
     """
     dao = CategoriaDao()
     categoria = dao.consultarCategoria(categoria_ID)
     if categoria is not None:
-        Nombre=data.get('Nombre')
+        Nombre=data.get('nombre')
         if Nombre is not None:
             categoria.Nombre=Nombre
         Padre_categoria_ID=data.get('Padre_categoria_ID')
