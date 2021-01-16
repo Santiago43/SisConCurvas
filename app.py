@@ -6,7 +6,7 @@ from ControladorRol import agregarPermisoARol, consultarRoles, crearRol,actualiz
 from ControladorUsuarios import consultarUsuarios, crearUsuario, login
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos
-from ControladorCategorias import crearCategoria, consultarCategorias
+from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -136,6 +136,16 @@ def categoria():
         response_object=crearCategoria(data,response_object)  
     else:
         response_object=consultarCategorias(response_object)
+    return jsonify(response_object)
+
+@app.route("/categoria/<categoria_ID>",methods=['PUT','DELETE'])
+def single_cliente(telefono):
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarcategoria(data,response_object,categoria_ID)
+    elif request.method=="DELETE":
+        response_object=eliminarcategoria(response_object,categoria_ID)
     return jsonify(response_object)
 
 @app.route("/empaque",methods=['POST','GET'])
