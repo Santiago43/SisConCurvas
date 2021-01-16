@@ -68,10 +68,10 @@ class RolesDao(dao):
         - rol : que es el rol que se elinará
         """
         try:
-            sql="delete from Rol where Rol_ID=%s;"
+            sql="delete from Rol where Rol_ID="+str(rol.idRol)+";"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(rol.idRol))
+            cursor.execute(sql)
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
@@ -88,8 +88,8 @@ class RolesDao(dao):
             sql='insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(rol.id,permiso.id))
-            cursor.commit()
+            cursor.execute(sql,(rol.idRol,permiso.permiso_ID))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -100,8 +100,8 @@ class RolesDao(dao):
             sql='delete from Rol_tiene_Permiso where (Rol_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(rol.id,permiso.id))
-            cursor.commit()
+            cursor.execute(sql,(rol.idRol,permiso.permiso_ID))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
