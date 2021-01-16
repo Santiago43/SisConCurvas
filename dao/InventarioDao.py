@@ -31,16 +31,16 @@ class InventarioDao(dao):
         - id : que es el ID de producto 
         """
         try:
-            sql= "select * from inventario where Referencia_Producto_ID=%s;"
+            sql= "select * from inventario where Referencia_Producto_ID="+str(id)+";"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(id))
+            cursor.execute(sql)
             result = cursor.fetchone()
             producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5])
             sql2='''select c.* from Categoria as c
             inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
-            where ic.Inventario_Referencia_Producto_ID=%s;'''
-            cursor.execute(sql2,(id))
+            where ic.Inventario_Referencia_Producto_ID='''+str(id)+''';'''
+            cursor.execute(sql2)
             for row in cursor:
                 producto.categorias.append(Categoria(row[0],row[1],row[2]))           
             super().cerrarConexion(cursor,cnx)
@@ -76,10 +76,10 @@ class InventarioDao(dao):
         - producto : que es el producto que se elinará
         """
         try:
-            sql="delete from Producto where producto_ID=%s;"
+            sql="delete from Producto where producto_ID="+str(producto.referenciaProducto)+";"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(producto.referenciaProducto))
+            cursor.execute(sql)
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
