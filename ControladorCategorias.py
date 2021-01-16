@@ -57,7 +57,7 @@ def actualizarcategoria(data,response_object,categoria_ID):
     if categoria is not None:
         Nombre=data.get('nombre')
         if Nombre is not None:
-            categoria.Nombre=Nombre
+            categoria.nombre=Nombre
         Padre_categoria_ID=data.get('Padre_categoria_ID')
         if Padre_categoria_ID is not None:
             categoria.Padre_categoria_ID=Padre_categoria_ID
