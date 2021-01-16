@@ -155,6 +155,7 @@ CREATE TABLE Usuario (
   Url_imagen varchar(200) null,
   Tipo_documento VARCHAR(20) NULL,
   Documento VARCHAR(20) not NULL unique,
+  estado boolean not null,
   PRIMARY KEY(Usuario_ID),
   INDEX Usuario_FKIndex1(Persona_ID),
   INDEX Usuario_FKIndex2(Rol_ID),
