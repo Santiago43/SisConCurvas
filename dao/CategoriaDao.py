@@ -65,7 +65,7 @@ class CategoriaDao(dao):
             sql="delete from Categoria where categoria_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(categoria.id))
+            cursor.execute(sql,(categoria.id,))
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
