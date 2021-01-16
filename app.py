@@ -139,7 +139,7 @@ def categoria():
     return jsonify(response_object)
 
 @app.route("/categoria/<categoria_ID>",methods=['PUT','DELETE'])
-def single_cliente(telefono):
+def single_categoria(telefono):
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
         data=request.get_json()
