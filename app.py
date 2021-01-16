@@ -2,10 +2,10 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from ControladorOrdenVenta import consultarOrdenes
-from ControladorRol import agregarPermisoARol, consultarRoles, crearRol,actualizarRol
-from ControladorUsuarios import consultarUsuarios, crearUsuario, login
+from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
+from ControladorUsuarios import consultarUsuarios, crearUsuario, login, actualizarUsuario, eliminarUsuario
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
-from ControladorInventario import crearProducto, consultarProductos
+from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto
 from ControladorCategorias import crearCategoria, consultarCategorias
 app = Flask(__name__)
 
@@ -41,22 +41,21 @@ def single_rol(rol_ID):
         data=request.get_json()
         response_object=actualizarRol(data,response_object,rol_ID)  
     elif request.method=="DELETE":
-        response_object=consultarRoles(response_object)  
+        response_object=eliminarRol(response_object,rol_ID)  
     return jsonify(response_object)
 
-@app.route("/rol/permiso",methods=['POST','GET','DELETE'])
-def permisosRoles():
+@app.route("/rol/permiso/<rol_ID>/<permiso_ID>",methods=['POST','DELETE'])
+def permisosRol(rol_ID,permiso_ID):
     """
     Manejo de permisos de roles
     """
     response_object = {'tipo': 'OK'}
     if request.method=='POST':
-        data=request.get_json()
-        response_object=agregarPermisoARol(data,response_object)
+        response_object=agregarPermisoARol(response_object,rol_ID,permiso_ID)
     elif request.method=='GET':
         response_object['ans']="Funciona :D"
     elif request.method=='DELETE':
-        response_object['ans']="Se borró"
+        response_object=removerPermisoARol(response_object,rol_ID,permiso_ID)
     return jsonify(response_object)
 
 @app.route("/usuario", methods=['POST','GET'])
@@ -70,6 +69,19 @@ def usuarios():
         response_object=crearUsuario(data,response_object)  
     elif request.method=="GET":
         response_object=consultarUsuarios(response_object)  
+    return jsonify(response_object)
+
+@app.route("/usuario/<documento>", methods=['PUT','DELETE'])
+def single_usuario(documento):
+    """
+    Controlador de usuarios
+    """
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarUsuario(data,response_object,documento)  
+    elif request.method=="DELETE":
+        response_object=eliminarUsuario(response_object,documento)  
     return jsonify(response_object)
 
 @app.route("/orden",methods=['POST','GET'])
@@ -126,6 +138,16 @@ def producto():
         response_object=crearProducto(data,response_object)
     else:
         response_object=consultarProductos(response_object)
+    return jsonify(response_object)
+
+@app.route("/producto/<referencia>",methods=['PUT','DELETE'])
+def single_producto(referencia):
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarProducto(data,response_object,referencia)
+    elif request.method=="DELETE":
+        response_object=eliminarProducto(response_object,referencia)
     return jsonify(response_object)
 
 @app.route("/categoria",methods=['POST','GET'])
