@@ -42,7 +42,7 @@ def consultarCategorias(response_object):
     response_object['categorias']=categoriasDict
     return response_object
 
-def actualizarcategoria(response_object):
+def actualizarcategoria(data,response_object,categoria_ID):
     """
     Función que permite consultar todos los categorias. 
 
@@ -51,8 +51,26 @@ def actualizarcategoria(response_object):
     Parámetros:
     - response_object: que es una referencia a la respuesta del servidor
     Retorna el response_object modificado
+    Nombre=%s, Padre_categoria_ID=%s where categoria_ID
     """
     dao = CategoriaDao()
+    categoria = dao.consultarCategoria(categoria_ID)
+    if categoria is not None:
+        Nombre=data.get('Nombre')
+        if Nombre is not None:
+            categoria.Nombre=Nombre
+        Padre_categoria_ID=data.get('Padre_categoria_ID')
+        if Padre_categoria_ID is not None:
+            categoria.Padre_categoria_ID=Padre_categoria_ID
+        if dao.actualizarcategoria(categoria_ID):
+            response_object['mensaje']="Categoría actualizada"
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al actualizar cliente"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe una categoría con ese ID"
+    return response_object
 
 def eliminarcategoria(response_object, categoria_ID):
     """
