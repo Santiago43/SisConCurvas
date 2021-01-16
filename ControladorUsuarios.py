@@ -23,7 +23,7 @@ def crearUsuario(data,response_object):
     rol_ID=data.get('rol_ID')
     contraseña=data.get('contraseña')
     urlImagen=data.get('urlImagen')
-    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,None,contraseña,rol_ID,None,None,urlImagen)
+    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,None,contraseña,rol_ID,None,None,urlImagen,True)
     dao = UsuariosDao()
     direccionDao=DireccionDao()
     if(dao.consultarUsuario(documento) is None):
@@ -107,4 +107,83 @@ def login(data,response_object):
     else:
         response_object['tipo']='error'
         response_object['mensaje']='Usuario o contraseña incorrectos'
+    return response_object
+
+def actualizarUsuario(data,response_object,documento):
+    """
+    Función que permite actualizar datos de un usuario.
+    Parámetros:
+    - data: que son los datos que vienen de la vista
+    - response_object: que es una referencia a la respuesta del servidor.
+    - documento: que es el documento del usuario a actualizar. 
+
+    Retorna el response_object modificado
+    """
+    dao = UsuariosDao()
+    usuario=dao.consultarUsuario(documento)
+    primerNombre=data.get('primerNombre')
+    segundoNombre=data.get('segundoNombre')
+    primerApellido=data.get('primerApellido')
+    segundoApellido=data.get('segundoApellido')
+    tipoDocumento=data.get('tipoDocumento')
+    documento=data.get('documento')
+    telefono=data.get('telefono')
+    correo=data.get('correo')
+    rol_ID=data.get('rol_ID')
+    #contraseña=data.get('contraseña')
+    urlImagen=data.get('urlImagen')
+    estado=data.get('estado')
+    
+    if(usuario is not None):
+        if primerNombre is not None:
+            usuario.primerNombre=primerNombre
+        if segundoNombre is not None:
+            usuario.segundoNombre=segundoNombre
+        if primerApellido is not None:
+            usuario.primerApellido=primerApellido
+        if segundoApellido is not None:
+            usuario.segundoApellido=segundoApellido
+        if tipoDocumento is not None:
+            usuario.tipoDocumento=tipoDocumento
+        if urlImagen is not None:
+            usuario.urlImagen=usuario.urlImagen
+        if telefono is not None:
+            usuario.telefono=telefono
+        if rol_ID is not None:
+            usuario.rol_ID=rol_ID
+        if correo is not None:
+            usuario.correo=correo
+        if estado is not None:
+            usuario.estado=estado
+        if(dao.actualizarusuario(usuario)):
+            response_object['mensaje']="usuario actualizado"
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al actualizar usuario"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe un usuario con ese documento o con ese correo"
+    return response_object
+
+def eliminarUsuario(response_object,documento):
+    """
+    Función que permite eliminar datos de un usuario.
+    
+    Parámetros:
+    - response_object: que es una referencia a la respuesta del servidor.
+    - documento: que es el documento del usuario a actualizar. 
+    
+    Retorna el response_object modificado
+    """
+    dao = UsuariosDao()
+    usuario=dao.consultarUsuario(documento)
+    if(usuario is not None):
+        if(dao.eliminarusuario(usuario)):
+            response_object['mensaje']="usuario eliminado"
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al eliminar usuario"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe un usuario con ese documento o con ese correo"
     return response_object
