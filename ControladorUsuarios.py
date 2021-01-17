@@ -1,3 +1,5 @@
+import secrets
+
 from dao.models import Usuario
 from dao.UsuariosDao import UsuariosDao
 from dao.DireccionDao import DireccionDao
@@ -24,20 +26,21 @@ def crearUsuario(data,response_object):
     rol_ID=data.get('rol_ID')
     contraseña=data.get('contraseña')
     urlImagen=data.get('urlImagen')
-    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,telefono,correo,None,contraseña,rol_ID,None,None,urlImagen,True)
+    token = secrets.token_urlsafe(100)
+    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,list(),rol_ID,contraseña,None,list(),urlImagen,tipoDocumento,documento,True,token)
     dao = UsuariosDao()
     direccionDao=DireccionDao()
-    if(dao.consultarUsuario(documento) is None):
+    if(dao.consultarUsuario(documento) is None or dao.consultarUsuarioPorTelefono(telefono) is None):
         if(dao.crearUsuario(usuario)):
-            for direccionDict in direcciones:
-                direccionDao.consultarDireccion(direccionDict['idDireccion'])
+            #for direccionDict in direcciones:
+            #    direccionDao.consultarDireccion(direccionDict['idDireccion'])
             response_object['mensaje']="usuario creado"
         else:
             response_object['tipo']="error"
             response_object['mensaje']="Error al crear usuario"
     else:
         response_object['tipo']="error"
-        response_object['mensaje']="Ya existe un usuario con ese documento o con ese correo"
+        response_object['mensaje']="Ya existe un usuario con ese documento, con ese correo o con ese teléfono"
     return response_object
 
 def consultarUsuarios(response_object):
@@ -75,6 +78,7 @@ def consultarUsuarios(response_object):
         usuarioDict['direcciones']=direccionesDict
         usuarioDict.pop('contraseña')
         usuarioDict.pop('rol_ID')
+        usuarioDict.pop('token')
         usuariosJson.append(usuarioDict)
     response_object['usuarios']=usuariosJson
     return response_object
@@ -220,3 +224,20 @@ def removerPermisoAUsuario(response_object,documento,permiso_ID):
         response_object['tipo']="error"
         response_object['mensaje']="Ese usuario o ese permiso no existe"
     return response_object
+
+def validarUsuario(nombrePermiso,token):
+    usuarioDao=UsuariosDao()
+    usuario=usuarioDao.consultarUsuarioPorToken(token)
+    rolDao=RolesDao()
+    rol=rolDao.consultarRol(usuario.rol_ID)
+    if usuario is None:
+        return (False,None)
+    else:
+        for permiso in usuario.permisos:
+            if permiso.nombre==nombrePermiso:
+                return (True,usuario)
+        for permiso in rol.permisos:
+            if permiso.nombre==nombrePermiso:
+                return (True,usuario)
+    return (False,None)
+    
