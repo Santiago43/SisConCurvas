@@ -76,7 +76,7 @@ class InventarioDao(dao):
         - producto : que es el producto que se elinará
         """
         try:
-            sql="delete from Producto where producto_ID="+str(producto.referenciaProducto)+";"
+            sql="delete from Producto where producto_ID='"+str(producto.referenciaProducto)+"';"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
