@@ -44,12 +44,14 @@ def consultarCategorias(response_object):
 
 def actualizarcategoria(data,response_object,categoria_ID):
     """
-    Función que permite consultar todos los categorias. 
-
-    Esta opera de tal forma que convierte los datos de la base de datos en objetos 
-    y luego los convierte en diccionarios. 
+    Función que permite editar una categoría a partir de su ID. 
+ 
     Parámetros:
+
+    - data: que son los datos que vienen de la vista
     - response_object: que es una referencia a la respuesta del servidor
+    - categoria_ID: que es el ID de la categoría
+
     Retorna el response_object modificado
     """
     dao = CategoriaDao()
@@ -73,12 +75,14 @@ def actualizarcategoria(data,response_object,categoria_ID):
 
 def eliminarcategoria(response_object, categoria_ID):
     """
-    Función que permite consultar todos los categorias. 
+    Función que permite eliminar los datos de una categoría a partir de su ID.
+    Primero realiza la consulta de la consulta para posteriormente eliminarla en cascada.
 
-    Esta opera de tal forma que convierte los datos de la base de datos en objetos 
-    y luego los convierte en diccionarios. 
     Parámetros:
+
     - response_object: que es una referencia a la respuesta del servidor
+    - categoria_ID: que es el ID de la categoría
+    
     Retorna el response_object modificado
     """
     dao = CategoriaDao()
