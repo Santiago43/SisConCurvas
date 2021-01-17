@@ -3,20 +3,28 @@ from flask_cors import CORS
 
 from ControladorOrdenVenta import consultarOrdenes, crearOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
-from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario
+from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto
 from ControladorCategorias import crearCategoria, consultarCategorias
 from ControladorOrigen import consultarOrigenes
+from ControladorDespacho import crearDespacho, consultarDespachos
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+def noAutorizado(response_object):
+    response_object['tipo']="error"
+    response_object['mensaje']="no autorizado"
+    return response_object
+
 @app.route("/")
 def main_():
     """
-    Función principal
+    Función ping
     """
+    headers=request.headers
+    print(headers.get("Prueba"))
     return "Funciona :D"
 
 @app.route("/rol", methods=['POST','GET'])
@@ -37,12 +45,22 @@ def single_rol(rol_ID):
     """
     ruta de roles para actualizar y eliminar
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
-        data=request.get_json()
-        response_object=actualizarRol(data,response_object,rol_ID)  
+        (valor,editor)=validarUsuario("Rol.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=actualizarRol(data,response_object,rol_ID,editor) 
+        else:
+            response_object=noAutorizado(response_object)
     elif request.method=="DELETE":
-        response_object=eliminarRol(response_object,rol_ID)  
+        (valor,editor)=validarUsuario("Rol.eliminar",token)
+        if valor:
+            response_object=eliminarRol(response_object,rol_ID,editor)
+        else:
+            response_object=noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/rol/permiso/<rol_ID>/<permiso_ID>",methods=['POST','DELETE'])
@@ -193,6 +211,33 @@ def origen():
     """
     response_object = {'tipo': 'OK'}
     response_object=consultarOrigenes(response_object)
+    return jsonify(response_object)
+
+
+@app.route("/despacho",methods=['POST','GET'])
+def despacho():
+    """
+    Ruta de despachos
+    """
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        data=request.get_json()
+        response_object=crearDespacho(data,response_object)  
+    else:
+        response_object=consultarDespachos(response_object)
+    return jsonify(response_object)
+
+@app.route("/despacho/<despacho_ID>",methods=['PUT','DELETE'])
+def single_despacho(despacho_ID):
+    """
+    Ruta de despachos
+    """
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=crearDespacho(data,response_object)  
+    else:
+        response_object=consultarDespachos(response_object)
     return jsonify(response_object)
 
 if __name__ == '__main__':
