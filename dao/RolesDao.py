@@ -17,7 +17,8 @@ class RolesDao(dao):
             sql= "insert into Rol (Nombre) values (%s);"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(rol.nombre))
+            cursor.execute(sql,(rol.nombre,))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -96,6 +97,14 @@ class RolesDao(dao):
             raise e
         
     def removerPermiso(self, rol, permiso):
+        if len(rol.permisos)==0:
+            return False
+        contador=0
+        for perm in rol.permisos:
+            if perm.permiso_ID!=permiso.permiso_ID:
+                contador+=1
+        if contador==len(rol.permisos):
+            return False
         try:
             sql='delete from Rol_tiene_Permiso where (Rol_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
@@ -139,16 +148,18 @@ class RolesDao(dao):
         - nombre : que es el nombre del rol
         """
         try:
-            sql= "select * from Rol where Nombre="+nombre+";"
+            sql= "select * from Rol where Nombre='"+nombre+"';"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
             result = cursor.fetchone()
-            rol = Rol(result[0],result[1],None)
-            sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID='+str(rol.rol_ID)+';'
-            cursor.execute(sql2)
-            for row in cursor:
-                rol.permisos.append(Permiso(row[0],row[1]))
+            rol=None
+            if result is not None:
+                rol = Rol(result[0],result[1],list())
+                sql2='select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID='+str(rol.idRol)+';'
+                cursor.execute(sql2)
+                for row in cursor:
+                    rol.permisos.append(Permiso(row[0],row[1]))
             super().cerrarConexion(cursor,cnx)
             return rol
         except Exception as e:
