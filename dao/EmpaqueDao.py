@@ -57,7 +57,7 @@ class EmpaqueDao(dao):
             sql+='where Empaque_id =%s ;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(empaque.ordenVenta_ID,empaque.usuario_ID,empaque.numero_prendas,empaque.Estado,empaque.Observaciones,empaque.Motivo_ID)
+            args=(empaque.ordenVenta_ID,empaque.usuario_ID,empaque.numero_prendas,empaque.estado,empaque.observaciones,empaque.motivo_ID,empaque.empaque_ID)
             cursor.execute(sql,args)
             super().cerrarConexion(cursor,cnx)
             return True
