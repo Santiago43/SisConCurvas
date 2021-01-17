@@ -53,7 +53,7 @@ class EmpaqueDao(dao):
             sql+='Numero_prendas=%s, '
             sql+='Estado=%s, '
             sql+='Observaciones=%s, '
-            sql+='Motivo_ID=%s, '
+            sql+='Motivo_ID=%s '
             sql+='where Empaque_id =%s ;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
