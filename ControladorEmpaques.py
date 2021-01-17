@@ -104,11 +104,11 @@ def eliminarEmpaque(response_object, empaque_ID):
     dao = EmpaqueDao()
     empaque = dao.consultarEmpaque(empaque_ID)
     if empaque is not None:
-        if dao.eliminarEmpaque(categoria):
+        if dao.eliminarEmpaque(empaque):
             response_object['mensaje']="Empaque eliminado"
         else:
             response_object['tipo']="error"
-            response_object['mensaje']="Error al eliminar categoria"
+            response_object['mensaje']="Error al eliminar empaque"
     else:
         response_object['tipo']="error"
         response_object['mensaje']="No existe un empaque con ese número telefónico"
