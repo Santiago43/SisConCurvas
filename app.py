@@ -160,7 +160,7 @@ def empaque():
     return jsonify(response_object)
 
 @app.route("/empaque/<empaque_ID>",methods=['PUT','DELETE'])
-def single_categoria(empaque_ID):
+def single_empaque(empaque_ID):
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
         data=request.get_json()
