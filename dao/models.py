@@ -48,7 +48,7 @@ class Usuario(Persona):
     - contraseña
     - Id del rol
     """
-    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones, rol_ID, contraseña,usuario_ID,permisos,urlImagen,tipoDocumento,documento,estado):
+    def __init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones, rol_ID, contraseña,usuario_ID,permisos,urlImagen,tipoDocumento,documento,estado,token):
         self.usuario_ID=usuario_ID
         self.contraseña=contraseña
         self.rol_ID=rol_ID
@@ -57,6 +57,7 @@ class Usuario(Persona):
         self.tipoDocumento=tipoDocumento
         self.documento=documento
         self.estado=estado
+        self.token=token
         Persona.__init__(self,persona_ID,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,direcciones)
 
 class Direccion:
