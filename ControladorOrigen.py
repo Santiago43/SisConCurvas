@@ -1,7 +1,7 @@
 from dao.OrigenDao import OrigenDao
 def consultarOrigenes(response_object):
     """
-    Función que permite consultar todos los Origenes. 
+    Función que permite consultar todos los orígenes. 
 
     Esta opera de tal forma que convierte los datos de la base de datos en objetos 
     y luego los convierte en diccionarios. 
