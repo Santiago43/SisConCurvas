@@ -20,7 +20,7 @@ def crearEmpaque(data,response_object):
     observaciones=data.get('observaciones')
     motivo_ID=data.get('motivo_ID')
     dao=EmpaqueDao()
-    empaque = Empaque(None,ordenVenta_ID,usuario_ID,numero_prendas,estado,observaciones,motivo_ID)
+    empaque = Empaque(None,ordenVenta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones)
     if dao.crearEmpaque(empaque):
         response_object['mensaje']='empaque creado'
     else:

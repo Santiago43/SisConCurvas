@@ -17,6 +17,7 @@ class EmpaqueDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(empaque.ordenVenta_ID ,empaque.motivo_ID ,empaque.usuario_ID ,empaque.numero_prendas ,empaque.estado ,empaque.observaciones ))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
