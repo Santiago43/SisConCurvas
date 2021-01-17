@@ -7,7 +7,7 @@ from ControladorUsuarios import consultarUsuarios, crearUsuario, login
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos
 from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
-from ControladorEmpaques import crearEmpaque, consultarEmpaques
+from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaque, eliminarEmpaque
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -159,6 +159,15 @@ def empaque():
         response_object=consultarEmpaques(response_object)
     return jsonify(response_object)
 
+@app.route("/empaque/<empaque_ID>",methods=['PUT','DELETE'])
+def single_categoria(empaque_ID):
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarEmpaque(data,response_object,empaque_ID)
+    elif request.method=="DELETE":
+        response_object=eliminarEmpaque3(response_object,empaque_ID)
+    return jsonify(response_object)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)

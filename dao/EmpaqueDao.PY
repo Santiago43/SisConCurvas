@@ -63,7 +63,7 @@ class EmpaqueDao(dao):
         except Exception as e:
             raise e
 
-    def eliminardireccion(self,empaque):
+    def eliminarEmpaque(self,empaque):
         """
         Método que permite eliminar una direccion mediante su id
         - direccion : que es la direccion que se elinará
