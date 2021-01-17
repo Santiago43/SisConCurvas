@@ -95,7 +95,11 @@ class UsuariosDao(dao):
         - usuario : que es el usuario al que se le agregará el permiso
         - permiso : que es el permiso que se le agregará al usuario
         """
+        for perm in usuario.permisos:
+                if perm.permiso_ID==permiso.permiso_ID:
+                    return False
         try:
+            
             sql='insert into Usuario_tiene_Permiso (usuario_ID,Permiso_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
@@ -107,6 +111,14 @@ class UsuariosDao(dao):
             raise e
         
     def removerPermiso(self, usuario, permiso):
+        if len(usuario.permisos)==0:
+            return False
+        contador=0
+        for perm in usuario.permisos:
+            if perm.permiso_ID!=permiso.permiso_ID:
+                contador+=1
+        if contador==len(usuario.permisos):
+            return False
         try:
             sql='delete from Usuario_tiene_Permiso where (Usuario_ID,Permiso_ID) =(%s,%s);'
             cnx=super().connectDB()
@@ -122,8 +134,7 @@ class UsuariosDao(dao):
         Método que permite consultar la lista de usuarios existentes
         """
         try:
-            contador=0
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
@@ -131,8 +142,7 @@ class UsuariosDao(dao):
             usuarios=list()
             results = cursor.fetchall()
             for result in results:
-                contador+=1
-                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12])
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13])
                 sql2='select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.usuario_ID=up.usuario_ID inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.usuario_ID='+str(usuario.usuario_ID)+';'
                 cursor.execute(sql2)
                 for row in cursor:
