@@ -27,7 +27,7 @@ def crearEmpaque(data,response_object):
         response_object['mensaje']='Error al crear empaque'
     return response_object
 
-def consultarOrdenes(response_object):
+def consultarEmpaques(response_object):
     """
     Función que permite consultar todos los Empaques. 
 

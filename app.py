@@ -7,6 +7,7 @@ from ControladorUsuarios import consultarUsuarios, crearUsuario, login
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos
 from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
+from ControladorEmpaques import crearEmpaque, consultarEmpaques
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -153,9 +154,9 @@ def empaque():
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
         data=request.get_json()
-        response_object=crearCategoria(data,response_object)  
+        response_object=crearEmpaque(data,response_object)  
     else:
-        response_object=consultarCategorias(response_object)
+        response_object=consultarEmpaques(response_object)
     return jsonify(response_object)
 
 
