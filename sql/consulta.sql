@@ -93,3 +93,7 @@ inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1;
 select * from Permiso;
 
 select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;
+
+select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.Usuario_ID=up.Usuario_ID 
+inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.Usuario_ID=1;
+select * from Permiso;
