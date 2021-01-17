@@ -21,11 +21,11 @@ class OrdenDao(dao):
             sql=''' insert into Orden_venta 
             (Motivo_ID,Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento)
             values
-            (%s,%s,%s,%s,%s,%s,%s,cast(sysdate() as DATE),%s,%s,%s,%s);
+            (%s,%s,%s,%s,%s,%s,%s,sysdate(),%s,%s,%s,%s);
             '''
             cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidadad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.precio,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento))
             for productoEnOrden in orden.productos:
-                sql2=''' insert into Orden_venta_tiene_producto 
+                sql2=''' insert into Orden_venta_tiene_Producto 
                 (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
                 values (%s,%s,%s);  '''
                 cursor.execute(sql2,(orden.orden_ID,productoEnOrden.producto.referenciaProducto,productoEnOrden.cantidad))
@@ -113,7 +113,7 @@ class OrdenDao(dao):
             sql="delete from Orden_venta where Orden_venta_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(orden.ordenVenta_ID))
+            cursor.execute(sql,(orden.ordenVenta_ID,))
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
