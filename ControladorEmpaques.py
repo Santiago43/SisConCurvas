@@ -20,7 +20,7 @@ def crearEmpaque(data,response_object):
     observaciones=data.get('observaciones')
     motivo_ID=data.get('motivo_ID')
     dao=EmpaqueDao()
-    empaque = Empaque(None,ordenVenta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones)
+    empaque = Empaque(None,ordenVenta_ID,usuario_ID,numero_prendas,estado,observaciones,motivo_ID)
     if dao.crearEmpaque(empaque):
         response_object['mensaje']='empaque creado'
     else:
@@ -59,22 +59,34 @@ def actualizarEmpaque(data,response_object,empaque_ID):
     Retorna el response_object modificado
     """
     dao = EmpaqueDao()
-    categoria = dao.consultarCategoria(empaque_ID)
-    if categoria is not None:
-        Nombre=data.get('nombre')
-        if Nombre is not None:
-            categoria.nombre=Nombre
-        Padre_categoria_ID=data.get('Padre_categoria_ID')
-        if Padre_categoria_ID is not None:
-            categoria.Padre_categoria_ID=Padre_categoria_ID
-        if dao.actualizarcategoria(categoria):
-            response_object['mensaje']="Categoría actualizada"
+    empaque = dao.consultarEmpaque(empaque_ID)
+    if empaque is not None:
+        ordenVenta_ID=data.get('ordenVenta_ID')
+        if ordenVenta_ID is not None:
+            empaque.ordenVenta_ID=ordenVenta_ID
+        usuario_ID=data.get('usuario_ID')
+        if usuario_ID is not None:
+            empaque.usuario_ID=usuario_ID
+        numero_prendas = data.get('numero_prendas')
+        if numero_prendas is not None:
+            empaque.numero_prendas = numero_prendas
+        estado = data.get('estado')
+        if estado is not None:
+            empaque.estado = estado
+        observaciones = data.get('observaciones')
+        if observaciones is not None:
+            empaque.observaciones = observaciones
+        motivo_ID = data.get('motivo_ID')
+        if motivo_ID is not None:
+            empaque.motivo_ID = motivo_ID
+        if dao.actualizarEmpaque(empaque):
+            response_object['mensaje']="Empaque actualizada"
         else:
             response_object['tipo']="error"
-            response_object['mensaje']="Error al actualizar cliente"
+            response_object['mensaje']="Error al actualizar Empaque"
     else:
         response_object['tipo']="error"
-        response_object['mensaje']="No existe una categoría con ese ID"
+        response_object['mensaje']="No existe un empaque con ese ID"
     return response_object
 
 def eliminarEmpaque(response_object, empaque_ID):
