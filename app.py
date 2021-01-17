@@ -166,7 +166,7 @@ def single_empaque(empaque_ID):
         data=request.get_json()
         response_object=actualizarEmpaque(data,response_object,empaque_ID)
     elif request.method=="DELETE":
-        response_object=eliminarEmpaque3(response_object,empaque_ID)
+        response_object=eliminarEmpaque(response_object,empaque_ID)
     return jsonify(response_object)
 
 if __name__ == '__main__':
