@@ -2,6 +2,7 @@ from dao.models import Usuario
 from dao.UsuariosDao import UsuariosDao
 from dao.DireccionDao import DireccionDao
 from dao.RolesDao import RolesDao
+from dao.PermisoDao import PermisoDao
 def crearUsuario(data,response_object):
     """
     Función que permite crear usuarios
@@ -186,4 +187,36 @@ def eliminarUsuario(response_object,documento):
     else:
         response_object['tipo']="error"
         response_object['mensaje']="No existe un usuario con ese documento o con ese correo"
+    return response_object
+
+def agregarPermisoAUsuario(response_object,documento,permiso_ID):
+    permisoDao=PermisoDao()
+    usuarioDao=UsuariosDao()
+    permiso=permisoDao.consultarPermiso(permiso_ID)
+    usuario=usuarioDao.consultarUsuario(documento)
+    if permiso and usuario is not None:
+        if usuarioDao.agregarPermiso(usuario,permiso):
+            response_object['mensaje']="Permiso "+permiso.nombre+" agregado al usuario: "+usuario.primerNombre+" "+usuario.primerApellido
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al asignar permiso. El usuario probablemente ya tenga el permiso"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="Ese usuario o ese permiso no existe"
+    return response_object
+
+def removerPermisoAUsuario(response_object,documento,permiso_ID):
+    permisoDao=PermisoDao()
+    usuarioDao=UsuariosDao()
+    permiso=permisoDao.consultarPermiso(permiso_ID)
+    usuario=usuarioDao.consultarUsuario(documento)
+    if permiso and usuario is not None:
+        if usuarioDao.removerPermiso(usuario,permiso):
+            response_object['mensaje']="Permiso "+permiso.nombre+" removido al usuario: "+usuario.primerNombre+" "+usuario.primerApellido
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al retirar permiso. Probablemente no tenga este permiso."
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="Ese usuario o ese permiso no existe"
     return response_object
