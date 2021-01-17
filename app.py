@@ -7,6 +7,7 @@ from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuar
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto
 from ControladorCategorias import crearCategoria, consultarCategorias
+from ControladorOrigen import consultarOrigenes
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -185,6 +186,14 @@ def empaque():
         response_object=consultarCategorias(response_object)
     return jsonify(response_object)
 
+@app.route("/origen",methods=['GET'])
+def origen():
+    """
+    Ruta de orígenes de venta
+    """
+    response_object = {'tipo': 'OK'}
+    response_object=consultarOrigenes(response_object)
+    return jsonify(response_object)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
