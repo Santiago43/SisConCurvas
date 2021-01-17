@@ -12,7 +12,7 @@ def crearRol(data,response_object):
 
     Retorna el response_object modificado
     """
-    nombreRol=data.get('nombreRol')
+    nombreRol=data.get('nombre')
     dao=RolesDao()
     rol=Rol(None,nombreRol,[])
     if(dao.consultarRolPorNombre(nombreRol) is None):
@@ -126,7 +126,7 @@ def removerPermisoARol(response_object,rol_ID,permiso_ID):
             response_object['mensaje']="Permiso '"+permiso.nombre+"' removido del rol "+rol.nombre
         else:
             response_object['tipo']="error"
-            response_object['mensaje']="Error al asignar permiso"
+            response_object['mensaje']="Error al asignar permiso. Probablemente ya tenga este permiso."
     else:
         response_object['tipo']="error"
         response_object['mensaje']="No existe ese permiso o ese rol"
