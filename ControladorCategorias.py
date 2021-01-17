@@ -67,7 +67,7 @@ def actualizarcategoria(data,response_object,categoria_ID):
             response_object['mensaje']="Categoría actualizada"
         else:
             response_object['tipo']="error"
-            response_object['mensaje']="Error al actualizar cliente"
+            response_object['mensaje']="Error al actualizar la categoría"
     else:
         response_object['tipo']="error"
         response_object['mensaje']="No existe una categoría con ese ID"
@@ -95,5 +95,5 @@ def eliminarcategoria(response_object, categoria_ID):
             response_object['mensaje']="Error al eliminar categoria"
     else:
         response_object['tipo']="error"
-        response_object['mensaje']="No existe una categoria con ese número telefónico"
+        response_object['mensaje']="No existe una categoria con ese ID"
     return response_object
