@@ -50,7 +50,7 @@ def consultarRoles(response_object):
     response_object['Roles']=rolesJson
     return response_object
 
-def actualizarRol(data,response_object,rol_ID):
+def actualizarRol(data,response_object,rol_ID,editor):
     """
     Función que permite actualizar un rol
     
@@ -77,7 +77,7 @@ def actualizarRol(data,response_object,rol_ID):
         response_object['mensaje']="No existe un rol con ese ID"
     return response_object
 
-def eliminarRol(response_object,rol_ID):
+def eliminarRol(response_object,rol_ID,editor):
     """
     Función que permite eliminar un rol
     
