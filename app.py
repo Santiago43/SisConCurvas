@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from ControladorOrdenVenta import consultarOrdenes
+from ControladorOrdenVenta import consultarOrdenes, crearOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
-from ControladorUsuarios import consultarUsuarios, crearUsuario, login, actualizarUsuario, eliminarUsuario
+from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto
 from ControladorCategorias import crearCategoria, consultarCategorias
@@ -61,7 +61,7 @@ def permisosRol(rol_ID,permiso_ID):
 @app.route("/usuario", methods=['POST','GET'])
 def usuarios():
     """
-    Controlador de usuarios
+    Ruta de usuarios para crear y listar todos
     """
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
@@ -74,7 +74,7 @@ def usuarios():
 @app.route("/usuario/<documento>", methods=['PUT','DELETE'])
 def single_usuario(documento):
     """
-    Controlador de usuarios
+    Ruta de usuarios para actualizar y eliminar
     """
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
@@ -82,6 +82,18 @@ def single_usuario(documento):
         response_object=actualizarUsuario(data,response_object,documento)  
     elif request.method=="DELETE":
         response_object=eliminarUsuario(response_object,documento)  
+    return jsonify(response_object)
+
+@app.route("/usuario/permiso/<documento>/<permiso_ID>", methods=['POST','DELETE'])
+def usuarioPermisos(documento,permiso_ID):
+    """
+    Ruta de manejo de permisos de usuarios
+    """
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        response_object=agregarPermisoAUsuario(response_object,documento,permiso_ID)  
+    elif request.method=="DELETE":
+        response_object=removerPermisoAUsuario(response_object,documento,permiso_ID)  
     return jsonify(response_object)
 
 @app.route("/orden",methods=['POST','GET'])
@@ -92,7 +104,7 @@ def ordenVenta():
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
         data=request.get_json()
-        response_object=crearUsuario(data,response_object)  
+        response_object=crearOrden(data,response_object)  
     elif request.method=="GET":
         response_object=consultarOrdenes(response_object)  
     return jsonify(response_object)
@@ -100,7 +112,7 @@ def ordenVenta():
 @app.route("/login", methods=['POST'])
 def loginUsuario():
     """
-    Controlador de login
+    Ruta de login
     """
     response_object = {'tipo': 'OK'}
     data=request.get_json()
@@ -122,6 +134,9 @@ def cliente():
 
 @app.route("/cliente/<telefono>",methods=['PUT','DELETE'])
 def single_cliente(telefono):
+    """
+    Ruta de clientes para actualizar y eliminar
+    """
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
         data=request.get_json()
