@@ -79,3 +79,23 @@ class DespachoDao(dao):
             return True
         except Exception as e:
             raise e
+
+    def consultarDespachos(self):
+        """
+        Método que permite consultar la lista de despachos
+        Parámetros:
+        - id : que es el ID del despacho 
+        """
+        try:
+            sql= "select * from Despacho"
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            despachos=list()
+            for result in results:        
+                despacho = Despacho(result[0],result[1],result[2],result[3],result[4],result[5],result[7],result[7])
+                despachos.append(despacho)
+            return despachos
+        except Exception as e:
+            raise e
