@@ -59,6 +59,7 @@ class EmpaqueDao(dao):
             cursor=cnx.cursor()
             args=(empaque.ordenVenta_ID,empaque.usuario_ID,empaque.numero_prendas,empaque.estado,empaque.observaciones,empaque.motivo_ID,empaque.empaque_ID)
             cursor.execute(sql,args)
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -73,7 +74,8 @@ class EmpaqueDao(dao):
             sql="delete from Empaque where Empaque_id = %s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(empaque.Empaque_id))
+            cursor.execute(sql,(empaque.empaque_id,))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
