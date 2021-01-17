@@ -11,6 +11,11 @@ insert into Permiso (Nombre) values ("Orden.crear");
 insert into Permiso (Nombre) values ("Orden.ver");
 insert into Permiso (Nombre) values ("Orden.editar");
 insert into Permiso (Nombre) values ("Orden.eliminar");
+
+insert into Permiso (Nombre) values ("Rol.crear");
+insert into Permiso (Nombre) values ("Rol.ver");
+insert into Permiso (Nombre) values ("Rol.editar");
+insert into Permiso (Nombre) values ("Rol.eliminar");
 /*Agregar permisos a roles*/
 
 insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID)
@@ -21,9 +26,14 @@ values (
 (select Rol_ID from Rol where Nombre="Vendedor"),
 (select Permiso_ID from Permiso where Nombre="Orden.crear"));
 
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Rol.editar"));
+
 /*Insertar usuario*/
-call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg");
-call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg");
+call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321");
+call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#");
 
 /*Insertar motivos en órdenes de venta*/
 insert into Motivo (Tipo, Motivo) values ("Venta","Venta");

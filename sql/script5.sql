@@ -156,6 +156,7 @@ CREATE TABLE Usuario (
   Tipo_documento VARCHAR(20) NULL,
   Documento VARCHAR(20) not NULL unique,
   estado boolean not null,
+  token varchar(200) unique,
   PRIMARY KEY(Usuario_ID),
   INDEX Usuario_FKIndex1(Persona_ID),
   INDEX Usuario_FKIndex2(Rol_ID),

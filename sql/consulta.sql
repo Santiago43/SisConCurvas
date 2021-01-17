@@ -92,8 +92,14 @@ select p.* from Rol_tiene_Permiso as rp inner join Rol as r on r.Rol_ID=rp.Rol_I
 inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.Rol_ID=1;
 select * from Permiso;
 
-select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;
+select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;
+select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token from Usuario as u
+            inner join Persona as p on p.Persona_ID=u.Persona_ID;
 
 select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.Usuario_ID=up.Usuario_ID 
 inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.Usuario_ID=1;
 select * from Permiso;
+
+
+select * from Motivo;
+select * from Origen;
