@@ -74,7 +74,7 @@ class EmpaqueDao(dao):
             sql="delete from Empaque where Empaque_id = %s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(empaque.empaque_id,))
+            cursor.execute(sql,(empaque.empaque_ID,))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
