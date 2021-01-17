@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from dao.DireccionDao import DireccionDao
-from dao.models import Usuario
+from dao.models import Usuario,OrdenVenta
 from dao.OrdenVentaDao import OrdenDao
 from dao.RolesDao import RolesDao
 from dao.UsuariosDao import UsuariosDao
@@ -16,7 +16,25 @@ def crearOrden(data,response_object):
 
     Retorna el response_object modificado
     """
-    
+    motivo_ID=data.get('motivo_ID')
+    origen_ID=data.get('origen_ID')
+    modalidad_pago_ID=data.get('modalidad_pago_ID')
+    metodo_compra_ID=data.get('metodo_compra_ID')
+    direccion_ID=data.get('direccion_ID')
+    cliente_ID=data.get('cliente_ID')
+    usuario_ID=data.get('usuario_ID')
+    estado="No empacado"
+    nota=data.get('nota')
+    fecha_entrega=data.get('fecha_entrega')
+    tipo_venta=data.get('tipo_venta')
+    descuento=data.get('descuento')
+    ordenVenta=OrdenVenta(None,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,None,nota,fecha_entrega,tipo_venta,descuento,list(),None)
+    dao=OrdenDao()
+    if dao.crearOrden(ordenVenta):
+        response_object['mensaje']="Orden creada"
+    else:
+        response_object['tipo']="Error"
+        response_object['mensaje']="Error al crear la orden"
     return response_object
 
 def consultarOrdenes(response_object):
