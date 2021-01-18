@@ -45,7 +45,7 @@ class OrdenDao(dao):
             sql='''select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
             inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
             inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
-            where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov where Orden_venta='''+str(id)+''';'''
+            where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov where Orden_venta_ID='''+str(id)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
