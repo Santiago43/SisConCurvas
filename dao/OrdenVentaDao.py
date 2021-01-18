@@ -50,7 +50,7 @@ class OrdenDao(dao):
             cursor=cnx.cursor()
             cursor.execute(sql)
             result = cursor.fetchone()
-            ordenVenta=OrdenVenta(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],[])
+            ordenVenta=OrdenVenta(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],[],result[14])
             sql2= '''select i.*, oc.cantidad from Inventario as i
             inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
             inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
