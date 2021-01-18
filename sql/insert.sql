@@ -1,7 +1,6 @@
 /**/
 insert into Rol (Nombre) values ("Administrador");
 insert into Rol (Nombre) values ("Vendedor");
-insert into Rol (Nombre) values ("Domiciliario");
 insert into Rol (Nombre) values ("Financiero");
 insert into Rol (Nombre) values ("Domiciliario");
 /*Crear permisos*/
@@ -119,4 +118,4 @@ insert into Ruta (Nombre) values ("Norte");
 
 insert into Despacho(Usuario_ID,Orden_venta_ID,Ruta_ID,Estado,Fecha_despacho,Motivo_ID,Id_envia) values (1,1,1,1,'12/01/20',1,1);
 /*Insertar pago a domiciliario*/
-insert into Pago_domiciliario (Estado,monto) values (false,5000);
+call insertarPagoDomiciliario(6000,1,1);

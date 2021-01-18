@@ -16,6 +16,7 @@ CREATE TABLE Pago_domiciliario (
   Pago_domiciliario_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Estado BOOL NULL,
   Monto DOUBLE NULL,
+  fecha_pago date not null,
   PRIMARY KEY(Pago_domiciliario_ID)
 );
 
@@ -469,7 +470,7 @@ CREATE TABLE Control_Inventario (
   Detalle VARCHAR(150) NULL,
   Numero_prendas INTEGER UNSIGNED NULL,
   Tipo BOOL NULL,
-  Usuario INTEGER UNSIGNED NOT NULL,
+  Usuario_ID INTEGER UNSIGNED NOT NULL,
   PRIMARY KEY(Control_Inventario_ID),
   INDEX Control_Inventario_FKIndex1(Inventario_Referencia_Producto_ID),
   FOREIGN KEY(Inventario_Referencia_Producto_ID)

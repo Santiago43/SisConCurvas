@@ -103,3 +103,11 @@ select * from Permiso;
 
 select * from Motivo;
 select * from Origen;
+
+
+select * from Control_Rol;
+
+select * from Control_Inventario;
+
+
+select * from Control_venta;
