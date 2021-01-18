@@ -1,6 +1,9 @@
 /**/
 insert into Rol (Nombre) values ("Administrador");
 insert into Rol (Nombre) values ("Vendedor");
+insert into Rol (Nombre) values ("Domiciliario");
+insert into Rol (Nombre) values ("Financiero");
+insert into Rol (Nombre) values ("Domiciliario");
 /*Crear permisos*/
 insert into Permiso (Nombre) values ("Usuarios.crear");
 insert into Permiso (Nombre) values ("Usuarios.ver");
@@ -111,3 +114,7 @@ values (1,"abdcdf",3);
 
 
 /**/
+
+
+/*Insertar pago a domiciliario*/
+insert into Pago_domiciliario (Estado,monto) values (false,5000);
