@@ -15,9 +15,9 @@ class OrdenDao(dao):
         Parámetros:
         - orden : que es la orden asociada a una orden de venta existente  
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             sql=''' insert into Orden_venta 
             (Motivo_ID,Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento)
             values
@@ -33,6 +33,7 @@ class OrdenDao(dao):
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def consultarOrden(self,id):
