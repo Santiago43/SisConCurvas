@@ -1,7 +1,7 @@
 /*Actualizar un rol*/
 update rol
-set Nombre="Administrador"
-where Rol_ID = 1;
+set Nombre="Vendedor"
+where Rol_ID = 2;
 set SQL_SAFE_UPDATES=0;
 
 /*Actualizar los datos de un usuario*/

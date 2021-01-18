@@ -40,6 +40,7 @@ values(_Referencia_Producto_ID,_Descripcion,_Url_imagen,_Stock,_Precio_costo,_Pr
 insert into Inventario_tiene_Categoria values (_Referencia_Producto_ID,_Categoria_ID);
 end $$
 
+#Crear cliente
 delimiter $$
 
 create procedure insertarCliente (
@@ -55,4 +56,20 @@ begin
 insert into Persona (Primer_nombre,Segundo_nombre,Primer_apellido,Segundo_apellido,Telefono,Correo)
 values(_Primer_nombre,_Segundo_nombre,_Primer_apellido,_Segundo_apellido,_Telefono,_Correo);
 insert into Cliente (Persona_ID, tipo_cliente) values ((select Persona_ID from Persona order by Persona_ID desc limit 1), _tipoCliente);
+end $$
+
+#Crear pago domiciliario
+delimiter $$
+
+create procedure insertarPagoDomiciliario (
+in _monto double,
+in _Domiciliario_ID integer, 
+in _Financiero_ID integer
+)
+begin
+insert into Pago_domiciliario (Estado,monto)
+values(false,_monto);
+insert into Domiciliario_tiene_pago(Pago_domiciliario_ID, Usuario_ID) values ((select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1),_Domiciliario_ID);
+insert into Financiero_hace_pago(Usuario_ID,Pago_domiciliario_ID) values(_Financiero_ID,(select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1));
+
 end $$
