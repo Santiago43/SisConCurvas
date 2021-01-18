@@ -1,7 +1,8 @@
-from dao.models import Rol
+from dao.models import Rol,Control_rol
 from dao.RolesDao import RolesDao
 from dao.PermisoDao import PermisoDao
-def crearRol(data,response_object):
+from dao.ControlDao import ControlDao
+def crearRol(data,response_object,usuario):
     """
     Función que permite crear roles
 
@@ -9,6 +10,7 @@ def crearRol(data,response_object):
     
     - data: que son los datos que vienen de la vista
     - response_object: que es una referencia a la respuesta del servidor
+    - usuario: que es el usuario que crea el rol
 
     Retorna el response_object modificado
     """
@@ -18,6 +20,11 @@ def crearRol(data,response_object):
     if(dao.consultarRolPorNombre(nombreRol) is None):
         if(dao.crearRol(rol)):
             response_object['mensaje']="rol creado"
+            rol=dao.consultarRolPorNombre(nombreRol)
+            texto="El usuario "+usuario.primerNombre+" "+usuario.primerApellido+" creó el rol '"+nombreRol+"'"
+            control=Control_rol(None,rol.idRol,usuario.usuario_ID,None,1,texto)
+            controlDao=ControlDao()
+            controlDao.crearControlRol(control)
         else:
             response_object['tipo']="error"
             response_object['mensaje']="Error al crear rol"

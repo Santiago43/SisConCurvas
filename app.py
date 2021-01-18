@@ -34,12 +34,22 @@ def rol():
     """
     Ruta de roles para crear y consultar
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        data=request.get_json()
-        response_object=crearRol(data,response_object)  
+        (valor,editor)=validarUsuario("Rol.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearRol(data,response_object,editor)
+        else:
+            response_object=noAutorizado(response_object) 
     elif request.method=="GET":
-        response_object=consultarRoles(response_object)  
+        (valor,editor)=validarUsuario("Rol.ver",token)
+        if valor:    
+            response_object=consultarRoles(response_object)
+        else:
+            response_object=noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/rol/<rol_ID>", methods=['PUT','DELETE'])
