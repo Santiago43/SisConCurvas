@@ -107,7 +107,7 @@ class Categoria:
         self.id=id
         self.nombre=nombre
         self.idPadre=idPadre
-class Pago_Domiciliario:
+class PagoDomiciliario:
     """
     Clase Pago domiciliario 
     Parámetros:
@@ -117,8 +117,8 @@ class Pago_Domiciliario:
     - Id del domiciliario 
     - Id del financiero
     """
-    def __init__(self,Pago_domiciliario_ID,estado,monto,domiciliario_ID,financiero_ID):
-        self.Pago_domiciliario_ID=Pago_domiciliario_ID
+    def __init__(self,pagoDomiciliario_ID,estado,monto,domiciliario_ID,financiero_ID):
+        self.pagoDomiciliario_ID=pagoDomiciliario_ID
         self.estado=estado
         self.monto=monto
         self.domiciliario_ID=domiciliario_ID
