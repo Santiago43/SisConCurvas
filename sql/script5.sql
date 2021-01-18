@@ -103,22 +103,6 @@ CREATE TABLE Cliente (
       ON UPDATE cascade
 );
 
-CREATE TABLE Control_Inventario (
-  Control_Inventario_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  Inventario_Referencia_Producto_ID VARCHAR(20) NOT NULL,
-  Fecha DATE NULL,
-  Inventario_inicial INTEGER UNSIGNED NULL,
-  Detalle VARCHAR(150) NULL,
-  Numero_prendas INTEGER UNSIGNED NULL,
-  Tipo BOOL NULL,
-  PRIMARY KEY(Control_Inventario_ID),
-  INDEX Control_Inventario_FKIndex1(Inventario_Referencia_Producto_ID),
-  FOREIGN KEY(Inventario_Referencia_Producto_ID)
-    REFERENCES Inventario(Referencia_Producto_ID)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
-
 CREATE TABLE Categoria (
   Categoria_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Padre_categoria_ID INTEGER UNSIGNED NULL,
@@ -209,7 +193,7 @@ CREATE TABLE Control_Rol (
   Control_Rol_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Rol_ID INTEGER UNSIGNED NOT NULL,
   Usuario_ID INTEGER UNSIGNED NOT NULL,
-  Fecha_modificacion DATE NOT NULL,
+  Fecha_modificacion timestamp NOT NULL,
   Tipo INTEGER UNSIGNED NOT NULL,
   Detalle VARCHAR(200) NULL,
   PRIMARY KEY(Control_Rol_ID),
@@ -346,7 +330,7 @@ CREATE TABLE Control_venta (
   Control_venta_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Usuario_ID INTEGER UNSIGNED NOT NULL,
   Orden_venta_ID INTEGER UNSIGNED NOT NULL,
-  Fecha_modificacion DATE NULL,
+  Fecha_modificacion timestamp NULL,
   Cambio VARCHAR(200) NULL,
   PRIMARY KEY(Control_venta_ID),
   INDEX Control_venta_FKIndex1(Orden_venta_ID),
@@ -477,5 +461,24 @@ CREATE TABLE Distribucion_tiene_prendas_Devueltas (
       ON UPDATE NO ACTION
 );
 
-
+CREATE TABLE Control_Inventario (
+  Control_Inventario_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Inventario_Referencia_Producto_ID VARCHAR(20) NOT NULL,
+  Fecha timestamp NULL,
+  Inventario_inicial INTEGER UNSIGNED NULL,
+  Detalle VARCHAR(150) NULL,
+  Numero_prendas INTEGER UNSIGNED NULL,
+  Tipo BOOL NULL,
+  Usuario_ID INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(Control_Inventario_ID),
+  INDEX Control_Inventario_FKIndex1(Inventario_Referencia_Producto_ID),
+  FOREIGN KEY(Inventario_Referencia_Producto_ID)
+    REFERENCES Inventario(Referencia_Producto_ID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(Usuario_ID)
+    REFERENCES Usuario(Usuario_ID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
 

@@ -21,7 +21,8 @@ where r.Rol_ID=1;
 select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID from Persona as p
 inner join Usuario as u on u.Persona_ID=p.Persona_ID
 where Documento=1234567890;
-
+select p.*,u.* from Persona as p
+inner join Usuario as u on u.Persona_ID=p.Persona_ID
 /*Y sus direcciones asociadas*/
 select d.* from Direccion as d
 inner join Persona_tiene_Direccion as pd on d.Direccion_id
@@ -103,3 +104,7 @@ select * from Permiso;
 
 select * from Motivo;
 select * from Origen;
+
+select * from Pago_domiciliario;
+select * from Domiciliario_tiene_pago;
+select * from Financiero_hace_pago;
