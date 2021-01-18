@@ -257,19 +257,21 @@ class Inventario:
         self.precioCosto=precioCosto
         self.precioVenta=precioVenta
         self.categorias=categorias
-class Contro_inventario:
+class Control_inventario:
     """
-    Clase Contro_inventario
+    Clase Control_inventario
     Parámetros:
-    - Id del Contro_inventario
+    - Id del Control_inventario
+    - Id del usuario
     - referencia del producto
     - fecha
     - inventario inicial
     - numero de prendas
     - tipo 
     """   
-    def __init__(self, control_inventario_ID,referenciaProducto,fecha,inventario_inicial,detalle,numero_prendas,tipo):
+    def __init__(self, usuario_ID,control_inventario_ID,referenciaProducto,fecha,inventario_inicial,detalle,numero_prendas,tipo):
         self.control_inventario_ID=control_inventario_ID
+        self.usuario_ID=usuario_ID
         self.referenciaProducto=referenciaProducto
         self.fecha=fecha
         self.inventario_inicial=inventario_inicial
