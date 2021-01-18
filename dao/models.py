@@ -322,6 +322,7 @@ class OrdenVenta:
     """
     Clase Orden_venta
     Parámetros:
+    - Id de la orden de venta
     - Id del motivo
     - Id del origen 
     - Id de la modalida de pago
@@ -331,12 +332,12 @@ class OrdenVenta:
     - Id del usuario 
     - estado 
     - fecha de venta 
-    - precio 
     - nota 
     - fecha de entrega 
     - tipo de venta 
     - descuento 
-    - productos 
+    - productos
+    - precio 
     """
     def __init__(self,ordenVenta_ID,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,fecha_venta,nota,fecha_entrega,tipo_venta,descuento,productos,precio):
         self.ordenVenta_ID=ordenVenta_ID
