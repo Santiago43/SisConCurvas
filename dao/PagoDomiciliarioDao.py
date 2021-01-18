@@ -24,3 +24,22 @@ class PagoDomiciliarioDao(dao):
         except Exception as e:
             super().cerrarConexion(cursor,cnx)
             raise e
+    def consultarPago(self,id):
+        """
+        Método que permite hacer la consulta de un pago mediante su id
+        """
+        try:
+            sql= 'select * from Pago_domiciliario where Pago_domiciliario_id='+str(id)+';'
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            result=cursor.fetchone()
+            if result is not None:
+            motivos=list()
+            for result in results:
+                motivo=Motivo(result[0],result[1],result[2])
+                motivos.append(motivo)
+            super().cerrarConexion(cursor,cnx)
+            return motivos
+        except Exception as e:
+            raise e
