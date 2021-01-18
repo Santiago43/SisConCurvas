@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from ControladorOrdenVenta import consultarOrdenes, crearOrden
+from ControladorOrdenVenta import consultarOrdenes, crearOrden, actualizarOrden, eliminarOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
@@ -128,6 +128,19 @@ def ordenVenta():
         response_object=crearOrden(data,response_object)  
     elif request.method=="GET":
         response_object=consultarOrdenes(response_object)  
+    return jsonify(response_object)
+
+@app.route("/orden/<ordenVenta_ID>",methods=['PUT','DELETE'])
+def single_orden(ordenVenta_ID):
+    """
+    Ruta de Ordenes de venta para actualizar y eliminar
+    """
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarOrden(data,response_object,ordenVenta_ID)
+    elif request.method=="DELETE":
+        response_object=eliminarOrden(response_object,ordenVenta_ID)
     return jsonify(response_object)
 
 @app.route("/login", methods=['POST'])
