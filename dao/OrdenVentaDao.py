@@ -94,7 +94,7 @@ class OrdenDao(dao):
                     where Orden_venta_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.tipo_venta,orden.descuento,orden.ordenVenta_ID))
+            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento,orden.ordenVenta_ID))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
