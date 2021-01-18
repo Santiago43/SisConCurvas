@@ -55,20 +55,60 @@ class ControlDao(dao):
         except Exception as e:
             raise e
         
-    def consultarControles(self):
+    def consultarControlesRol(self):
         """
-        Método que permite consultar un categoria mediante su ID
-        Parámetros:
-        - id : que es el ID de categoria 
+        Método que permite consultar todos los controles de la tabla de roles
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
-            sql= "select * from Categoria where categoria_ID="+str(id)+";"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+            sql= "select * from Control_Rol;"    
             cursor.execute(sql)
-            result = cursor.fetchone()
-            categoria = Categoria(result[0],result[1],result[2])
+            results = cursor.fetchall()
+            controles=list()
+            for result in results:
+                controlRol = Control_rol(result[0],result[1],result[2],result[3],result[4],result[5])
+                controles.append(controlRol)
             super().cerrarConexion(cursor,cnx)
-            return categoria
+            return controles
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
+            raise e
+    def consultarControlesInventario(self):
+        """
+        Método que permite consultar todos los controles de la tabla de Inventario
+        """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
+        try:
+            sql= "select * from Control_Inventario;"    
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            controles=list()
+            for result in results:
+                controlInventario = Control_inventario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7])
+                controles.append(controlInventario)
+            super().cerrarConexion(cursor,cnx)
+            return controles
+        except Exception as e:
+            super().cerrarConexion(cursor,cnx)
+            raise e
+    def consultarControlesVenta(self):
+        """
+        Método que permite consultar todos los controles de la tabla de Inventario
+        """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
+        try:
+            sql= "select * from Control_venta;"    
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            controles=list()
+            for result in results:
+                controlVenta = Control_venta(result[0],result[1],result[2],result[3],result[4])
+                controles.append(controlVenta)
+            super().cerrarConexion(cursor,cnx)
+            return controles
+        except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
