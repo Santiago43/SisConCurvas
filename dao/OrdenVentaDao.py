@@ -23,7 +23,7 @@ class OrdenDao(dao):
             values
             (%s,%s,%s,%s,%s,%s,%s,sysdate(),%s,%s,%s,%s);
             '''
-            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidadad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.precio,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento))
+            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.precio,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento))
             for productoEnOrden in orden.productos:
                 sql2=''' insert into Orden_venta_tiene_Producto 
                 (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
