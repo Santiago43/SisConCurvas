@@ -99,6 +99,7 @@ class OrdenDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.tipo_venta,orden.descuento))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -114,7 +115,7 @@ class OrdenDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(orden.ordenVenta_ID,))
-            cursor.commit()
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
