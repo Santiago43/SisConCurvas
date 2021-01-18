@@ -22,7 +22,7 @@ def crearOrden(data,response_object):
     direccion_ID=data.get('direccion_ID')
     cliente_ID=data.get('cliente_ID')
     usuario_ID=data.get('usuario_ID')
-    estado="No empacado"
+    estado=data.get('estado')
     nota=data.get('nota')
     fecha_entrega=data.get('fecha_entrega')
     tipo_venta=data.get('tipo_venta')
