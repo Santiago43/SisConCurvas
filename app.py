@@ -6,9 +6,11 @@ from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, 
 from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto
-from ControladorCategorias import crearCategoria, consultarCategorias
 from ControladorOrigen import consultarOrigenes
 from ControladorDespacho import crearDespacho, consultarDespachos
+from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
+from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaque, eliminarEmpaque
+
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -194,14 +196,24 @@ def categoria():
         response_object=consultarCategorias(response_object)
     return jsonify(response_object)
 
+@app.route("/categoria/<categoria_ID>",methods=['PUT','DELETE'])
+def single_categoria(categoria_ID):
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarcategoria(data,response_object,categoria_ID)
+    elif request.method=="DELETE":
+        response_object=eliminarcategoria(response_object,categoria_ID)
+    return jsonify(response_object)
+
 @app.route("/empaque",methods=['POST','GET'])
 def empaque():
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
         data=request.get_json()
-        response_object=crearCategoria(data,response_object)  
+        response_object=crearEmpaque(data,response_object)  
     else:
-        response_object=consultarCategorias(response_object)
+        response_object=consultarEmpaques(response_object)
     return jsonify(response_object)
 
 @app.route("/origen",methods=['GET'])
@@ -212,7 +224,6 @@ def origen():
     response_object = {'tipo': 'OK'}
     response_object=consultarOrigenes(response_object)
     return jsonify(response_object)
-
 
 @app.route("/despacho",methods=['POST','GET'])
 def despacho():
@@ -238,6 +249,15 @@ def single_despacho(despacho_ID):
         response_object=crearDespacho(data,response_object)  
     else:
         response_object=consultarDespachos(response_object)
+
+@app.route("/empaque/<empaque_ID>",methods=['PUT','DELETE'])
+def single_empaque(empaque_ID):
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        data=request.get_json()
+        response_object=actualizarEmpaque(data,response_object,empaque_ID)
+    elif request.method=="DELETE":
+        response_object=eliminarEmpaque(response_object,empaque_ID)
     return jsonify(response_object)
 
 if __name__ == '__main__':

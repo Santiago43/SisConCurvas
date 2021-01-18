@@ -41,3 +41,59 @@ def consultarCategorias(response_object):
         categoriasDict.append(categoria.__dict__)
     response_object['categorias']=categoriasDict
     return response_object
+
+def actualizarcategoria(data,response_object,categoria_ID):
+    """
+    Función que permite editar una categoría a partir de su ID. 
+ 
+    Parámetros:
+
+    - data: que son los datos que vienen de la vista
+    - response_object: que es una referencia a la respuesta del servidor
+    - categoria_ID: que es el ID de la categoría
+
+    Retorna el response_object modificado
+    """
+    dao = CategoriaDao()
+    categoria = dao.consultarCategoria(categoria_ID)
+    if categoria is not None:
+        Nombre=data.get('nombre')
+        if Nombre is not None:
+            categoria.nombre=Nombre
+        Padre_categoria_ID=data.get('Padre_categoria_ID')
+        if Padre_categoria_ID is not None:
+            categoria.Padre_categoria_ID=Padre_categoria_ID
+        if dao.actualizarcategoria(categoria):
+            response_object['mensaje']="Categoría actualizada"
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al actualizar la categoría"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe una categoría con ese ID"
+    return response_object
+
+def eliminarcategoria(response_object, categoria_ID):
+    """
+    Función que permite eliminar los datos de una categoría a partir de su ID.
+    Primero realiza la consulta de la consulta para posteriormente eliminarla en cascada.
+
+    Parámetros:
+
+    - response_object: que es una referencia a la respuesta del servidor
+    - categoria_ID: que es el ID de la categoría
+    
+    Retorna el response_object modificado
+    """
+    dao = CategoriaDao()
+    categoria = dao.consultarCategoria(categoria_ID)
+    if categoria is not None:
+        if dao.eliminarcategoria(categoria):
+            response_object['mensaje']="Categoria eliminada"
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al eliminar categoria"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe una categoria con ese ID"
+    return response_object
