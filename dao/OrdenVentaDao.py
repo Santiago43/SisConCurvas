@@ -87,10 +87,6 @@ class OrdenDao(dao):
                     Cliente_ID=%s,
                     Usuario_ID=%s,
                     Estado=%s,
-                    Precio=(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
-                            inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
-                            inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
-                            where o.Orden_venta_ID=%s) as q),
                     Nota=%s,
                     Fecha_entrega=%s,
                     Tipo_venta=%s,
@@ -98,7 +94,7 @@ class OrdenDao(dao):
                     where Orden_venta_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.tipo_venta,orden.descuento))
+            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.tipo_venta,orden.descuento,orden.ordenVenta_ID))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
