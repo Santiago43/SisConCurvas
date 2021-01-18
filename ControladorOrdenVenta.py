@@ -159,7 +159,7 @@ def eliminarOrden(response_object, ordenVenta_ID):
     Retorna el response_object modificado
     """
     dao = OrdenDao()
-    orden = dao.consultarOrden(OrdenDao)
+    orden = dao.consultarOrden(ordenVenta_ID)
     if orden is not None:
         if dao.eliminarOrden(orden):
             response_object['mensaje']="Orden de venta eliminada"
