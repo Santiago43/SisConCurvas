@@ -58,7 +58,7 @@ class DireccionDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             args=(direccion.ciudad_ID,direccion.departamento_ID,direccion.barrio,direccion.direccion)
-            cursor.execute(sql,)
+            cursor.execute(sql,args)
         except Exception as e:
             raise e
 
