@@ -27,7 +27,7 @@ def main_():
     """
     headers=request.headers
     print(headers.get("Prueba"))
-    return "Funciona :D"
+    return "<h1>Concurvas</h1>"
 
 @app.route("/rol", methods=['POST','GET'])
 def rol():
@@ -305,6 +305,7 @@ def pagoDomiciliario():
             response_object=consultarPagos(response_object)
         else:
             response_object=noAutorizado(response_object)
+    return jsonify(response_object)
 
 @app.route("/pagoDomiciliario/<pago_domiciliario_ID>",methods=['PUT','DELETE'])
 def single_pagoDomiciliario(pago_domiciliario_ID):
@@ -327,6 +328,7 @@ def single_pagoDomiciliario(pago_domiciliario_ID):
             response_object=consultarPagos(response_object)
         else:
             response_object=noAutorizado(response_object)
+    return jsonify(response_object)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
