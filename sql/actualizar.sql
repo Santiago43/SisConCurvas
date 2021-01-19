@@ -10,12 +10,12 @@ set p.Primer_nombre="Pedro",
 p.Segundo_nombre="Antonio", 
 p.Primer_apellido="Pataquiva", 
 p.Segundo_apellido="Rugeles",
-p.Tipo_documento="Cédula de ciudadanía",
+u.Tipo_documento="Cédula de ciudadanía",
 p.Telefono="3777777",
 p.correo="pedro@example.com",
 u.Rol_ID=1,
 u.Contraseña=sha("1234")
-where p.Documento="1234567890" and p.Persona_ID=u.Persona_ID;
+where u.Documento="1234567890" and p.Persona_ID=u.Persona_ID;
 
 
 /*Actualizar una categoria*/
@@ -61,3 +61,11 @@ Tipo_venta=false,
 Descuento=null
 where Orden_venta_ID=1;
 
+
+
+/*Actualizar un pago*/
+update Pago_domiciliario as pd set
+pd.Estado=true,
+pd.Monto=6000,
+pd.fecha_pago=cast(sysdate() as date)
+where pd.Pago_domiciliario_ID=1;

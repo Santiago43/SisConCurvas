@@ -64,11 +64,12 @@ delimiter $$
 create procedure insertarPagoDomiciliario (
 in _monto double,
 in _Domiciliario_ID integer, 
-in _Financiero_ID integer
+in _Financiero_ID integer,
+in _estado boolean
 )
 begin
 insert into Pago_domiciliario (Estado,monto,fecha_pago)
-values(false,_monto,(cast(sysdate() as date)));
+values(_estado,_monto,(cast(sysdate() as date)));
 insert into Domiciliario_tiene_pago(Pago_domiciliario_ID, Usuario_ID) values ((select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1),_Domiciliario_ID);
 insert into Financiero_hace_pago(Usuario_ID,Pago_domiciliario_ID) values(_Financiero_ID,(select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1));
 

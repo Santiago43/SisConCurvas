@@ -111,3 +111,11 @@ select * from Control_Inventario;
 
 
 select * from Control_venta;
+
+
+select pd.*,dp.Usuario_ID as Domiciliario_ID,fp.Usuario_ID as Financiero_ID from Pago_domiciliario as pd
+inner join Domiciliario_tiene_Pago as dp on dp.Pago_domiciliario_ID=pd.Pago_domiciliario_ID
+inner join Financiero_hace_pago as fp on pd.Pago_domiciliario_ID=fp.Pago_domiciliario_ID
+where pd.Pago_domiciliario_ID=1;
+
+select * from Pago_domiciliario;

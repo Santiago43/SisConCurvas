@@ -158,7 +158,7 @@ CREATE TABLE Usuario (
 CREATE TABLE Domiciliario_tiene_Pago (
   Pago_domiciliario_ID INTEGER UNSIGNED NOT NULL,
   Usuario_ID INTEGER UNSIGNED NOT NULL,
-  PRIMARY KEY(Pago_domiciliario_ID, Usuario_ID),
+  PRIMARY KEY(Pago_domiciliario_ID),
   INDEX Pago_domiciliario_has_Usuario_FKIndex1(Pago_domiciliario_ID),
   INDEX Pago_domiciliario_has_Usuario_FKIndex2(Usuario_ID),
   FOREIGN KEY(Pago_domiciliario_ID)
@@ -229,7 +229,7 @@ CREATE TABLE Inventario_tiene_Categoria (
 CREATE TABLE Financiero_hace_pago (
   Usuario_ID INTEGER UNSIGNED NOT NULL,
   Pago_domiciliario_ID INTEGER UNSIGNED NOT NULL,
-  PRIMARY KEY(Usuario_ID, Pago_domiciliario_ID),
+  PRIMARY KEY(Pago_domiciliario_ID),
   INDEX Usuario_has_Pago_domiciliario_FKIndex1(Usuario_ID),
   INDEX Usuario_has_Pago_domiciliario_FKIndex2(Pago_domiciliario_ID),
   FOREIGN KEY(Usuario_ID)
