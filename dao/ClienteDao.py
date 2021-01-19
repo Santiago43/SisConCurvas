@@ -49,7 +49,7 @@ class ClienteDao(dao):
 
     def actualizarCliente(self,cliente):
         """
-        Método que permite actualizar un cliente (su nombre)
+        Método que permite actualizar un cliente
         Parámetros:
         - cliente : que es el cliente que se actualizará
         """
