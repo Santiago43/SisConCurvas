@@ -10,7 +10,7 @@ from ControladorOrigen import consultarOrigenes
 from ControladorDespacho import crearDespacho, consultarDespachos
 from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
 from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaque, eliminarEmpaque
-
+from ControladorPagoDomiciliario import crearPago, consultarPagos, actualizarPago, eliminarPago
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -282,6 +282,51 @@ def single_empaque(empaque_ID):
     elif request.method=="DELETE":
         response_object=eliminarEmpaque(response_object,empaque_ID)
     return jsonify(response_object)
+
+
+@app.route("/pagoDomiciliario",methods=['POST','GET'])
+def pagoDomiciliario():
+    """
+    Ruta de pagos de domiciliario
+    """
+    headers=request.headers
+    token=headers.get('token')
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        (valor,editor)=validarUsuario("Pagodomiciliario.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearPago(data,response_object,editor)
+        else:
+            response_object=noAutorizado(response_object)
+    else:
+        (valor,editor)=validarUsuario("Pagodomiciliario.consultar",token)
+        if valor:
+            response_object=consultarPagos(response_object)
+        else:
+            response_object=noAutorizado(response_object)
+
+@app.route("/pagoDomiciliario/<pago_domiciliario_ID>",methods=['PUT','DELETE'])
+def single_pagoDomiciliario(pago_domiciliario_ID):
+    """
+    Ruta de pagos de domiciliario
+    """
+    headers=request.headers
+    token=headers.get('token')
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        (valor,editor)=validarUsuario("Pagodomiciliario.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=actualizarPago(data,response_object,editor,pago_domiciliario_ID)
+        else:
+            response_object=noAutorizado(response_object)  
+    else:
+        (valor,editor)=validarUsuario("Pagodomiciliario.eliminar",token)
+        if valor:
+            response_object=consultarPagos(response_object)
+        else:
+            response_object=noAutorizado(response_object)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
