@@ -117,10 +117,11 @@ class PagoDomiciliario:
     - Id del domiciliario 
     - Id del financiero
     """
-    def __init__(self,pagoDomiciliario_ID,estado,monto,domiciliario_ID,financiero_ID):
+    def __init__(self,pagoDomiciliario_ID,estado,monto,fecha,domiciliario_ID,financiero_ID):
         self.pagoDomiciliario_ID=pagoDomiciliario_ID
         self.estado=estado
         self.monto=monto
+        self.fecha=fecha
         self.domiciliario_ID=domiciliario_ID
         self.financiero_ID=financiero_ID
 class Empaque:
@@ -188,6 +189,7 @@ class Distribucion:
 class Motivo:
     """
     Clase motivo
+
     Parámetros:
     - Id del motivo
     - tipo del motivo
@@ -260,6 +262,7 @@ class Inventario:
 class Control_inventario:
     """
     Clase Control_inventario
+
     Parámetros:
     - Id del Control_inventario
     - Id del usuario
@@ -292,7 +295,8 @@ class Rol:
         self.permisos=permisos
 class Control_rol:
     """
-    Clase Control_rol:
+    Clase Control_rol.
+
     Parámetros:
     - Id de Control_rol:
     - Id del rol 
@@ -361,6 +365,7 @@ class OrdenVenta:
 class Control_venta:
     """
     Clase Control_venta
+
     Parámetros:
     - Id del Control_venta
     - Id del usuario 
