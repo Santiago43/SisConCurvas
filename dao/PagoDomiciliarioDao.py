@@ -48,18 +48,19 @@ class PagoDomiciliarioDao(dao):
     def actualizarPago(self,pago):
         """
         Método que permite actualizar un pago
+
         Parámetros:
         - pago : que es el pago que se actualizará
         """
         try:
-            sql = '''update Pago_domiciliario as pd set
+            sql = '''update Pago_domiciliario as pd, Financiero_hace_pago as fp set
             pd.Estado=%s,
             pd.Monto=%s,
-            pd.fecha_pago=cast(sysdate() as date)
+            fp.Usuario_ID=%s
             where pd.Pago_domiciliario_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(pago.estado,pago.monto,pago.pagoDomiciliario_ID)
+            args=(pago.estado,pago.monto,pago.financiero_ID,pago.pagoDomiciliario_ID)
             cursor.execute(sql,args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
@@ -74,14 +75,10 @@ class PagoDomiciliarioDao(dao):
         - pago : que es el pago que se actualizará
         """
         try:
-            sql = '''update Pago_domiciliario as pd set
-            pd.Estado=%s,
-            pd.Monto=%s,
-            pd.fecha_pago=cast(sysdate() as date)
-            where pd.Pago_domiciliario_ID=%s;'''
+            sql = 'delete from Pago_domiciliario where Pago_domiciliario_ID=%s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(pago.estado,pago.monto,pago.pagoDomiciliario_ID)
+            args=(pago.pagoDomiciliario_ID)
             cursor.execute(sql,args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
