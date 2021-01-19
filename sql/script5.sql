@@ -163,8 +163,8 @@ CREATE TABLE Domiciliario_tiene_Pago (
   INDEX Pago_domiciliario_has_Usuario_FKIndex2(Usuario_ID),
   FOREIGN KEY(Pago_domiciliario_ID)
     REFERENCES Pago_domiciliario(Pago_domiciliario_ID)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+      ON DELETE cascade
+      ON UPDATE cascade,
   FOREIGN KEY(Usuario_ID)
     REFERENCES Usuario(Usuario_ID)
       ON DELETE NO ACTION
@@ -238,8 +238,8 @@ CREATE TABLE Financiero_hace_pago (
       ON UPDATE NO ACTION,
   FOREIGN KEY(Pago_domiciliario_ID)
     REFERENCES Pago_domiciliario(Pago_domiciliario_ID)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+      ON DELETE cascade
+      ON UPDATE cascade
 );
 
 CREATE TABLE Orden_venta (

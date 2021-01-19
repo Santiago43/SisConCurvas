@@ -64,8 +64,8 @@ where Orden_venta_ID=1;
 
 
 /*Actualizar un pago*/
-update Pago_domiciliario as pd set
+update Pago_domiciliario as pd, Financiero_hace_pago as fp set
 pd.Estado=true,
 pd.Monto=6000,
-pd.fecha_pago=cast(sysdate() as date)
+fp.Usuario_ID=1
 where pd.Pago_domiciliario_ID=1;
