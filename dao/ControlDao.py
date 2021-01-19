@@ -14,10 +14,11 @@ class ControlDao(dao):
         - controlRol : que es el control que se registrará 
         """
         try:
-            sql= 'insert into Control_Rol(Rol_ID,Usuario_ID,Fecha_modificacion,Tipo,Detalle) values (%s,%s,sysdate(),%s);'
+            sql= 'insert into Control_Rol(Rol_ID,Usuario_ID,Fecha_modificacion,Tipo,Detalle) values (%s,%s,sysdate(),%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(controlRol.rol_ID,controlRol.usuario_ID,controlRol.tipo,controlRol.detalle))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -34,6 +35,7 @@ class ControlDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(controlVenta.usuario_ID,controlVenta.orden_venta_ID,controlVenta.cambio))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -50,6 +52,7 @@ class ControlDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(controlInventario.usuario_ID,controlInventario.referenciaProducto,controlInventario.fecha,controlInventario.inventario_inicial,controlInventario.detalle,controlInventario.numero_prendas,controlInventario.tipo))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
