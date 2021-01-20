@@ -2,14 +2,16 @@ from dao.DireccionDao import DireccionDao
 from dao.OrdenVentaDao import OrdenDao
 from dao.UsuariosDao import UsuariosDao
 from dao.EmpaqueDao import EmpaqueDao
-from dao.models import Empaque
+from dao.models import Empaque, Control_venta
+from dao.ControlDao import ControlDao
 
-def crearEmpaque(data,response_object):
+def crearEmpaque(data,response_object,editor):
     """
     Función que permite crear un empaque
     Parámetros
     - data: que son los datos que vienen de la vista
     - response_object: que es una referencia a la respuesta del servidor
+    - editor: Usuario que realiza la acción
 
     Retorna el response_object modificado
     """
@@ -23,6 +25,10 @@ def crearEmpaque(data,response_object):
     empaque = Empaque(None,ordenVenta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones)
     if dao.crearEmpaque(empaque):
         response_object['mensaje']='empaque creado'
+        texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el empaque de la orden '"+ordenVenta_ID+"'"
+        control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
+        controlDao=ControlDao()
+        controlDao.crearControlRol(control)
     else:
         response_object['tipo']='error'
         response_object['mensaje']='Error al crear empaque'
