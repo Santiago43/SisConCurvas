@@ -230,7 +230,7 @@ def single_producto(referencia):
     return jsonify(response_object)
 
 @app.route("/producto/stock/<referencia>",methods=['PUT'])
-def addStock(referencia):
+def modifyStock(referencia):
     headers=request.headers
     token=headers.get('token')
     response_object = {'tipo': 'OK'}
