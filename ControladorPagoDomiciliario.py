@@ -1,3 +1,4 @@
+import time
 from dao.PagoDomiciliarioDao import PagoDomiciliarioDao,PagoDomiciliario
 from dao.UsuariosDao import UsuariosDao
 from dao.RolesDao import RolesDao
@@ -19,18 +20,22 @@ def crearPago(data,response_object,usuario):
     dao=PagoDomiciliarioDao()
     pagoDomiciliario=PagoDomiciliario(None,estado,monto,None,domiciliario_ID,usuario.usuario_ID)
     usuarioDao=UsuariosDao()
-    usuarioAPagar=usuarioDao.consultarUsuario(domiciliario_ID)
-    rolDao=RolesDao()
-    rol=rolDao.consultarRol(usuarioAPagar.rol_ID)
-    if(rol.nombre=="Domiciliario"):
-        if(dao.crearPago(pagoDomiciliario)):
-            response_object['mensaje']="pago creado"
+    usuarioAPagar=usuarioDao.consultarUsuarioPorID(domiciliario_ID)
+    if usuarioAPagar is not None:
+        rolDao=RolesDao()
+        rol=rolDao.consultarRol(usuarioAPagar.rol_ID)
+        if(rol.nombre=="Domiciliario"):
+            if(dao.crearPago(pagoDomiciliario)):
+                response_object['mensaje']="pago creado"
+            else:
+                response_object['tipo']="error"
+                response_object['mensaje']="Error al crear el pago del domiciliario"
         else:
             response_object['tipo']="error"
-            response_object['mensaje']="Error al crear el pago del domiciliario"
+            response_object['mensaje']="Ese usuario no es un domiciliario"
     else:
         response_object['tipo']="error"
-        response_object['mensaje']="No existe ese domiciliario"
+        response_object['mensaje']="No existe ese usuario"
     return response_object
 def consultarPagos(response_object):
     """
@@ -45,7 +50,9 @@ def consultarPagos(response_object):
     pagos=dao.consultarPagos()
     pagosDict=list()
     for pago in pagos:
+        pago.fecha=pago.fecha.strftime('%Y-%m-%d')
         pagosDict.append(pago.__dict__)
+
     response_object['pagos']=pagosDict
     return response_object
 
