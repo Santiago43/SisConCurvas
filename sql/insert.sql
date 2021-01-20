@@ -31,7 +31,6 @@ insert into Permiso (Nombre) values ("Rol.ver");
 insert into Permiso (Nombre) values ("Rol.editar");
 insert into Permiso (Nombre) values ("Rol.eliminar");
 
-<<<<<<< HEAD
 
 insert into Permiso (Nombre) values ("Pagodomiciliario.crear");
 insert into Permiso (Nombre) values ("Pagodomiciliario.ver");
@@ -43,9 +42,7 @@ insert into Permiso (Nombre) values ("Inventario.ver");
 insert into Permiso (Nombre) values ("Inventario.editar");
 insert into Permiso (Nombre) values ("Inventario.eliminar");
 
-=======
 insert into Permiso (Nombre) values ("PermisoRol.modificar");
->>>>>>> guti
 /*Agregar permisos a roles*/
 
 insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID)
@@ -64,7 +61,6 @@ values (
 insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
 values (
 (select Rol_ID from Rol where Nombre="Administrador"),
-<<<<<<< HEAD
 (select Permiso_ID from Permiso where Nombre="Pagodomiciliario.crear"));
 insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
 values (
@@ -102,9 +98,7 @@ values (
 (select Permiso_ID from Permiso where Nombre="Inventario.eliminar"));
 
 
-=======
 (select Permiso_ID from Permiso where Nombre="PermisoRol.modificar"));
->>>>>>> guti
 
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321");
