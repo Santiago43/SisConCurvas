@@ -1,12 +1,15 @@
 from dao.DespachoDao import DespachoDao
 from dao.OrdenVentaDao import OrdenDao
-from dao.models import Despacho
-def crearDespacho(data,response_object):
+from dao.models import Despacho, Control_venta
+from dao.ControlDao import ControlDao
+
+def crearDespacho(data,response_object,editor):
     """
     Función que permite crear despachos
     Parámetros
     - data: que son los datos que vienen de la vista
     - response_object: que es una referencia a la respuesta del servidor
+    - editor: Usuario que realiza la acción
 
     Retorna el response_object modificado
     """
@@ -22,6 +25,10 @@ def crearDespacho(data,response_object):
     if ordenDao.consultarOrden(ordenVenta_ID) is not None:
         if dao.crearDespacho(despacho):
             response_object['mensaje']="Despacho creado"
+            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el despacho de la orden '"+ordenVenta_ID+"'"
+            control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
+            controlDao=ControlDao()
+            controlDao.crearControlRol(control)
         else:
             response_object['tipo']="Error"
             response_object['mensaje']="Error al crear el despacho"
