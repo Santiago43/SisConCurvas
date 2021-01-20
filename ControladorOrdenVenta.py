@@ -1,17 +1,19 @@
 from datetime import datetime
 
 from dao.DireccionDao import DireccionDao
-from dao.models import Usuario,OrdenVenta
+from dao.models import Usuario,OrdenVenta,Control_venta
 from dao.OrdenVentaDao import OrdenDao
 from dao.RolesDao import RolesDao
 from dao.UsuariosDao import UsuariosDao
+from dao.ControlDao import ControlDao
 
-def crearOrden(data,response_object):
+def crearOrden(data,response_object,editor):
     """
     Función que permite crear órdenes
     Parámetros
     - data: que son los datos que vienen de la vista
     - response_object: que es una referencia a la respuesta del servidor
+    - editor: Usuario que realiza la acción
 
     Retorna el response_object modificado
     """
@@ -29,8 +31,13 @@ def crearOrden(data,response_object):
     descuento=data.get('descuento')
     ordenVenta=OrdenVenta(None,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,None,nota,fecha_entrega,tipo_venta,descuento,list(),None)
     dao=OrdenDao()
-    if dao.crearOrden(ordenVenta):
+    idorden = dao.crearOrden(ordenVenta)
+    if idorden is not None:
         response_object['mensaje']="Orden creada"
+        texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" creó la orden '"+idorden+"'"
+        control=Control_venta(None,editor.usuario_ID,idorden,None,texto)
+        controlDao=ControlDao()
+        controlDao.crearControlRol(control)
     else:
         response_object['tipo']="Error"
         response_object['mensaje']="Error al crear la orden"
@@ -76,7 +83,7 @@ def consultarOrdenes(response_object):
     response_object['ordenes']=ordenesDict
     return response_object
 
-def actualizarOrden(data,response_object,ordenVenta_ID):
+def actualizarOrden(data,response_object,ordenVenta_ID,editor):
     """
     Función que permite actualizar una orden a partir de su ID. 
  
@@ -85,6 +92,7 @@ def actualizarOrden(data,response_object,ordenVenta_ID):
     - data: que son los datos que vienen de la vista
     - response_object: que es una referencia a la respuesta del servidor
     - ordenVenta_ID: que es el ID de la orden
+    - editor: Usuario que realiza la acción
 
     Retorna el response_object modificado
     """
@@ -138,6 +146,10 @@ def actualizarOrden(data,response_object,ordenVenta_ID):
             orden.precio = precio
         if dao.actualizarOrden(orden):
             response_object['mensaje']="Orden de venta actualizada"
+            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" modificó la orden '"+ordenVenta_ID+"'"
+            control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
+            controlDao=ControlDao()
+            controlDao.crearControlRol(control)
         else:
             response_object['tipo']="error"
             response_object['mensaje']="Error al actualizar la orden de venta"
@@ -146,7 +158,7 @@ def actualizarOrden(data,response_object,ordenVenta_ID):
         response_object['mensaje']="No existe una orden de venta con ese ID"
     return response_object
 
-def eliminarOrden(response_object, ordenVenta_ID):
+def eliminarOrden(response_object, ordenVenta_ID,editor):
     """
     Función que permite eliminar los datos de un empaque a partir de su ID.
     Primero realiza la consulta del empaque para posteriormente eliminarlo.
@@ -163,6 +175,10 @@ def eliminarOrden(response_object, ordenVenta_ID):
     if orden is not None:
         if dao.eliminarOrden(orden):
             response_object['mensaje']="Orden de venta eliminada"
+            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" eliminó la orden '"+ordenVenta_ID+"'"
+            control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
+            controlDao=ControlDao()
+            controlDao.crearControlRol(control)
         else:
             response_object['tipo']="error"
             response_object['mensaje']="Error al eliminar la orden de venta"
