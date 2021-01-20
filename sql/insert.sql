@@ -23,6 +23,7 @@ insert into Permiso (Nombre) values ("Despacho.editar");
 insert into Permiso (Nombre) values ("Despacho.eliminar");
 
 insert into Permiso (Nombre) values ("Distribucion.crear");
+insert into Permiso (Nombre) values ("Distribucion.ver");
 insert into Permiso (Nombre) values ("Distribucion.editar");
 insert into Permiso (Nombre) values ("Distribucion.eliminar");
 
@@ -97,9 +98,25 @@ values (
 (select Rol_ID from Rol where Nombre="Administrador"),
 (select Permiso_ID from Permiso where Nombre="Inventario.eliminar"));
 
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Distribucion.ver"));
 
-(select Permiso_ID from Permiso where Nombre="PermisoRol.modificar"));
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Distribucion.crear"));
 
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Distribucion.editar"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Distribucion.eliminar"));
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321");
 call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#");
@@ -110,6 +127,7 @@ insert into Motivo (Tipo, Motivo) values ("Venta","Cambio");
 
 insert into Motivo (Tipo, Motivo) values ("No empaque","Falta de existencias en inventarios");
 
+insert into Motivo (Tipo,Motivo) values ("No distribución", "Dirección errónea");
 
 /*Insertar cliente*/
 call insertarCliente("Juan","Sebastián","Bueno","Ramírez","3257550036","juan@example.com",true);
@@ -125,6 +143,8 @@ insert into Categoria(Nombre,Padre_categoria_ID) values ("Gala",null);
 
 insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
 values("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000);
+
+insert into Inventario_tiene_Categoria (Inventario_Referencia_Producto_ID,Categoria_ID) values ("abdcdf",1);
 /*Insertar Departamento*/
 insert into Departamento (Departamento) values ("Bogotá D.C.");
 insert into Departamento (Departamento) values ("Cundinamarca");
@@ -187,3 +207,12 @@ insert into Ruta (Nombre) values ("Norte");
 insert into Despacho(Usuario_ID,Orden_venta_ID,Ruta_ID,Estado,Fecha_despacho,Motivo_ID,Id_envia) values (1,1,1,1,'12/01/20',1,1);
 /*Insertar pago a domiciliario*/
 call insertarPagoDomiciliario(6000,1,1,true);
+
+
+/*Insertar Distribución*/
+
+insert into Distribucion(Usuario_ID,Despacho_ID,Estado,Motivo_ID,Venta_neta,Costo_distribucion)
+values(1,1,false,null,50000,3000);
+/*Agregar prendas devueltas a la distribución*/
+insert into Distribucion_tiene_prendas_Devueltas(Distribucion_ID,Inventario_Referencia_Producto_ID,cantidad)
+values (1,"abdcdf",1);
