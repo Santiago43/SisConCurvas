@@ -125,3 +125,15 @@ inner join Financiero_hace_pago as fp on pd.Pago_domiciliario_ID=fp.Pago_domicil
 where pd.Pago_domiciliario_ID=2;
 
 select * from Pago_domiciliario;
+
+select p.*,dp.cantidad from Inventario as p
+inner join Distribucion_tiene_prendas_Devueltas as dp on dp.Inventario_Referencia_Producto_ID=p.Referencia_Producto_ID
+inner join Distribucion as d on d.Distribucion_ID=dp.Distribucion_ID
+where d.Distribucion_ID=1;
+
+select c.* from Categoria as c
+inner join Inventario_tiene_Categoria as ic on ic.Categoria_ID=c.Categoria_ID
+where ic.Inventario_Referencia_Producto_ID="abdcdf";
+
+select * from Despacho;
+select * from Distribucion where Distribucion_ID=1;
