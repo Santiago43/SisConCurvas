@@ -22,24 +22,6 @@ values(_Primer_nombre,_Segundo_nombre,_Primer_apellido,_Segundo_apellido,_Telefo
 insert into Usuario (Rol_ID, Persona_ID,Contraseña,Url_imagen,Tipo_documento,Documento,estado,token) values (_Rol_ID, (select Persona_ID from Persona order by Persona_ID desc limit 1),sha(_Contraseña),_Url_imagen,_Tipo_documento,_Documento,true,token);
 end $$
 
-drop procedure insertarProducto;
-/*Insertar Producto*/
-delimiter $$
-create procedure insertarProducto (
-in _Referencia_Producto_ID varchar (30),
-in _Descripcion varchar(50),
-in _Url_imagen varchar(200),
-in _Stock int,
-in _Precio_costo double,
-in _Precio_venta double,
-in _Categoria_ID int
-)
-begin
-insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
-values(_Referencia_Producto_ID,_Descripcion,_Url_imagen,_Stock,_Precio_costo,_Precio_venta);
-insert into Inventario_tiene_Categoria values (_Referencia_Producto_ID,_Categoria_ID);
-end $$
-
 #Crear cliente
 delimiter $$
 
@@ -70,7 +52,7 @@ in _estado boolean
 begin
 insert into Pago_domiciliario (Estado,monto,fecha_pago)
 values(_estado,_monto,(cast(sysdate() as date)));
-insert into Domiciliario_tiene_pago(Pago_domiciliario_ID, Usuario_ID) values ((select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1),_Domiciliario_ID);
+insert into Domiciliario_tiene_Pago(Pago_domiciliario_ID, Usuario_ID) values ((select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1),_Domiciliario_ID);
 insert into Financiero_hace_pago(Usuario_ID,Pago_domiciliario_ID) values(_Financiero_ID,(select Pago_domiciliario_ID from Pago_domiciliario order by Pago_domiciliario_ID desc limit 1));
 
 end $$
