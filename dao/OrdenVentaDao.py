@@ -30,8 +30,11 @@ class OrdenDao(dao):
                 values (%s,%s,%s);  '''
                 cursor.execute(sql2,(orden.orden_ID,productoEnOrden.producto.referenciaProducto,productoEnOrden.cantidad))
             cnx.commit()
+            sql3 = 'select Orden_venta_ID from Orden_venta order by Orden_venta_ID desc limit 1;'
+            cursor.execute(sql3)
+            ordenID = cursor.fetchone()
             super().cerrarConexion(cursor,cnx)
-            return True
+            return ordenID
         except Exception as e:
             super().cerrarConexion(cursor,cnx)
             raise e
