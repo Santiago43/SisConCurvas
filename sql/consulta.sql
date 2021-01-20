@@ -69,6 +69,12 @@ inner join Persona as p on p.Persona_ID=u.Persona_ID
 inner join Rol as r on u.Rol_ID=r.Rol_ID
 where r.Rol_ID = (select Rol_ID from Rol where Nombre="Vendedor");
 
+/**/
+select p.*,u.* from Usuario as u
+inner join Persona as p on p.Persona_ID=u.Persona_ID
+inner join Rol as r on u.Rol_ID=r.Rol_ID
+where r.Rol_ID = (select Rol_ID from Rol where Nombre="Domiciliario");
+
 /*Consultar usuario mediante correo y contraseña*/
 select p.*,u.* from Usuario as u
 inner join Persona as p on p.Persona_ID=u.Persona_ID
@@ -116,6 +122,6 @@ select * from Control_venta;
 select pd.*,dp.Usuario_ID as Domiciliario_ID,fp.Usuario_ID as Financiero_ID from Pago_domiciliario as pd
 inner join Domiciliario_tiene_Pago as dp on dp.Pago_domiciliario_ID=pd.Pago_domiciliario_ID
 inner join Financiero_hace_pago as fp on pd.Pago_domiciliario_ID=fp.Pago_domiciliario_ID
-where pd.Pago_domiciliario_ID=1;
+where pd.Pago_domiciliario_ID=2;
 
 select * from Pago_domiciliario;

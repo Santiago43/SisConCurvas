@@ -31,6 +31,5 @@ delete from Orden_venta_tiene_producto
 where (Orden_venta_ID,Inventario_Referencia_Producto_ID)=(1,"abdcfe");
 
 /*Eliminar pago*/
-delete from Pago_domiciliario where Pago_domiciliario_ID=4;
-delete from Domiciliario_tiene_pago;
-delete from Financiero_hace_pago;
+delete from Pago_domiciliario where Pago_domiciliario_ID=2;
+

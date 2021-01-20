@@ -18,6 +18,18 @@ insert into Permiso (Nombre) values ("Rol.crear");
 insert into Permiso (Nombre) values ("Rol.ver");
 insert into Permiso (Nombre) values ("Rol.editar");
 insert into Permiso (Nombre) values ("Rol.eliminar");
+
+
+insert into Permiso (Nombre) values ("Pagodomiciliario.crear");
+insert into Permiso (Nombre) values ("Pagodomiciliario.ver");
+insert into Permiso (Nombre) values ("Pagodomiciliario.editar");
+insert into Permiso (Nombre) values ("Pagodomiciliario.eliminar");
+
+insert into Permiso (Nombre) values ("Inventario.crear");
+insert into Permiso (Nombre) values ("Inventario.ver");
+insert into Permiso (Nombre) values ("Inventario.editar");
+insert into Permiso (Nombre) values ("Inventario.eliminar");
+
 /*Agregar permisos a roles*/
 
 insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID)
@@ -33,10 +45,51 @@ values (
 (select Rol_ID from Rol where Nombre="Administrador"),
 (select Permiso_ID from Permiso where Nombre="Rol.editar"));
 
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Pagodomiciliario.crear"));
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Pagodomiciliario.ver"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Pagodomiciliario.editar"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Pagodomiciliario.eliminar"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Inventario.crear"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Inventario.ver"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Inventario.editar"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Inventario.eliminar"));
+
+
+
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321");
 call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#");
-
+call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678902","3257550030","jorge2@example.com",(select Rol_ID from Rol where Nombre="Domiciliario"),"1234","profile2.jpg",".$%&/()=)(/&%$#");
 /*Insertar motivos en órdenes de venta*/
 insert into Motivo (Tipo, Motivo) values ("Venta","Venta");
 insert into Motivo (Tipo, Motivo) values ("Venta","Cambio");
@@ -57,6 +110,8 @@ insert into Categoria(Nombre,Padre_categoria_ID) values ("Gala",null);
 /*Insertar producto a inventario*/
 call insertarProducto("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,1);
 
+insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
+values("sadd","Camiseta Polo","img/src.jpg",2,20000,35000);
 /*Insertar Departamento*/
 insert into Departamento (Departamento) values ("Bogotá D.C.");
 insert into Departamento (Departamento) values ("Cundinamarca");

@@ -22,7 +22,7 @@ CREATE TABLE Pago_domiciliario (
 
 CREATE TABLE Permiso (
   Permiso_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(20) NULL,
+  Nombre VARCHAR(50) NULL,
   PRIMARY KEY(Permiso_ID)
 );
 
