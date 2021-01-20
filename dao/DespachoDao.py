@@ -35,7 +35,9 @@ class DespachoDao(dao):
             cursor=cnx.cursor()
             cursor.execute(sql,(id,))
             result = cursor.fetchone()
-            despacho = Despacho(result[0],result[1],result[2],result[3],result[4],result[5],result[7],result[7])
+            despacho=None
+            if result is not None:
+                despacho = Despacho(result[0],result[1],result[2],result[3],result[4],result[5],result[7],result[7])
             return despacho
         except Exception as e:
             raise e
