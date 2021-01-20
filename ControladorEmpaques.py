@@ -28,7 +28,7 @@ def crearEmpaque(data,response_object,editor):
         texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el empaque de la orden '"+ordenVenta_ID+"'"
         control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
         controlDao=ControlDao()
-        controlDao.crearControlRol(control)
+        controlDao.crearControlVenta(control)
     else:
         response_object['tipo']='error'
         response_object['mensaje']='Error al crear empaque'
@@ -52,7 +52,7 @@ def consultarEmpaques(response_object):
     response_object['empaques']=empaquesDict
     return response_object
 
-def actualizarEmpaque(data,response_object,empaque_ID):
+def actualizarEmpaque(data,response_object,empaque_ID,editor):
     """
     Función que permite editar un empaque a partir de su ID. 
  
@@ -86,7 +86,11 @@ def actualizarEmpaque(data,response_object,empaque_ID):
         if motivo_ID is not None:
             empaque.motivo_ID = motivo_ID
         if dao.actualizarEmpaque(empaque):
-            response_object['mensaje']="Empaque actualizada"
+            response_object['mensaje']="Empaque actualizado"
+            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el actualizó el empaque de la orden '"+ordenVenta_ID+"'"
+            control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
+            controlDao=ControlDao()
+            controlDao.crearControlVenta(control)
         else:
             response_object['tipo']="error"
             response_object['mensaje']="Error al actualizar Empaque"
