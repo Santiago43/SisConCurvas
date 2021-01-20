@@ -108,10 +108,9 @@ insert into Categoria(Nombre,Padre_categoria_ID) values ("Gala",null);
 
 
 /*Insertar producto a inventario*/
-call insertarProducto("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,1);
 
 insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
-values("sadd","Camiseta Polo","img/src.jpg",2,20000,35000);
+values("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000);
 /*Insertar Departamento*/
 insert into Departamento (Departamento) values ("Bogotá D.C.");
 insert into Departamento (Departamento) values ("Cundinamarca");
