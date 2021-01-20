@@ -5,7 +5,7 @@ from ControladorOrdenVenta import consultarOrdenes, crearOrden, actualizarOrden,
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
-from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto
+from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto,agregarStock,retirarStock
 from ControladorOrigen import consultarOrigenes
 from ControladorDespacho import crearDespacho, consultarDespachos
 from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
@@ -191,22 +191,59 @@ def single_cliente(telefono):
 
 @app.route("/producto",methods=['POST','GET'])
 def producto():
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        data=request.get_json()
-        response_object=crearProducto(data,response_object)
+        (valor,editor)=validarUsuario("Inventario.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearProducto(data,response_object,editor)
+        else:
+            response_object=noAutorizado(response_object)
     else:
-        response_object=consultarProductos(response_object)
+        (valor,editor)=validarUsuario("Inventario.ver",token)
+        if valor:
+            response_object=consultarProductos(response_object)
+        else:
+            response_object=noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/producto/<referencia>",methods=['PUT','DELETE'])
 def single_producto(referencia):
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
-        data=request.get_json()
-        response_object=actualizarProducto(data,response_object,referencia)
+        (valor,editor)=validarUsuario("Inventario.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=actualizarProducto(data,response_object,referencia,editor)
+        else:
+            response_object=noAutorizado(response_object)
     elif request.method=="DELETE":
-        response_object=eliminarProducto(response_object,referencia)
+        (valor,editor)=validarUsuario("Inventario.eliminar",token)
+        if valor:
+            response_object=eliminarProducto(response_object,referencia)
+        else:
+            response_object=noAutorizado(response_object)
+    return jsonify(response_object)
+
+@app.route("/producto/stock/<referencia>",methods=['PUT'])
+def addStock(referencia):
+    headers=request.headers
+    token=headers.get('token')
+    response_object = {'tipo': 'OK'}
+    (valor,editor)=validarUsuario("Inventario.editar",token)
+    if valor:
+        data=request.get_json()
+        estado=data.get('estado')
+        if estado:
+            response_object=agregarStock(data,response_object,referencia,editor)
+        else:
+            response_object=retirarStock(data,response_object,referencia,editor)
+    else:
+        response_object=noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/categoria",methods=['POST','GET'])
@@ -300,8 +337,8 @@ def pagoDomiciliario():
         else:
             response_object=noAutorizado(response_object)
     else:
-        (valor,editor)=validarUsuario("Pagodomiciliario.consultar",token)
-        if valor:
+        (valor,editor)=validarUsuario("Pagodomiciliario.ver",token)
+        if valor is True:
             response_object=consultarPagos(response_object)
         else:
             response_object=noAutorizado(response_object)
@@ -325,7 +362,7 @@ def single_pagoDomiciliario(pago_domiciliario_ID):
     else:
         (valor,editor)=validarUsuario("Pagodomiciliario.eliminar",token)
         if valor:
-            response_object=consultarPagos(response_object)
+            response_object=eliminarPago(response_object,pago_domiciliario_ID)
         else:
             response_object=noAutorizado(response_object)
     return jsonify(response_object)
