@@ -51,7 +51,7 @@ class ControlDao(dao):
             sql= 'insert into Control_Inventario(Usuario_ID,Inventario_Referencia_Producto_ID,Fecha,Inventario_inicial,Detalle,Numero_prendas,Tipo) values (%s,%s,sysdate(),%s,%s,%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(controlInventario.usuario_ID,controlInventario.referenciaProducto,controlInventario.fecha,controlInventario.inventario_inicial,controlInventario.detalle,controlInventario.numero_prendas,controlInventario.tipo))
+            cursor.execute(sql,(controlInventario.usuario_ID,controlInventario.referenciaProducto,controlInventario.inventario_inicial,controlInventario.detalle,controlInventario.numero_prendas,controlInventario.tipo))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
