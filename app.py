@@ -11,6 +11,7 @@ from ControladorDespacho import crearDespacho, consultarDespachos
 from ControladorCategorias import crearCategoria, consultarCategorias, actualizarcategoria, eliminarcategoria
 from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaque, eliminarEmpaque
 from ControladorPagoDomiciliario import crearPago, consultarPagos, actualizarPago, eliminarPago
+from ControladorDistribucion import crearDistribucion,consultarDistribuciones,actualizarDistribucion, eliminarDistribucion
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -416,6 +417,52 @@ def single_pagoDomiciliario(pago_domiciliario_ID):
         (valor,editor)=validarUsuario("Pagodomiciliario.eliminar",token)
         if valor:
             response_object=eliminarPago(response_object,pago_domiciliario_ID)
+        else:
+            response_object=noAutorizado(response_object)
+    return jsonify(response_object)
+
+@app.route("/distribucion",methods=['POST','GET'])
+def distribucion():
+    """
+    Ruta de distribución
+    """
+    headers=request.headers
+    token=headers.get('token')
+    response_object = {'tipo': 'OK'}
+    if request.method=="POST":
+        (valor,editor)=validarUsuario("Distribucion.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearDistribucion(data,response_object,editor)
+        else:
+            response_object=noAutorizado(response_object)  
+    else:
+        (valor,editor)=validarUsuario("Distribucion.ver",token)
+        if valor:
+            response_object=consultarDistribuciones(response_object)
+        else:
+            response_object=noAutorizado(response_object)
+    return jsonify(response_object)
+
+@app.route("/distribucion/<distribucion_ID>",methods=['PUT','DELETE'])
+def single_distribucion(distribucion_ID):
+    """
+    Ruta de distribución
+    """
+    headers=request.headers
+    token=headers.get('token')
+    response_object = {'tipo': 'OK'}
+    if request.method=="PUT":
+        (valor,editor)=validarUsuario("Distribucion.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=actualizarDistribucion(data,response_object,distribucion_ID,editor)
+        else:
+            response_object=noAutorizado(response_object)  
+    else:
+        (valor,editor)=validarUsuario("Distribucion.eliminar",token)
+        if valor:
+            response_object=eliminarDistribucion(response_object,distribucion_ID,editor)
         else:
             response_object=noAutorizado(response_object)
     return jsonify(response_object)
