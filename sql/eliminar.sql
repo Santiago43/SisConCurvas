@@ -33,3 +33,7 @@ where (Orden_venta_ID,Inventario_Referencia_Producto_ID)=(1,"abdcfe");
 /*Eliminar pago*/
 delete from Pago_domiciliario where Pago_domiciliario_ID=2;
 
+
+delete from Distribucion where Distribucion_ID=1;
+
+delete from Distribucion_tiene_prendas_Devueltas where (Distribucion_ID,Inventario_Referencia_producto_ID)=(2,"abdcdf");
