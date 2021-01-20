@@ -251,4 +251,26 @@ class UsuariosDao(dao):
         except Exception as e:
             super().cerrarConexion(cnx,cursor)
             raise e
-            
+    def consultarUsuarioPorID(self,id):
+        """
+        Método que permite consultar un usuario mediante su documento
+        Parámetros:
+        - documento : que es el documento del usuario 
+        """
+        try:
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token
+            from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.usuario_ID='''+str(id)+''';'''
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            usuario=None
+            if result is not None:
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14])
+                sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID='+str(usuario.usuario_ID)+';'
+                cursor.execute(sql2)
+                for row in cursor:
+                    usuario.permisos.append(Permiso(row[0],row[1]))
+            return usuario
+        except Exception as e:
+            raise e
