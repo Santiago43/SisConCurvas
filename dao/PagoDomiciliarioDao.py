@@ -78,7 +78,7 @@ class PagoDomiciliarioDao(dao):
             sql = 'delete from Pago_domiciliario where Pago_domiciliario_ID=%s;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(pago.pagoDomiciliario_ID)
+            args=(pago.pagoDomiciliario_ID,)
             cursor.execute(sql,args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
