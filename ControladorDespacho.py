@@ -28,7 +28,7 @@ def crearDespacho(data,response_object,editor):
             texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el despacho de la orden '"+ordenVenta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
             controlDao=ControlDao()
-            controlDao.crearControlRol(control)
+            controlDao.crearControlVenta(control)
         else:
             response_object['tipo']="Error"
             response_object['mensaje']="Error al crear el despacho"
@@ -57,9 +57,9 @@ def consultarDespachos(response_object):
     return response_object
 
 
-def actualizarDespacho(data,response_object,despacho_ID):
+def actualizarDespacho(data,response_object,despacho_ID,editor):
     """
-    Función que permite consultar todos los despachos
+    Función que permite actualizar despachos
 
     Parámetros:
 
@@ -69,11 +69,37 @@ def actualizarDespacho(data,response_object,despacho_ID):
     
     Retorna el response_object modificado
     """
-    dao=DespachoDao()
-    despachos=dao.consultarDespachos()
-    despachosDict=list()
-    for despacho in despachos:
-        despachoDict=despacho.__dict__
-        despachosDict.append(despachoDict)
-    response_object['despachos']=despachosDict
+    dao = DespachoDao()
+    despacho = dao.consultarDespacho(despacho_ID)
+    if despacho is not None:
+        ordenVenta_ID=data.get('ordenVenta_ID')
+        if ordenVenta_ID is not None:
+            despacho.ordenVenta_ID=ordenVenta_ID
+        usuario_ID=data.get('usuario_ID')
+        if usuario_ID is not None:
+            despacho.usuario_ID=usuario_ID
+        ruta_ID = data.get('ruta_ID')
+        if ruta_ID is not None:
+            despacho.ruta_ID = ruta_ID
+        estado = data.get('estado')
+        if estado is not None:
+            despacho.estado = estado
+        motivo_ID = data.get('motivo_ID')
+        if motivo_ID is not None:
+            despacho.motivo_ID = motivo_ID
+        id_envia = data.get('id_envia')
+        if id_envia is not None:
+            despacho.id_envia = id_envia
+        if dao.actualizarDespacho(despacho):
+            response_object['mensaje']="despacho actualizado"
+            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" editó el despacho de la orden '"+despacho.ordenVenta_ID+"'"
+            control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
+            controlDao=ControlDao()
+            controlDao.crearControlVenta(control)
+        else:
+            response_object['tipo']="error"
+            response_object['mensaje']="Error al actualizar despacho"
+    else:
+        response_object['tipo']="error"
+        response_object['mensaje']="No existe un despacho con ese ID"
     return response_object
