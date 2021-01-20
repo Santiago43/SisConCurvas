@@ -80,13 +80,23 @@ def permisosRol(rol_ID,permiso_ID):
     """
     Manejo de permisos de roles
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=='POST':
-        response_object=agregarPermisoARol(response_object,rol_ID,permiso_ID)
+        (valor,editor) = validarUsuario("PermisoRol.modificar",token)
+        if valor:
+            response_object=agregarPermisoARol(response_object,rol_ID,permiso_ID, editor)
+        else:
+            response_object = noAutorizado(response_object)
     elif request.method=='GET':
         response_object['ans']="Funciona :D"
     elif request.method=='DELETE':
-        response_object=removerPermisoARol(response_object,rol_ID,permiso_ID)
+        (valor,editor) = validarUsuario("PermisoRol.modificar",token)
+        if valor:
+            response_object=removerPermisoARol(response_object,rol_ID,permiso_ID, editor)
+        else:
+            response_object = noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/usuario", methods=['POST','GET'])
@@ -132,12 +142,22 @@ def ordenVenta():
     """
     Controlador de órdenes de venta
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        data=request.get_json()
-        response_object=crearOrden(data,response_object)  
+        (valor,editor)=validarUsuario("Orden.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearOrden(data,response_object,editor)
+        else:
+            response_object=noAutorizado(response_object)               
     elif request.method=="GET":
-        response_object=consultarOrdenes(response_object)  
+        (valor,editor)=validarUsuario("Orden.ver",token)
+        if valor:
+            response_object=consultarOrdenes(response_object)
+        else:
+            response_object=noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/orden/<ordenVenta_ID>",methods=['PUT','DELETE'])
@@ -145,12 +165,22 @@ def single_orden(ordenVenta_ID):
     """
     Ruta de Ordenes de venta para actualizar y eliminar
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
-        data=request.get_json()
-        response_object=actualizarOrden(data,response_object,ordenVenta_ID)
+        (valor,editor) = validarUsuario("Orden.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=actualizarOrden(data,response_object,ordenVenta_ID,editor)
+        else:
+            response_object=noAutorizado(response_object)
     elif request.method=="DELETE":
-        response_object=eliminarOrden(response_object,ordenVenta_ID)
+        (valor,editor) = validarUsuario("Orden.eliminar",token)
+        if valor:
+            response_object=eliminarOrden(response_object,ordenVenta_ID,editor)
+        else:
+            response_object=noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/login", methods=['POST'])
@@ -268,10 +298,16 @@ def single_categoria(categoria_ID):
 
 @app.route("/empaque",methods=['POST','GET'])
 def empaque():
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        data=request.get_json()
-        response_object=crearEmpaque(data,response_object)  
+        (valor,editor)=validarUsuario("Orden.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearEmpaque(data,response_object, editor)  
+        else:
+            response_object=noAutorizado(response_object)               
     else:
         response_object=consultarEmpaques(response_object)
     return jsonify(response_object)
@@ -290,10 +326,16 @@ def despacho():
     """
     Ruta de despachos
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        data=request.get_json()
-        response_object=crearDespacho(data,response_object)  
+        (valor,editor)=validarUsuario("Despacho.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearDespacho(data,response_object,editor)
+        else:
+            response_object=noAutorizado(response_object)
     else:
         response_object=consultarDespachos(response_object)
     return jsonify(response_object)
@@ -303,18 +345,29 @@ def single_despacho(despacho_ID):
     """
     Ruta de despachos
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
-        data=request.get_json()
-        response_object=crearDespacho(data,response_object)  
+        (valor,editor)=validarUsuario("Despacho.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearDespacho(data,response_object,editor)  
     else:
         response_object=consultarDespachos(response_object)
 
 @app.route("/empaque/<empaque_ID>",methods=['PUT','DELETE'])
 def single_empaque(empaque_ID):
+    """
+    Ruta de empaque para actualizar y eliminar
+    """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
-        data=request.get_json()
+        (valor,editor) = validarUsuario("Orden.editar",token)
+        if valor:
+            data=request.get_json()
         response_object=actualizarEmpaque(data,response_object,empaque_ID)
     elif request.method=="DELETE":
         response_object=eliminarEmpaque(response_object,empaque_ID)

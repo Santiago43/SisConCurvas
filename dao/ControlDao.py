@@ -10,6 +10,7 @@ class ControlDao(dao):
     def crearControlRol(self,controlRol):
         """
         Método que permite hacer el registro de un control de rol
+        
         Parámetros:
         - controlRol : que es el control que se registrará 
         """
@@ -27,6 +28,7 @@ class ControlDao(dao):
     def crearControlVenta(self,controlVenta):
         """
         Método que permite hacer el registro de un control de una venta
+        
         Parámetros:
         - controlVenta : que es el control que se registrará 
         """
@@ -44,6 +46,7 @@ class ControlDao(dao):
     def crearControlInventario(self,controlInventario):
         """
         Método que permite hacer el registro de un control de una venta
+        
         Parámetros:
         - controlVenta : que es el control que se registrará 
         """
