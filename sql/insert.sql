@@ -14,10 +14,24 @@ insert into Permiso (Nombre) values ("Orden.ver");
 insert into Permiso (Nombre) values ("Orden.editar");
 insert into Permiso (Nombre) values ("Orden.eliminar");
 
+insert into Permiso (Nombre) values ("Empaque.crear");
+insert into Permiso (Nombre) values ("Empaque.editar");
+insert into Permiso (Nombre) values ("Empaque.eliminar");
+
+insert into Permiso (Nombre) values ("Despacho.crear");
+insert into Permiso (Nombre) values ("Despacho.editar");
+insert into Permiso (Nombre) values ("Despacho.eliminar");
+
+insert into Permiso (Nombre) values ("Distribucion.crear");
+insert into Permiso (Nombre) values ("Distribucion.editar");
+insert into Permiso (Nombre) values ("Distribucion.eliminar");
+
 insert into Permiso (Nombre) values ("Rol.crear");
 insert into Permiso (Nombre) values ("Rol.ver");
 insert into Permiso (Nombre) values ("Rol.editar");
 insert into Permiso (Nombre) values ("Rol.eliminar");
+
+insert into Permiso (Nombre) values ("PermisoRol.modificar");
 /*Agregar permisos a roles*/
 
 insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID)
@@ -32,6 +46,11 @@ insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID)
 values (
 (select Rol_ID from Rol where Nombre="Administrador"),
 (select Permiso_ID from Permiso where Nombre="Rol.editar"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="PermisoRol.modificar"));
 
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321");
