@@ -69,3 +69,14 @@ pd.Estado=true,
 pd.Monto=6000,
 fp.Usuario_ID=1
 where pd.Pago_domiciliario_ID=1;
+
+
+/*Actualizar una distribución*/
+
+update Distribucion set
+Usuario_ID=1,
+Estado=true,
+Venta_neta=50000,
+Motivo_ID=null,
+Costo_distribucion=3000
+where Distribucion_ID=1;
