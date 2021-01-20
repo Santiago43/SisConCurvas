@@ -11,13 +11,15 @@ class InventarioDao(dao):
         """
         Método que permite hacer el registro de un producto
         Parámetros:
-        - producto : que es el producto ue se agregará al inventario 
+        - producto : que es el producto que se agregará al inventario 
         """
         try:
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=[producto.referenciaProducto,producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.categorias[0].idCategoria]
-            cursor.callproc("insertarProducto",args)
+            args=(producto.referenciaProducto,producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta)
+            sql='''insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
+            values(%s,%s,%s,%s,%s,%s);'''
+            cursor.execute(sql,args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
@@ -31,18 +33,20 @@ class InventarioDao(dao):
         - id : que es el ID de producto 
         """
         try:
-            sql= "select * from inventario where Referencia_Producto_ID="+str(id)+";"
+            sql= "select * from Inventario where Referencia_Producto_ID=%s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql)
+            cursor.execute(sql,(id,))
             result = cursor.fetchone()
-            producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5])
-            sql2='''select c.* from Categoria as c
-            inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
-            where ic.Inventario_Referencia_Producto_ID='''+str(id)+''';'''
-            cursor.execute(sql2)
-            for row in cursor:
-                producto.categorias.append(Categoria(row[0],row[1],row[2]))           
+            producto=None
+            if result is not None:
+                producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5],list())
+                sql2='''select c.* from Categoria as c
+                inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
+                where ic.Inventario_Referencia_Producto_ID=%s;'''
+                cursor.execute(sql2,(id,))
+                for row in cursor:
+                    producto.categorias.append(Categoria(row[0],row[1],row[2]))           
             super().cerrarConexion(cursor,cnx)
             return producto
         except Exception as e:
@@ -64,7 +68,8 @@ class InventarioDao(dao):
             where Referencia_Producto_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(producto.descripcion,producto.urlImagen,producto.precioCosto,producto.precioVenta,producto.referenciaProducto))
+            cursor.execute(sql,(producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.referenciaProducto))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -93,11 +98,11 @@ class InventarioDao(dao):
         - categoria: que es el categoria que se le agregará al producto
         """
         try:
-            sql='insert into Inventario_tiene_Categoria (Referencia_producto_ID,categoria_ID) values (%s,%s);'
+            sql='insert into Inventario_tiene_Categoria (Inventario_Referencia_producto_ID,categoria_ID) values (%s,%s);'
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(producto.referenciaProducto,categoria.id))
-            cursor.commit()
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
