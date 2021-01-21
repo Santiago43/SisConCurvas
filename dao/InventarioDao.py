@@ -82,15 +82,17 @@ class InventarioDao(dao):
         Método que permite eliminar un producto mediante su id
         - producto : que es el producto que se elinará
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql="delete from Inventario where producto_ID='"+str(producto.referenciaProducto)+"';"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+            
             cursor.execute(sql)
             cursor.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def agregarCategoria(self, producto, categoria):
