@@ -22,7 +22,7 @@ def crearRol(data,response_object,usuario):
         if(dao.crearRol(rol)):
             response_object['mensaje']="rol creado"
             rol=dao.consultarRolPorNombre(nombreRol)
-            texto="El usuario "+usuario.primerNombre+" "+usuario.primerApellido+" creó el rol '"+nombreRol+"'"
+            texto="El usuario "+usuario.usuario+" creó el rol '"+nombreRol+"'"
             control=Control_rol(None,rol.idRol,usuario.usuario_ID,None,1,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)
@@ -79,7 +79,7 @@ def actualizarRol(data,response_object,rol_ID,editor):
         if dao.actualizarRol(rol):
             response_object['mensaje']="Rol actualizado"
             rol=dao.consultarRolPorNombre(nombre)
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" modificó el rol '"+nombre+"'"
+            texto="El usuario "+editor.usuario+" modificó el rol '"+nombre+"'"
             control=Control_rol(None,rol.idRol,editor.usuario_ID,None,2,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)
@@ -108,7 +108,7 @@ def eliminarRol(response_object,rol_ID,editor):
     if rol is not None:
         if dao.eliminarRol(rol):
             response_object['mensaje']="Rol eliminado"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" eliminó el rol '"+nombreRol+"'"
+            texto="El usuario "+editor.usuario+" eliminó el rol '"+nombreRol+"'"
             control=Control_rol(None,rol_ID,editor.usuario_ID,None,3,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)
@@ -139,7 +139,7 @@ def agregarPermisoARol(response_object,rol_ID,permiso_ID,editor):
     if permiso and rol is not None:
         if rolDao.agregarPermiso(rol,permiso):
             response_object['mensaje']="Permiso '"+permiso.nombre+"' agregado al rol "+rol.nombre
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" agregó el permiso '"+permiso.nombre+"' al rol '"+rol.nombre+"'"
+            texto="El usuario "+editor.usuario+" agregó el permiso '"+permiso.nombre+"' al rol '"+rol.nombre+"'"
             control=Control_rol(None,rol.idRol,editor.usuario_ID,None,1,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)
@@ -170,7 +170,7 @@ def removerPermisoARol(response_object,rol_ID,permiso_ID, editor):
     if permiso and rol is not None:
         if rolDao.removerPermiso(rol,permiso):
             response_object['mensaje']="Permiso '"+permiso.nombre+"' removido del rol "+rol.nombre
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" removió el permiso '"+permiso.nombre+"' del rol '"+rol.nombre+"'"
+            texto="El usuario "+editor.usuario+" removió el permiso '"+permiso.nombre+"' del rol '"+rol.nombre+"'"
             control=Control_rol(None,rol.idRol,editor.usuario_ID,None,3,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)

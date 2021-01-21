@@ -34,7 +34,7 @@ def crearOrden(data,response_object,editor):
     idorden = dao.crearOrden(ordenVenta)
     if idorden is not None:
         response_object['mensaje']="Orden creada"
-        texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" creó la orden '"+idorden+"'"
+        texto="El usuario "+editor.usuario+" creó la orden '"+idorden+"'"
         control=Control_venta(None,editor.usuario_ID,idorden,None,texto)
         controlDao=ControlDao()
         controlDao.crearControlRol(control)
@@ -146,7 +146,7 @@ def actualizarOrden(data,response_object,ordenVenta_ID,editor):
             orden.precio = precio
         if dao.actualizarOrden(orden):
             response_object['mensaje']="Orden de venta actualizada"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" modificó la orden '"+ordenVenta_ID+"'"
+            texto="El usuario "+editor.usuario+" modificó la orden '"+ordenVenta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)
@@ -175,7 +175,7 @@ def eliminarOrden(response_object, ordenVenta_ID,editor):
     if orden is not None:
         if dao.eliminarOrden(orden):
             response_object['mensaje']="Orden de venta eliminada"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" eliminó la orden '"+ordenVenta_ID+"'"
+            texto="El usuario "+editor.usuario+" eliminó la orden '"+ordenVenta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlRol(control)

@@ -99,7 +99,7 @@ def actualizarProducto(data,response_object,referencia,usuario):
             producto.precioVenta=precioVenta
         if dao.actualizarProducto(producto):
             response_object['mensaje']="Producto actualizado"
-            control = Control_inventario(usuario.usuario_ID,None,producto.referenciaProducto,None,producto.stock,"El usuario "+usuario.primerNombre+" "+usuario.primerApellido+ " editó los campos: "+camposEditados,0,False)
+            control = Control_inventario(usuario.usuario_ID,None,producto.referenciaProducto,None,producto.stock,"El usuario "+usuario.usuario+ " editó los campos: "+camposEditados,0,False)
             controlDao=ControlDao()
             controlDao.crearControlInventario(control)
         else:
@@ -153,7 +153,7 @@ def agregarStock(data,response_object,referencia,usuario):
             producto.stock+=stock
             if dao.actualizarProducto(producto):
                 response_object['mensaje']="Producto actualizado"
-                control = Control_inventario(usuario.usuario_ID,None,referencia,None,producto.stock-stock,"El usuario "+usuario.primerNombre+" "+usuario.segundoNombre+" agregó al inventario "+str(stock)+ " del producto '"+producto.referenciaProducto+"'",stock,True)
+                control = Control_inventario(usuario.usuario_ID,None,referencia,None,producto.stock-stock,"El usuario "+usuario.usuario+" agregó al inventario "+str(stock)+ " del producto '"+producto.referenciaProducto+"'",stock,True)
                 controlDao=ControlDao()
                 controlDao.crearControlInventario(control)
             else:
@@ -191,7 +191,7 @@ def retirarStock(data,response_object,referencia,usuario):
                 producto.stock-=stock
                 if dao.actualizarProducto(producto):
                     response_object['mensaje']="Stock actualizado"
-                    control=Control_inventario(usuario.usuario_ID,None,referencia,None,producto.stock+stock,"El usuario "+usuario.primerNombre+" "+usuario.segundoNombre+" retiró del inventario "+str(stock)+ " del producto '"+producto.referenciaProducto+"'",stock,False)
+                    control=Control_inventario(usuario.usuario_ID,None,referencia,None,producto.stock+stock,"El usuario "+usuario.usuario+" retiró del inventario "+str(stock)+ " del producto '"+producto.referenciaProducto+"'",stock,False)
                     controlDao=ControlDao()
                     controlDao.crearControlInventario(control)
                 else:

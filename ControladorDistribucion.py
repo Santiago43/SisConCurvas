@@ -26,7 +26,7 @@ def crearDistribucion(data,response_object,editor):
     if  despacho is not None:
         if dao.crearDistribucion(distribucion):
             response_object['mensaje']="Distribución creada"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el registro de la distribución del despacho '"+str(despacho_ID)+"'"
+            texto="El usuario "+editor.usuario+" hizo el registro de la distribución del despacho '"+str(despacho_ID)+"'"
             control=Control_venta(None,editor.usuario_ID,despacho.orden_venta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlVenta(control)
@@ -104,7 +104,7 @@ def actualizarDistribucion(data,response_object,distribucion_ID,editor):
         print(distribucion.__dict__)
         if dao.actualizarDistribucion(distribucion):
             response_object['mensaje']="distribución actualizada"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" editó la distribución de la orden '"+str(despacho.orden_venta_ID)+"'"
+            texto="El usuario "+editor.usuario+" editó la distribución de la orden '"+str(despacho.orden_venta_ID)+"'"
             control=Control_venta(None,editor.usuario_ID,despacho.orden_venta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlVenta(control)
@@ -136,7 +136,7 @@ def eliminarDistribucion(response_object,distribucion_ID,editor):
     if distribucion is not None:
         if dao.eliminarDistribucion(distribucion):
             response_object['mensaje']="distribución eliminada"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" eliminó la distribución de la orden '"+despacho.orden_venta_ID+"'"
+            texto="El usuario "+editor.usuario+" eliminó la distribución de la orden '"+despacho.orden_venta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,despacho.orden_venta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlVenta(control)
