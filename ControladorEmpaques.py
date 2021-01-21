@@ -25,7 +25,7 @@ def crearEmpaque(data,response_object,editor):
     empaque = Empaque(None,ordenVenta_ID,motivo_ID,usuario_ID,numero_prendas,estado,observaciones)
     if dao.crearEmpaque(empaque):
         response_object['mensaje']='empaque creado'
-        texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el empaque de la orden '"+ordenVenta_ID+"'"
+        texto="El usuario "+editor.usuario+" hizo el empaque de la orden '"+ordenVenta_ID+"'"
         control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
         controlDao=ControlDao()
         controlDao.crearControlVenta(control)
@@ -87,7 +87,7 @@ def actualizarEmpaque(data,response_object,empaque_ID,editor):
             empaque.motivo_ID = motivo_ID
         if dao.actualizarEmpaque(empaque):
             response_object['mensaje']="Empaque actualizado"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el actualizó el empaque de la orden '"+ordenVenta_ID+"'"
+            texto="El usuario "+editor.usuario+" hizo el actualizó el empaque de la orden '"+ordenVenta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlVenta(control)

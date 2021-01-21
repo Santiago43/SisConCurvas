@@ -25,7 +25,7 @@ def crearDespacho(data,response_object,editor):
     if ordenDao.consultarOrden(ordenVenta_ID) is not None:
         if dao.crearDespacho(despacho):
             response_object['mensaje']="Despacho creado"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" hizo el despacho de la orden '"+ordenVenta_ID+"'"
+            texto="El usuario "+editor.usuario+" hizo el despacho de la orden '"+ordenVenta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlVenta(control)
@@ -92,7 +92,7 @@ def actualizarDespacho(data,response_object,despacho_ID,editor):
             despacho.id_envia = id_envia
         if dao.actualizarDespacho(despacho):
             response_object['mensaje']="despacho actualizado"
-            texto="El usuario "+editor.primerNombre+" "+editor.primerApellido+" editó el despacho de la orden '"+despacho.ordenVenta_ID+"'"
+            texto="El usuario "+editor.usuario+" editó el despacho de la orden '"+despacho.ordenVenta_ID+"'"
             control=Control_venta(None,editor.usuario_ID,ordenVenta_ID,None,texto)
             controlDao=ControlDao()
             controlDao.crearControlVenta(control)
