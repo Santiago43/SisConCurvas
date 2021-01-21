@@ -17,7 +17,7 @@ class UsuariosDao(dao):
         cnx=super().connectDB()
         cursor=cnx.cursor()
         try:
-            args=[usuario.primerNombre,usuario.segundoNombre,usuario.primerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.documento,usuario.telefono,usuario.correo,usuario.rol_ID,usuario.contraseña,usuario.urlImagen,usuario.token]
+            args=[usuario.primerNombre,usuario.segundoNombre,usuario.primerApellido,usuario.segundoApellido,usuario.tipoDocumento,usuario.documento,usuario.telefono,usuario.correo,usuario.rol_ID,usuario.contraseña,usuario.urlImagen,usuario.token,usuario.usuario]
             cursor.callproc("insertarUsuario",args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
@@ -33,7 +33,7 @@ class UsuariosDao(dao):
         - documento : que es el documento del usuario 
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.Documento='''+str(documento)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
@@ -66,7 +66,8 @@ class UsuariosDao(dao):
             sql+='p.Telefono=%s, '
             sql+='p.correo=%s, '
             sql+='u.Rol_ID=%s, '
-            sql+='u.estado=%s'
+            sql+='u.estado=%s, '
+            sql+='u.usuario=%s, '
             sql+='where p.Documento=%s and p.Persona_ID=u.Persona_ID;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
@@ -137,7 +138,7 @@ class UsuariosDao(dao):
         Método que permite consultar la lista de usuarios existentes
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
@@ -145,7 +146,7 @@ class UsuariosDao(dao):
             usuarios=list()
             results = cursor.fetchall()
             for result in results:
-                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14])
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14],result[15])
                 sql2='select p.* from Usuario_tiene_Permiso as up inner join Usuario as u on u.usuario_ID=up.usuario_ID inner join Permiso as p on p.Permiso_ID=up.Permiso_ID where u.usuario_ID='+str(usuario.usuario_ID)+';'
                 cursor.execute(sql2)
                 for row in cursor:
@@ -180,24 +181,24 @@ class UsuariosDao(dao):
         except Exception as e:
             super().cerrarConexion(cursor,cnx)
             raise e
-    def consultarUsuarioPorCredenciales(self,correo,contraseña):
+    def consultarUsuarioPorCredenciales(self,nombreUsuario,contraseña):
         """
-        Método que permite consultar un usuario mediante su correo y contraseña
+        Método que permite consultar un usuario mediante su nombre de usuario y contraseña
         Parámetros:
-        - correo: que es el correo del usuario
+        - nombreUsuario: que es el nombre de usuario 
         - contraseña: que es la contraseña del usuario  
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token from Usuario as u
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario from Usuario as u
             inner join Persona as p on p.Persona_ID=u.Persona_ID
-            where p.Correo = %s and u.Contraseña=sha(%s);'''
+            where u.usuario = %s and u.Contraseña=sha(%s);'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(correo,contraseña))
+            cursor.execute(sql,(nombreUsuario,contraseña))
             result = cursor.fetchone()
             usuario=None
             if result is not None:
-                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14])
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14],result[15])
                 sql2='select p.* from Usuario_tiene_Permiso as rp inner join Usuario as r on r.Usuario_ID=rp.Usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID='+str(usuario.usuario_ID)+';'
                 cursor.execute(sql2)
                 for row in cursor:
@@ -241,13 +242,13 @@ class UsuariosDao(dao):
         cnx=super().connectDB()
         cursor=cnx.cursor()
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where p.telefono=%s;''' 
             cursor.execute(sql,(telefono,))
             result = cursor.fetchone()
             usuario=None
             if result is not None:
-                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14])
+                usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14],result[15])
                 sql2='select p.* from usuario_tiene_permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID='+str(usuario.usuario_ID)+';'
                 cursor.execute(sql2)
                 for row in cursor:
@@ -264,7 +265,7 @@ class UsuariosDao(dao):
         - documento : que es el documento del usuario 
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.usuario_ID='''+str(id)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
