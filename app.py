@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 from ControladorOrdenVenta import consultarOrdenes, crearOrden, actualizarOrden, eliminarOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
-from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario
+from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario, validarUsuarioLogueadoPorToken
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto,agregarStock,retirarStock
 from ControladorOrigen import consultarOrigenes
@@ -138,6 +138,17 @@ def usuarioPermisos(documento,permiso_ID):
         response_object=removerPermisoAUsuario(response_object,documento,permiso_ID)  
     return jsonify(response_object)
 
+@app.route("/validar", methods=['POST'])
+def validarUsuarioLogueado():
+    """
+    Ruta de login
+    """
+    response_object = {'tipo': 'OK'}
+    headers=request.headers
+    token=headers.get('token')
+    valor=validarUsuarioLogueadoPorToken(token)
+    response_object['value']=valor
+    return jsonify(response_object)
 @app.route("/orden",methods=['POST','GET'])
 def ordenVenta():
     """
