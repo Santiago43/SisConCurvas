@@ -29,7 +29,8 @@ def crearOrden(data,response_object,editor):
     fecha_entrega=data.get('fecha_entrega')
     tipo_venta=data.get('tipo_venta')
     descuento=data.get('descuento')
-    ordenVenta=OrdenVenta(None,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,None,nota,fecha_entrega,tipo_venta,descuento,list(),None)
+    precio=data.get('precio')
+    ordenVenta=OrdenVenta(None,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,None,nota,fecha_entrega,tipo_venta,descuento,list(),precio)
     dao=OrdenDao()
     idorden = dao.crearOrden(ordenVenta)
     if idorden is not None:
@@ -71,6 +72,11 @@ def consultarOrdenes(response_object):
                 categoriaDict=categoria.__dict__
                 categoriasDict.append(categoriaDict)
             productoEnOrdenDict['producto']['categorias']=categoriasDict
+            productoEnOrdenDict['producto'].pop('stock')
+            if ordenVenta.tipo_venta ==1:
+                productoEnOrdenDict['producto'].pop('precioVenta')
+            else:
+                productoEnOrdenDict['producto'].pop('precioMayorista')
             productosDict.append(productoEnOrdenDict)
         ordenDict['productos']=productosDict
         objFechaEntrega=ordenDict['fecha_entrega']
