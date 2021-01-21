@@ -19,11 +19,11 @@ class OrdenDao(dao):
         cursor=cnx.cursor()
         try:
             sql=''' insert into Orden_venta 
-            (Motivo_ID,Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento)
+            (Motivo_ID,Origen_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento,precio)
             values
-            (%s,%s,%s,%s,%s,%s,%s,%s,sysdate(),%s,%s,%s,%s);
+            (%s,%s,%s,%s,%s,%s,%s,%s,sysdate(),%s,%s,%s,%s,%s);
             '''
-            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento))
+            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento,orden.precio))
             for productoEnOrden in orden.productos:
                 sql2=''' insert into Orden_venta_tiene_Producto 
                 (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
@@ -46,10 +46,7 @@ class OrdenDao(dao):
         - id : que es el ID de la orden
         """
         try:
-            sql='''select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
-            inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
-            inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
-            where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov where Orden_venta_ID='''+str(id)+''';'''
+            sql='''select * from Orden_venta where Orden_venta_ID='''+str(id)+''';'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
@@ -94,15 +91,17 @@ class OrdenDao(dao):
                     Nota=%s,
                     Fecha_entrega=%s,
                     Tipo_venta=%s,
-                    Descuento=%s
+                    Descuento=%s,
+                    precio=%s
                     where Orden_venta_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento,orden.ordenVenta_ID))
+            cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento,orden.ordenVenta_ID,orden.precio))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def eliminarOrden(self,orden):
@@ -119,6 +118,7 @@ class OrdenDao(dao):
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def agregarProducto(self, productoEnOrden):
@@ -138,6 +138,7 @@ class OrdenDao(dao):
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
         
     def removerProducto(self, productoEnOrden):
@@ -151,16 +152,14 @@ class OrdenDao(dao):
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
     def consultarOrdenes(self):
         """
         Método que permite consultar todas las órdenes de venta
         """
         try:
-            sql='''select *,(select sum(q.Precio_venta*q.cantidad) from (select i.Precio_venta, oc.cantidad from Inventario as i
-            inner join Orden_venta_tiene_producto as oc on oc.Inventario_Referencia_Producto_ID = i.Referencia_Producto_ID
-            inner join Orden_venta as o on oc.Orden_venta_ID = o.Orden_Venta_ID
-            where o.Orden_venta_ID=ov.Orden_venta_ID) as q) as precio  from Orden_venta as ov;'''
+            sql='''select * from Orden_venta;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
@@ -187,4 +186,5 @@ class OrdenDao(dao):
             super().cerrarConexion(cursor,cnx)
             return ordenesVenta
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
