@@ -147,6 +147,11 @@ values (
 (select Rol_ID from Rol where Nombre="Administrador"),
 (select Permiso_ID from Permiso where Nombre="Usuarios.eliminar"));
 
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Orden.ver"));
+
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321","Pepataquiva");
 call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#","JogeSan");
@@ -207,7 +212,7 @@ insert into Metodo_compra (Tipo) values ("Contra entrega");
 
 /*Insertar orden de venta*/
 insert into Orden_venta 
-(Origen_ID,Motivo_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento)
+(Origen_ID,Motivo_ID,Modalidad_pago_ID,Metodo_compra_ID,Direccion_id,Cliente_ID,Usuario_ID,Estado,Fecha_venta,Nota,Fecha_entrega,Tipo_venta,Descuento,precio)
 values
 ((select Origen_ID from Origen where Nombre_origen="Facebook"),
 (select Motivo_ID from Motivo where Motivo="Venta"),
@@ -221,7 +226,8 @@ sysdate(),
 "Es prueba",
 "2021-01-31",
 false,
-null
+null,
+105000
 );
 
 insert into Orden_venta_tiene_producto (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 

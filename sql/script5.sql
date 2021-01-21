@@ -255,10 +255,11 @@ CREATE TABLE Orden_venta (
   Usuario_ID INTEGER UNSIGNED NOT NULL,
   Estado VARCHAR(50) NOT NULL,
   Fecha_venta timestamp NOT NULL,
-  Nota VARCHAR(150) NULL,#
+  Nota VARCHAR(150) NULL,
   Fecha_entrega DATE NOT NULL,
   Tipo_venta BOOL NULL,
-  Descuento FLOAT NULL,#
+  Descuento FLOAT NULL,
+  precio double,
   PRIMARY KEY(Orden_venta_ID),
   INDEX Orden_venta_FKIndex1(Usuario_ID),
   INDEX Orden_venta_FKIndex2(Cliente_ID),
