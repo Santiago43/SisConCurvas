@@ -175,8 +175,10 @@ class UsuariosDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql)
+            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
     def consultarUsuarioPorCredenciales(self,correo,contraseña):
         """
@@ -200,8 +202,10 @@ class UsuariosDao(dao):
                 cursor.execute(sql2)
                 for row in cursor:
                     usuario.permisos.append(Permiso(row[0],row[1]))
+            super().cerrarConexion(cursor,cnx)
             return usuario
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
     def consultarUsuarioPorToken(self,token):
         """
@@ -223,8 +227,10 @@ class UsuariosDao(dao):
                 cursor.execute(sql2)
                 for row in cursor:
                     usuario.permisos.append(Permiso(row[0],row[1]))
+            super().cerrarConexion(cursor,cnx)
             return usuario
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
     def consultarUsuarioPorTelefono(self,telefono):
         """
