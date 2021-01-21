@@ -16,8 +16,8 @@ class InventarioDao(dao):
         try:
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            args=(producto.referenciaProducto,producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta)
-            sql='''insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
+            args=(producto.referenciaProducto,producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.precioMayorista)
+            sql='''insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta,Precio_mayorista)
             values(%s,%s,%s,%s,%s,%s);'''
             cursor.execute(sql,args)
             cnx.commit()
@@ -40,7 +40,7 @@ class InventarioDao(dao):
             result = cursor.fetchone()
             producto=None
             if result is not None:
-                producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5],list())
+                producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list())
                 sql2='''select c.* from Categoria as c
                 inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
                 where ic.Inventario_Referencia_Producto_ID=%s;'''
@@ -65,14 +65,16 @@ class InventarioDao(dao):
             Stock=%s,
             Precio_costo=%s,
             Precio_venta=%s
+            Precio_mayorista=%s
             where Referencia_Producto_ID=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.referenciaProducto))
+            cursor.execute(sql,(producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.precioMayorista,producto.referenciaProducto))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def eliminarproducto(self,producto):
@@ -137,7 +139,7 @@ class InventarioDao(dao):
             results=cursor.fetchall()
             productos=[]
             for result in results:
-                producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5],list())
+                producto = Inventario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list())
                 productos.append(producto)
             for producto in productos:
                 sql2='''select c.* from Categoria as c
@@ -149,4 +151,5 @@ class InventarioDao(dao):
             super().cerrarConexion(cursor,cnx)
             return productos
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e

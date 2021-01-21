@@ -253,13 +253,14 @@ class Inventario:
     - Precio de venta
     - Lista con las categorías
     """
-    def __init__(self, referenciaProducto,descripcion,urlImagen,stock,precioCosto,precioVenta,categorias):
+    def __init__(self, referenciaProducto,descripcion,urlImagen,stock,precioCosto,precioVenta,precioMayorista,categorias):
         self.referenciaProducto=referenciaProducto
         self.descripcion=descripcion
         self.urlImagen=urlImagen
         self.stock=stock
         self.precioCosto=precioCosto
         self.precioVenta=precioVenta
+        self.precioMayorista=precioMayorista
         self.categorias=categorias
 class Control_inventario:
     """

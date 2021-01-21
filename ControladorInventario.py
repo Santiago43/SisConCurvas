@@ -17,8 +17,9 @@ def crearProducto(data,response_object,usuario):
     stock=data.get('stock')
     precioCosto=data.get('precioCosto')
     precioVenta=data.get('precioVenta')
+    precioMayorista=data.get('precioMayorista')
     categorias=data.get('categorias')
-    producto=Inventario(referenciaProducto,descripcion,urlImagen,stock,precioCosto,precioVenta,categorias)
+    producto=Inventario(referenciaProducto,descripcion,urlImagen,stock,precioCosto,precioVenta,precioMayorista,categorias)
     dao = InventarioDao()
     if(dao.consultarProducto(referenciaProducto) is None):
         if(dao.crearProducto(producto)):
@@ -97,6 +98,10 @@ def actualizarProducto(data,response_object,referencia,usuario):
         if precioVenta is not None:
             camposEditados+="Precio venta"
             producto.precioVenta=precioVenta
+        precioMayorista=data.get("precioMayorista")
+        if precioMayorista is not None:
+            camposEditados+="Precio venta"
+            producto.precioMayorista=precioMayorista
         if dao.actualizarProducto(producto):
             response_object['mensaje']="Producto actualizado"
             control = Control_inventario(usuario.usuario_ID,None,producto.referenciaProducto,None,producto.stock,"El usuario "+usuario.usuario+ " editó los campos: "+camposEditados,0,False)
