@@ -28,7 +28,7 @@ def crearUsuario(data,response_object):
     urlImagen=data.get('urlImagen')
     nombreUsuario=data.get('usuario')
     token = secrets.token_urlsafe(100)
-    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,list(),rol_ID,contraseña,None,list(),urlImagen,tipoDocumento,documento,True,token,usuario)
+    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,list(),rol_ID,contraseña,None,list(),urlImagen,tipoDocumento,documento,True,token,nombreUsuario)
     dao = UsuariosDao()
     direccionDao=DireccionDao()
     if(dao.consultarUsuario(documento) is None or dao.consultarUsuarioPorTelefono(telefono) is None):
