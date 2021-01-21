@@ -177,7 +177,7 @@ class Distribucion:
     - costo de distribucion 
     - productos
     """
-    def __init__(self,distribucion_ID, motivo_ID,usuario_ID,despacho_ID,estado,ventaNeta,costoDistribucion,productos):
+    def __init__(self,distribucion_ID,usuario_ID,despacho_ID,estado,motivo_ID,ventaNeta,costoDistribucion,productos):
         self.distribucion_ID=distribucion_ID
         self.motivo_ID=motivo_ID
         self.usuario_ID=usuario_ID
