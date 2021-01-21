@@ -224,7 +224,7 @@ class UsuariosDao(dao):
             usuario=None
             if result is not None:
                 usuario = Usuario(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8],result[9],list(),result[10],result[11],result[12],result[13],result[14],result[15])
-                sql2='select p.* from Usuario_tiene_Permiso as rp inner join usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID='+str(usuario.usuario_ID)+';'
+                sql2='select p.* from Usuario_tiene_Permiso as rp inner join Usuario as r on r.usuario_ID=rp.usuario_ID inner join Permiso as p on p.Permiso_ID=rp.Permiso_ID where r.usuario_ID='+str(usuario.usuario_ID)+';'
                 cursor.execute(sql2)
                 for row in cursor:
                     usuario.permisos.append(Permiso(row[0],row[1]))
