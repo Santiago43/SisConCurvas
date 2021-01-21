@@ -62,7 +62,7 @@ class OrdenDao(dao):
             cursor.execute(sql2)
             result2= cursor.fetchall()
             for row in result2:
-                productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],[]),row[6])
+                productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],row[6],[]),row[7])
                 sql3='''select c.* from Categoria as c
                 inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
                 where ic.Inventario_Referencia_Producto_ID=%s;'''
@@ -175,7 +175,7 @@ class OrdenDao(dao):
                 cursor.execute(sql2)
                 result2= cursor.fetchall()
                 for row in result2:
-                    productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],list()),row[6])
+                    productoEnOrden=ProductoEnOrden(Inventario(row[0],row[1],row[2],row[3],row[4],row[5],row[6],[]),row[7])
                     sql3='''select c.* from Categoria as c
                     inner join Inventario_tiene_Categoria as ic on c.Categoria_ID=ic.Categoria_ID
                     where ic.Inventario_Referencia_Producto_ID="'''+productoEnOrden.producto.referenciaProducto+'''";'''
