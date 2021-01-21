@@ -46,13 +46,21 @@ insert into Permiso (Nombre) values ("Inventario.eliminar");
 insert into Permiso (Nombre) values ("PermisoRol.modificar");
 /*Agregar permisos a roles*/
 
-insert into Rol_tiene_Permiso (Rol_ID,Permiso_ID)
-values (1,1);
 
 insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
 values (
 (select Rol_ID from Rol where Nombre="Vendedor"),
 (select Permiso_ID from Permiso where Nombre="Orden.crear"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Rol.crear"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Rol.ver"));
 
 insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
 values (
@@ -117,6 +125,28 @@ insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID)
 values (
 (select Rol_ID from Rol where Nombre="Administrador"),
 (select Permiso_ID from Permiso where Nombre="Distribucion.eliminar"));
+
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Usuarios.ver"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Usuarios.crear"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Usuarios.editar"));
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Usuarios.eliminar"));
+
 /*Insertar usuario*/
 call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321","Pepataquiva");
 call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#","JogeSan");
@@ -141,8 +171,8 @@ insert into Categoria(Nombre,Padre_categoria_ID) values ("Gala",null);
 
 /*Insertar producto a inventario*/
 
-insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta)
-values("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000);
+insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta,Precio_mayorista)
+values("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,30000);
 
 insert into Inventario_tiene_Categoria (Inventario_Referencia_Producto_ID,Categoria_ID) values ("abdcdf",1);
 /*Insertar Departamento*/

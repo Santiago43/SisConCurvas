@@ -9,6 +9,7 @@ CREATE TABLE Inventario (
   Stock INTEGER UNSIGNED NULL,
   Precio_costo DOUBLE NULL,
   Precio_venta DOUBLE NULL,
+  Precio_mayorista DOUBLE NULL,
   PRIMARY KEY(Referencia_Producto_ID)
 );
 
