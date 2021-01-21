@@ -26,8 +26,9 @@ def crearUsuario(data,response_object):
     rol_ID=data.get('rol_ID')
     contraseña=data.get('contraseña')
     urlImagen=data.get('urlImagen')
+    nombreUsuario=data.get('usuario')
     token = secrets.token_urlsafe(100)
-    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,list(),rol_ID,contraseña,None,list(),urlImagen,tipoDocumento,documento,True,token)
+    usuario=Usuario(None,primerNombre,segundoNombre,primerApellido,segundoApellido,telefono,correo,list(),rol_ID,contraseña,None,list(),urlImagen,tipoDocumento,documento,True,token,usuario)
     dao = UsuariosDao()
     direccionDao=DireccionDao()
     if(dao.consultarUsuario(documento) is None or dao.consultarUsuarioPorTelefono(telefono) is None):
@@ -85,9 +86,9 @@ def consultarUsuarios(response_object):
 
 def login(data,response_object):
     dao = UsuariosDao()
-    correo = data.get('correo')
+    nombreUsuario = data.get('usuario')
     contraseña=data.get('contraseña')
-    usuario=dao.consultarUsuarioPorCredenciales(correo,contraseña)
+    usuario=dao.consultarUsuarioPorCredenciales(nombreUsuario,contraseña)
     if (usuario is not None):
         usuarioDict=usuario.__dict__
         rolesDao=RolesDao()
