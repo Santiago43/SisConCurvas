@@ -85,7 +85,7 @@ class InventarioDao(dao):
         cnx=super().connectDB()
         cursor=cnx.cursor()
         try:
-            sql="delete from Inventario where producto_ID='"+str(producto.referenciaProducto)+"';"
+            sql="delete from Inventario where Referencia_Producto_ID='"+str(producto.referenciaProducto)+"';"
             
             cursor.execute(sql)
             cursor.commit()
