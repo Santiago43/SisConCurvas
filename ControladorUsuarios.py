@@ -242,7 +242,7 @@ def validarUsuario(nombrePermiso,token):
     return (False,None)
     
 
-def validarUsuarioLogueado(token):
+def validarUsuarioLogueadoPorToken(token):
     usuarioDao=UsuariosDao()
     if usuarioDao.consultarUsuarioPorToken(token) is None:
         return True
