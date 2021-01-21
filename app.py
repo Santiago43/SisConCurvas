@@ -105,12 +105,22 @@ def usuarios():
     """
     Ruta de usuarios para crear y listar todos
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        data=request.get_json()
-        response_object=crearUsuario(data,response_object)  
+        (valor,editor) = validarUsuario("Usuarios.crear",token)
+        if valor:
+            data=request.get_json()
+            response_object=crearUsuario(data,response_object) 
+        else:
+            response_object = noAutorizado(response_object)
     elif request.method=="GET":
-        response_object=consultarUsuarios(response_object)  
+        (valor,editor) = validarUsuario("Usuarios.ver",token)
+        if valor:
+            response_object=consultarUsuarios(response_object)  
+        else:
+            response_object = noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/usuario/<documento>", methods=['PUT','DELETE'])
@@ -118,12 +128,22 @@ def single_usuario(documento):
     """
     Ruta de usuarios para actualizar y eliminar
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="PUT":
-        data=request.get_json()
-        response_object=actualizarUsuario(data,response_object,documento)  
+        (valor,editor) = validarUsuario("Usuarios.editar",token)
+        if valor:
+            data=request.get_json()
+            response_object=actualizarUsuario(data,response_object,documento)
+        else:
+            response_object = noAutorizado(response_object)
     elif request.method=="DELETE":
-        response_object=eliminarUsuario(response_object,documento)  
+        (valor,editor) = validarUsuario("Usuarios.eliminar",token)
+        if valor:
+            response_object=eliminarUsuario(response_object,documento)  
+        else:
+            response_object = noAutorizado(response_object)
     return jsonify(response_object)
 
 @app.route("/usuario/permiso/<documento>/<permiso_ID>", methods=['POST','DELETE'])
@@ -131,11 +151,21 @@ def usuarioPermisos(documento,permiso_ID):
     """
     Ruta de manejo de permisos de usuarios
     """
+    headers=request.headers
+    token=headers.get('token')
     response_object = {'tipo': 'OK'}
     if request.method=="POST":
-        response_object=agregarPermisoAUsuario(response_object,documento,permiso_ID)  
+        (valor,editor) = validarUsuario("Usuarios.editar",token)
+        if valor:
+            response_object=agregarPermisoAUsuario(response_object,documento,permiso_ID)
+        else:
+            response_object = noAutorizado(response_object)
     elif request.method=="DELETE":
-        response_object=removerPermisoAUsuario(response_object,documento,permiso_ID)  
+        (valor,editor) = validarUsuario("Usuarios.editar",token)
+        if valor:
+            response_object=removerPermisoAUsuario(response_object,documento,permiso_ID)  
+        else:
+            response_object = noAutorizado(response_object)  
     return jsonify(response_object)
 
 @app.route("/validar", methods=['POST'])
