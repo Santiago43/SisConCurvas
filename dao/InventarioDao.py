@@ -64,7 +64,7 @@ class InventarioDao(dao):
             Url_imagen=%s,
             Stock=%s,
             Precio_costo=%s,
-            Precio_venta=%s
+            Precio_venta=%s,
             Precio_mayorista=%s
             where Referencia_Producto_ID=%s;'''
             cnx=super().connectDB()
