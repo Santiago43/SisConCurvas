@@ -380,7 +380,7 @@ def single_empaque(empaque_ID):
         (valor,editor) = validarUsuario("Orden.editar",token)
         if valor:
             data=request.get_json()
-        response_object=actualizarEmpaque(data,response_object,empaque_ID)
+        response_object=actualizarEmpaque(data,response_object,empaque_ID,editor)
     elif request.method=="DELETE":
         response_object=eliminarEmpaque(response_object,empaque_ID)
     return jsonify(response_object)
