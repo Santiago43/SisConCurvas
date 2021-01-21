@@ -118,9 +118,9 @@ values (
 (select Rol_ID from Rol where Nombre="Administrador"),
 (select Permiso_ID from Permiso where Nombre="Distribucion.eliminar"));
 /*Insertar usuario*/
-call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321");
-call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#");
-call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678902","3257550030","jorge2@example.com",(select Rol_ID from Rol where Nombre="Domiciliario"),"1234","profile2.jpg",".$%&/()=)(/&%$#");
+call insertarUsuario("Pedro","Antonio","Pataquiva","Rugeles","Cédula de ciudadanía","1234567890","3257550034","pedro@example.com",1,"1234","profile1.jpg","1234567890987654321","Pepataquiva");
+call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678901","3257550035","jorge@example.com",(select Rol_ID from Rol where Nombre="Vendedor"),"1234","profile2.jpg","#$%&/()=)(/&%$#","JogeSan");
+call insertarUsuario("Jorge","Alberto","Sánchez","Cárdenas","Cédula de ciudadanía","2345678902","3257550030","jorge2@example.com",(select Rol_ID from Rol where Nombre="Domiciliario"),"1234","profile2.jpg",".$%&/()=)(/&%$#","JogeSan2");
 /*Insertar motivos en órdenes de venta*/
 insert into Motivo (Tipo, Motivo) values ("Venta","Venta");
 insert into Motivo (Tipo, Motivo) values ("Venta","Cambio");
