@@ -230,7 +230,8 @@ def validarUsuario(nombrePermiso,token):
     usuario=usuarioDao.consultarUsuarioPorToken(token)
     rolDao=RolesDao()
     rol=rolDao.consultarRol(usuario.rol_ID)
-    if usuario is None:
+    print(rol)
+    if usuario is None and rol is None:
         return (False,None)
     else:
         for permiso in usuario.permisos:
