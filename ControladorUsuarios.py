@@ -228,12 +228,11 @@ def removerPermisoAUsuario(response_object,documento,permiso_ID):
 def validarUsuario(nombrePermiso,token):
     usuarioDao=UsuariosDao()
     usuario=usuarioDao.consultarUsuarioPorToken(token)
-    rolDao=RolesDao()
-    rol=rolDao.consultarRol(usuario.rol_ID)
-    print(rol)
-    if usuario is None and rol is None:
+    if usuario is None:
         return (False,None)
     else:
+        rolDao=RolesDao()
+        rol=rolDao.consultarRol(usuario.rol_ID)
         for permiso in usuario.permisos:
             if permiso.nombre==nombrePermiso:
                 return (True,usuario)
