@@ -215,7 +215,7 @@ class UsuariosDao(dao):
         - token : que es el token del usuario 
         """
         try:
-            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token
+            sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.token=%s;'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
