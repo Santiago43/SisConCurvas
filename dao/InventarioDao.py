@@ -18,7 +18,7 @@ class InventarioDao(dao):
             cursor=cnx.cursor()
             args=(producto.referenciaProducto,producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.precioMayorista)
             sql='''insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta,Precio_mayorista)
-            values(%s,%s,%s,%s,%s,%s);'''
+            values(%s,%s,%s,%s,%s,%s,%s);'''
             cursor.execute(sql,args)
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
