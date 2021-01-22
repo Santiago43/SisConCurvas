@@ -13,5 +13,5 @@ def consultarDireccion(response_object, direccionID):
     """
     dao = DireccionDao()
     direccion=dao.consultarDireccion(direccionID)
-    response_object['direccion']=direccion
+    response_object['direccion']=direccion.__dict__
     return response_object
