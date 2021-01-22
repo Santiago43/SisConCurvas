@@ -35,7 +35,7 @@ class DireccionDao(dao):
             sql= "select * from direccion where direccion_ID = %s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(id))
+            cursor.execute(sql,(id,))
             result = cursor.fetchone()
             direccion = Direccion(result[0],result[1],result[2],result[3],result[4])
             return direccion
