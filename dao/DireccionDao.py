@@ -32,7 +32,7 @@ class DireccionDao(dao):
         - id : que es el identificador de la direccion 
         """
         try:
-            sql= "select * from direccion where direccion_ID = %s;"
+            sql= "select * from Direccion where direccion_ID = %s;"
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(id,))
