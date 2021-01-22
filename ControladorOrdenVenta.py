@@ -6,6 +6,7 @@ from dao.OrdenVentaDao import OrdenDao
 from dao.RolesDao import RolesDao
 from dao.UsuariosDao import UsuariosDao
 from dao.ControlDao import ControlDao
+from dao.DireccionDao import DireccionDao
 
 def crearOrden(data,response_object,editor):
     """
@@ -55,6 +56,7 @@ def consultarOrdenes(response_object):
     Retorna el response_object modificado
     """
     dao = OrdenDao()
+    direccionDao=DireccionDao()
     ordenesVenta=dao.consultarOrdenes()
     ordenesDict=list()
     for ordenVenta in ordenesVenta:
@@ -85,6 +87,10 @@ def consultarOrdenes(response_object):
         objFechaVenta=ordenDict['fecha_venta']
         nuevaFechaVenta=objFechaVenta.strftime('%Y-%m-%d,%H:%M:%S')
         ordenDict['fecha_venta']=nuevaFechaVenta
+        direccion_ID=ordenDict['direccion_ID']
+        direccion=direccionDao.consultarDireccion(direccion_ID)
+        ordenDict['direccion']=direccion.__dict__
+        ordenDict.pop('direccion_ID')
         ordenesDict.append(ordenDict)
     response_object['ordenes']=ordenesDict
     return response_object
