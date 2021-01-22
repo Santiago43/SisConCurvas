@@ -168,7 +168,7 @@ class DireccionDao(dao):
         cnx=super().connectDB()
         cursor=cnx.cursor()
         try:
-            sql="select * from Departamento; where Departamento_ID=%s;"
+            sql="select * from Departamento where Departamento_ID=%s;"
             cursor.execute(sql,(departamento_ID,))
             result=cursor.fetchone()
             departamento=None
