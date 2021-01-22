@@ -59,6 +59,8 @@ class DireccionDao(dao):
             cursor=cnx.cursor()
             args=(direccion.ciudad_ID,direccion.departamento_ID,direccion.barrio,direccion.direccion)
             cursor.execute(sql,args)
+            direccion = cursor.fetchone()
+            return direccion
         except Exception as e:
             raise e
 
