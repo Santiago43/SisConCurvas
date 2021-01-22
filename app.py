@@ -12,6 +12,7 @@ from ControladorCategorias import crearCategoria, consultarCategorias, actualiza
 from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaque, eliminarEmpaque
 from ControladorPagoDomiciliario import crearPago, consultarPagos, actualizarPago, eliminarPago
 from ControladorDistribucion import crearDistribucion,consultarDistribuciones,actualizarDistribucion, eliminarDistribucion
+from ControladorDireccion import consultarDireccion
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -506,6 +507,19 @@ def single_distribucion(distribucion_ID):
             response_object=eliminarDistribucion(response_object,distribucion_ID,editor)
         else:
             response_object=noAutorizado(response_object)
+    return jsonify(response_object)
+
+
+@app.route("/direccion/<direccionID>",methods=['GET'])
+def single_direccion(direccionID):
+    """
+    Ruta de direccion
+    """
+    headers=request.headers
+    token=headers.get('token')
+    response_object = {'tipo': 'OK'}
+    if request.method=="GET":
+        response_object=consultarDireccion(response_object,direccionID)
     return jsonify(response_object)
 
 if __name__ == '__main__':
