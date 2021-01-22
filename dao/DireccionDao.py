@@ -31,15 +31,18 @@ class DireccionDao(dao):
         Parámetros:
         - id : que es el identificador de la direccion 
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql= "select * from Direccion where direccion_ID = %s;"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+            
             cursor.execute(sql,(id,))
             result = cursor.fetchone()
             direccion = Direccion(result[0],result[1],result[2],result[3])
+            super().cerrarConexion(cursor,cnx)
             return direccion
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def consultarDirecciones(self):
@@ -59,8 +62,10 @@ class DireccionDao(dao):
             for result in results:
                 direccion = Direccion(result[0],result[1],result[2],result[3])
                 direcciones.append(direccion)
+            super().cerrarConexion(cursor,cnx)
             return direcciones
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def actualizarDireccion(self,direccion):
@@ -69,19 +74,21 @@ class DireccionDao(dao):
         Parámetros:
         - direccion : que es la direccion que se actualizará
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql = 'update Direccion set '
             sql+='Ciudad_ID="%s, '
             sql+='Barrio=%s, '
             sql+='Direccion=%s '
             sql+='where Direccion_id =%s ;'
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+            
             args=(direccion.ciudad_ID,direccion.departamento_ID,direccion.barrio,direccion.direccion)
             cursor.execute(sql,args)
-            direccion = cursor.fetchone()
+            super().cerrarConexion(cursor,cnx)
             return direccion
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def eliminardireccion(self,direccion):
@@ -94,37 +101,81 @@ class DireccionDao(dao):
             cnx=super().connectDB()
             cursor=cnx.cursor()
             cursor.execute(sql,(direccion.direccion_id))
+            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def consultarCiudades(self):
         """
         Método que permite consultar todas las ciudades
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql="select * from Ciudad;"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+
             cursor.execute(sql)
             ciudades=list()
             for row in cursor:
                 ciudades.append(Ciudad(row[0],row[1],row[2]))
             return ciudades
+            super().cerrarConexion(cursor,cnx)
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
     def consultarDepartamentos(self):
         """
         Método que permite consultar todos los departamentos
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql="select * from Departamento;"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+            
             cursor.execute(sql)
             departamento=list()
             for row in cursor:
                 departamento.append(Departamento(row[0],row[1]))
+            super().cerrarConexion(cursor,cnx)
             return departamento
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
+            raise e
+    def consultarCiudad(self,ciudad_ID):
+        """
+        Método que permite consultar todas las ciudades
+        """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
+        try:
+            sql="select * from Ciudad where Ciudad_ID=%s;"
+            cursor.execute(sql,(ciudad_ID,))
+            result=cursor.fetchone()
+            ciudad=None
+            if result is not None:
+                ciudad=Ciudad(result[0],result[1],result[2])
+            super().cerrarConexion(cursor,cnx)
+            return ciudad
+        except Exception as e:
+            super().cerrarConexion(cursor,cnx)
+            raise e
+    def consultarDepartamento(self,departamento_ID):
+        """
+        Método que permite consultar todas las ciudades
+        """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
+        try:
+            sql="select * from Departamento; where Departamento_ID=%s;"
+            cursor.execute(sql,(departamento_ID,))
+            result=cursor.fetchone()
+            departamento=None
+            if result is not None:
+                departamento=Departamento(result[0],result[1])
+            super().cerrarConexion(cursor,cnx)
+            return departamento
+        except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e

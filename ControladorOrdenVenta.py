@@ -1,12 +1,14 @@
 from datetime import datetime
 
-from dao.DireccionDao import DireccionDao
 from dao.models import Usuario,OrdenVenta,Control_venta
 from dao.OrdenVentaDao import OrdenDao
 from dao.RolesDao import RolesDao
 from dao.UsuariosDao import UsuariosDao
 from dao.ControlDao import ControlDao
 from dao.DireccionDao import DireccionDao
+from dao.OrigenDao import OrigenDao
+from dao.ModalidadPagoDao import ModalidadPagoDao
+from dao.MetodoCompraDao import MetodoCompraDao
 
 def crearOrden(data,response_object,editor):
     """
@@ -57,7 +59,10 @@ def consultarOrdenes(response_object):
     """
     dao = OrdenDao()
     direccionDao=DireccionDao()
+    modalidadPagoDao=ModalidadPagoDao()
     ordenesVenta=dao.consultarOrdenes()
+    origenDao=OrigenDao()
+    metodoCompraDao=MetodoCompraDao()
     ordenesDict=list()
     for ordenVenta in ordenesVenta:
         ordenDict=ordenVenta.__dict__
@@ -90,7 +95,23 @@ def consultarOrdenes(response_object):
         direccion_ID=ordenDict['direccion_ID']
         direccion=direccionDao.consultarDireccion(direccion_ID)
         ordenDict['direccion']=direccion.__dict__
+        ciudad=direccionDao.consultarCiudad(direccion.ciudad_ID)
+        departamento=direccionDao.consultarDepartamento(ciudad.departamento_ID)
+        ordenDict['direccion']['ciudad']=ciudad.__dict__
+        ordenDict['direccion']['departamento']=departamento.__dict__
+        ordenDict['direccion'].pop('ciudad_ID')
         ordenDict.pop('direccion_ID')
+        modalidad_pago_ID=ordenDict['modalidad_pago_ID']
+        modalidadPago=modalidadPagoDao.consultarModalidad(modalidad_pago_ID)
+        ordenDict['modalidadPago']=modalidadPago.__dict__
+        origen=origenDao.consultarOrigen(ordenDict['origen_ID'])
+        ordenDict['origen']=origen.__dict__
+        ordenDict.pop('origen_ID')
+        ordenDict['']
+        ordenDict.pop('modalidad_pago_ID')
+        metodo=metodoCompraDao.consultarMetodo(ordenDict['metodo_compra_ID'])
+        ordenDict['metodoCompra']=metodo.__dict__
+        ordenDict.pop('metodo_compra_ID')
         ordenesDict.append(ordenDict)
     response_object['ordenes']=ordenesDict
     return response_object
