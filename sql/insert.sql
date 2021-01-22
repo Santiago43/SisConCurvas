@@ -180,22 +180,14 @@ insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Preci
 values("abdcdf","Camiseta Polo","img/src.jpg",2,20000,35000,30000);
 
 insert into Inventario_tiene_Categoria (Inventario_Referencia_Producto_ID,Categoria_ID) values ("abdcdf",1);
-/*Insertar Departamento*/
-insert into Departamento (Departamento) values ("Bogotá D.C.");
-insert into Departamento (Departamento) values ("Cundinamarca");
-insert into Departamento (Departamento) values ("Antioquia");
 
-/*Insertar ciudad*/
-insert into Ciudad(Nombre,Departamento_ID) values("Bogotá D.C.",1);
-insert into Ciudad(Nombre,Departamento_ID) values("Medellín",3);
-insert into Ciudad(Nombre,Departamento_ID) values("Soacha",2);
 
 
 
 
 /*Insertar dirección*/
-insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (1,1,"Las Cruces",'cra 7 # 2-24 sur');
-insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (3,1,"San Mateo",'cra 14 este # 32a');
+insert into Direccion (Ciudad_ID, Barrio, Direccion) values ((select Ciudad_ID from Ciudad where Nombre="Bogotá D.C."),"Las Cruces",'cra 7 # 2-24 sur');
+insert into Direccion (Ciudad_ID, Barrio, Direccion) values ((select Ciudad_ID from Ciudad where Nombre="Soacha"),"San Mateo",'cra 14 este # 32a');
 
 insert into Persona_tiene_Direccion(Persona_ID,Direccion_id)
 values (3,1);

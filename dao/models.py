@@ -72,10 +72,9 @@ class Direccion:
     - barrio
     - direccion
     """
-    def __init__(self,direccion_ID,ciudad_ID,departamento_ID,barrio,direccion):
+    def __init__(self,direccion_ID,ciudad_ID,barrio,direccion):
         self.direccion_ID=direccion_ID
         self.ciudad_ID=ciudad_ID
-        self.departamento_ID=departamento_ID
         self.barrio=barrio
         self.direccion=direccion
 class Departamento:
@@ -95,9 +94,10 @@ class Ciudad:
     - Id de la ciudad 
     - nombre de la ciudad
     """
-    def __init__(self,ciudad_ID,nombre):
+    def __init__(self,ciudad_ID,nombre,departamento_ID):
         self.ciudad_ID=ciudad_ID
         self.nombre=nombre
+        self.departamento_ID=departamento_ID
 class Categoria:
     """
     Clase Categoria 

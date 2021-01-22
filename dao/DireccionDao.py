@@ -16,10 +16,10 @@ class DireccionDao(dao):
         - direccion : que es la direccion que se registrará 
         """
         try:
-            sql= "insert into Direccion (Ciudad_ID, Departamento_ID, Barrio, Direccion) values (%s,%s,%s,%s);"
+            sql= "insert into Direccion (Ciudad_ID, Barrio, Direccion) values (%s,%s,%s,%s);"
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(direccion.ciudad_ID,direccion.departamento_ID,direccion.barrio,direccion.direccion))
+            cursor.execute(sql,(direccion.ciudad_ID,direccion.barrio,direccion.direccion))
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
@@ -37,7 +37,7 @@ class DireccionDao(dao):
             cursor=cnx.cursor()
             cursor.execute(sql,(id,))
             result = cursor.fetchone()
-            direccion = Direccion(result[0],result[1],result[2],result[3],result[4])
+            direccion = Direccion(result[0],result[1],result[2],result[3])
             return direccion
         except Exception as e:
             raise e
@@ -57,7 +57,7 @@ class DireccionDao(dao):
             results = cursor.fetchall()
             direcciones=list()
             for result in results:
-                direccion = Direccion(result[0],result[1],result[2],result[3],result[4])
+                direccion = Direccion(result[0],result[1],result[2],result[3])
                 direcciones.append(direccion)
             return direcciones
         except Exception as e:
@@ -72,9 +72,8 @@ class DireccionDao(dao):
         try:
             sql = 'update Direccion set '
             sql+='Ciudad_ID="%s, '
-            sql+='Departamento_ID=%s, '
             sql+='Barrio=%s, '
-            sql+='Direccion=%s, '
+            sql+='Direccion=%s '
             sql+='where Direccion_id =%s ;'
             cnx=super().connectDB()
             cursor=cnx.cursor()
@@ -110,7 +109,7 @@ class DireccionDao(dao):
             cursor.execute(sql)
             ciudades=list()
             for row in cursor:
-                ciudades.append(Ciudad(row[0],row[1]))
+                ciudades.append(Ciudad(row[0],row[1],row[2]))
             return ciudades
         except Exception as e:
             raise e

@@ -176,16 +176,10 @@ CREATE TABLE Domiciliario_tiene_Pago (
 CREATE TABLE Direccion (
   Direccion_id BIGINT NOT NULL AUTO_INCREMENT,
   Ciudad_ID BIGINT NOT NULL,
-  Departamento_ID INTEGER UNSIGNED NOT NULL,
   Barrio VARCHAR(50) NULL,
   Direccion VARCHAR(60) NOT NULL,
   PRIMARY KEY(Direccion_id),
-  INDEX Direccion_FKIndex1(Departamento_ID),
   INDEX Direccion_FKIndex2(Ciudad_ID),
-  FOREIGN KEY(Departamento_ID)
-    REFERENCES Departamento(Departamento_ID)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
   FOREIGN KEY(Ciudad_ID)
     REFERENCES Ciudad(Ciudad_ID)
       ON DELETE NO ACTION
