@@ -42,6 +42,27 @@ class DireccionDao(dao):
         except Exception as e:
             raise e
 
+    def consultarDirecciones(self):
+        """
+        Método que permite consultar todas las direcciones
+
+        Parámetros:
+        -
+        """
+        try:
+            sql= '''select * from Direccion;'''
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            direcciones=list()
+            for result in results:
+                direccion = Direccion(result[0],result[1],result[2],result[3],result[4])
+                direcciones.append(direccion)
+            return direcciones
+        except Exception as e:
+            raise e
+
     def actualizarDireccion(self,direccion):
         """
         Método que permite actualizar una direccion
