@@ -246,3 +246,29 @@ def validarUsuario(nombrePermiso,token):
 def validarUsuarioLogueadoPorToken(token):
     usuarioDao=UsuariosDao()
     return usuarioDao.consultarUsuarioPorToken(token) is not None
+
+def validarUsuarioPorToken(token):
+    usuarioDao = UsuariosDao()
+    usuario = usuarioDao.consultarUsuarioPorToken(token) 
+    usuarioDict=usuario.__dict__
+    permisos=usuario.permisos
+    usuarioDict['permisos']=list()
+    for permiso in permisos:
+        permisoDict=permiso.__dict__
+        usuarioDict['permisos'].append(permisoDict)
+    rolUsuario=rolesDao.consultarRol(usuarioDict['rol_ID'])
+    rolDict=rolUsuario.__dict__
+    permisos=rolUsuario.permisos
+    rolDict['permisos']=list()
+    for permiso in permisos:
+        permisoDict=permiso.__dict__
+        rolDict['permisos'].append(permisoDict)
+    usuarioDict['rol']=rolDict
+    direccionesDict= list()
+    for direccion in usuario.direcciones:
+        direccionesDict.append(direccion.__dict__)
+    usuarioDict['direcciones']=direccionesDict
+    usuarioDict.pop('contraseña')
+    usuarioDict.pop('rol_ID')
+    usuarioDict.pop('token')
+    return usuarioDict
