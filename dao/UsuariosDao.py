@@ -158,7 +158,7 @@ class UsuariosDao(dao):
                 where u.Documento='''+str(usuario.documento)+''';'''
                 cursor.execute(sql3)
                 for row in cursor:
-                    direccion = Direccion(row[0],row[1],row[2],row[3],row[4])
+                    direccion = Direccion(row[0],row[1],row[2],row[3])
                     usuario.direcciones.append(direccion)
                 usuarios.append(usuario)
             super().cerrarConexion(cursor,cnx)

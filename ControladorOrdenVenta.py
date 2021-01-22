@@ -107,7 +107,6 @@ def consultarOrdenes(response_object):
         origen=origenDao.consultarOrigen(ordenDict['origen_ID'])
         ordenDict['origen']=origen.__dict__
         ordenDict.pop('origen_ID')
-        ordenDict['']
         ordenDict.pop('modalidad_pago_ID')
         metodo=metodoCompraDao.consultarMetodo(ordenDict['metodo_compra_ID'])
         ordenDict['metodoCompra']=metodo.__dict__
