@@ -125,4 +125,23 @@ def eliminarCliente(response_object,telefono):
         response_object['mensaje']="No existe un cliente con ese número telefónico"
     return response_object
     
-    
+def consultarCliente(response_object,telefono):
+    """
+    Función que permite consultar todos los clientes. 
+
+    Esta opera de tal forma que convierte los datos de la base de datos en objetos 
+    y luego los convierte en diccionarios. 
+    Parámetros:
+    - response_object: que es una referencia a la respuesta del servidor
+    Retorna el response_object modificado
+    """
+    dao = ClienteDao()
+    clientes=dao.consultarCliente(telefono)
+    clienteDict=cliente.__dict__
+    direccionesDict= list()
+    for direccion in cliente.direcciones:
+        direccionesDict.append(direccion.__dict__)
+    clienteDict['direcciones']=direccionesDict
+    clientesJson.append(clienteDict)
+    response_object['clientes']=clientesJson
+    return response_object

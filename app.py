@@ -4,7 +4,7 @@ from flask_cors import CORS
 from ControladorOrdenVenta import consultarOrdenes, crearOrden, actualizarOrden, eliminarOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
 from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario, validarUsuarioLogueadoPorToken
-from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente
+from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente,consultarCliente
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto,agregarStock,retirarStock
 from ControladorOrigen import consultarOrigenes
 from ControladorDespacho import crearDespacho, consultarDespachos
@@ -249,7 +249,7 @@ def cliente():
         response_object=consultarClientes(response_object)
     return jsonify(response_object)
 
-@app.route("/cliente/<telefono>",methods=['PUT','DELETE'])
+@app.route("/cliente/<telefono>",methods=['GET','PUT','DELETE'])
 def single_cliente(telefono):
     """
     Ruta de clientes para actualizar y eliminar
@@ -258,6 +258,9 @@ def single_cliente(telefono):
     if request.method=="PUT":
         data=request.get_json()
         response_object=actualizarCliente(data,response_object,telefono)
+    elif request.method=="GET":
+        data=request.get_json()
+        response_object=consultarCliente(response_object,telefono)
     elif request.method=="DELETE":
         response_object=eliminarCliente(response_object,telefono)
     return jsonify(response_object)
