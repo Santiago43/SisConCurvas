@@ -249,6 +249,7 @@ def validarUsuarioLogueadoPorToken(token):
 
 def validarUsuarioPorToken(token):
     usuarioDao = UsuariosDao()
+    rolesDao = RolesDao()
     usuario = usuarioDao.consultarUsuarioPorToken(token) 
     usuarioDict=usuario.__dict__
     permisos=usuario.permisos
