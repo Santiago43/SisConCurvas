@@ -3,8 +3,8 @@ from flask_cors import CORS
 
 from ControladorOrdenVenta import consultarOrdenes, crearOrden, actualizarOrden, eliminarOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
-from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario, validarUsuarioLogueadoPorToken
 from ControladorClientes import crearCliente, consultarClientes, actualizarCliente, eliminarCliente,consultarCliente
+from ControladorUsuarios import consultarUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario,login,agregarPermisoAUsuario,removerPermisoAUsuario,validarUsuario, validarUsuarioLogueadoPorToken, validarUsuarioPorToken
 from ControladorInventario import crearProducto, consultarProductos, actualizarProducto, eliminarProducto,agregarStock,retirarStock
 from ControladorOrigen import consultarOrigenes
 from ControladorDespacho import crearDespacho, consultarDespachos
@@ -179,6 +179,7 @@ def validarUsuarioLogueado():
     token=headers.get('token')
     valor=validarUsuarioLogueadoPorToken(token)
     response_object['value']=valor
+    response_object['usuario']=validarUsuarioPorToken(token)
     return jsonify(response_object)
 @app.route("/orden",methods=['POST','GET'])
 def ordenVenta():
