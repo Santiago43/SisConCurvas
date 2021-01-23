@@ -136,12 +136,11 @@ def consultarCliente(response_object,telefono):
     Retorna el response_object modificado
     """
     dao = ClienteDao()
-    clientes=dao.consultarCliente(telefono)
+    cliente=dao.consultarCliente(telefono)
     clienteDict=cliente.__dict__
     direccionesDict= list()
     for direccion in cliente.direcciones:
         direccionesDict.append(direccion.__dict__)
     clienteDict['direcciones']=direccionesDict
-    clientesJson.append(clienteDict)
-    response_object['clientes']=clientesJson
+    response_object['cliente']=clienteDict
     return response_object
