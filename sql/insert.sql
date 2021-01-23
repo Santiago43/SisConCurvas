@@ -15,10 +15,12 @@ insert into Permiso (Nombre) values ("Orden.editar");
 insert into Permiso (Nombre) values ("Orden.eliminar");
 
 insert into Permiso (Nombre) values ("Empaque.crear");
+insert into Permiso (Nombre) values ("Empaque.ver");
 insert into Permiso (Nombre) values ("Empaque.editar");
 insert into Permiso (Nombre) values ("Empaque.eliminar");
 
 insert into Permiso (Nombre) values ("Despacho.crear");
+insert into Permiso (Nombre) values ("Despacho.ver");
 insert into Permiso (Nombre) values ("Despacho.editar");
 insert into Permiso (Nombre) values ("Despacho.eliminar");
 
