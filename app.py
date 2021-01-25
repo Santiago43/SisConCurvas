@@ -13,6 +13,9 @@ from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaq
 from ControladorPagoDomiciliario import crearPago, consultarPagos, actualizarPago, eliminarPago
 from ControladorDistribucion import crearDistribucion,consultarDistribuciones,actualizarDistribucion, eliminarDistribucion
 from ControladorDireccion import consultarDireccion, consultarDirecciones
+from ControladorMetodoCompra import consultarMetodosDeCompra
+from ControladorMotivo import consultarMotivos
+from ControladorModalidadPago import consultarModalidadesDePago
 app = Flask(__name__)
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -528,11 +531,37 @@ def single_direccion(direccionID):
     """
     Ruta de direccion por ID
     """
-    headers=request.headers
-    token=headers.get('token')
     response_object = {'tipo': 'OK'}
-    if request.method=="GET":
-        response_object=consultarDireccion(response_object,direccionID)
+    response_object=consultarDireccion(response_object,direccionID)
+    return jsonify(response_object)
+
+@app.route("/metodoCompra",methods=['GET'])
+def metodosCompra():
+    """
+    Ruta para consultar los métodos de compra
+    """
+    response_object = {'tipo': 'OK'}
+    response_object=consultarMetodosDeCompra(response_object)
+    return jsonify(response_object)
+
+
+@app.route("/motivo",methods=['GET'])
+def motivos():
+    """
+    Ruta para consultar los motivos (de venta, no empaque, no despacho, no distribución, etc).
+    """
+    response_object = {'tipo': 'OK'}
+    response_object=consultarMotivos(response_object)
+    return jsonify(response_object)
+
+
+@app.route("/modalidadPago",methods=['GET'])
+def modalidades():
+    """
+    Ruta para consultar las modalidades de pago
+    """
+    response_object = {'tipo': 'OK'}
+    response_object=consultarModalidadesDePago(response_object)
     return jsonify(response_object)
 
 if __name__ == '__main__':

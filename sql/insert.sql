@@ -168,6 +168,7 @@ insert into Motivo (Tipo,Motivo) values ("No distribución", "Dirección erróne
 
 /*Insertar cliente*/
 call insertarCliente("Juan","Sebastián","Bueno","Ramírez","3257550036","juan@example.com",true);
+call insertarCliente("Antonio","Camilo","Buendía","Jiménez","3257550037","antonito@example.com",true);
 /*Insertar categoria padre*/
 
 insert into Categoria(Nombre) values ("Elegante");
