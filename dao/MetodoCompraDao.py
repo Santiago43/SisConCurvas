@@ -21,7 +21,7 @@ class MetodoCompraDao(dao):
                 metodo=Metodo_compra(result[0],result[1])
                 metodos.append(metodo)
             super().cerrarConexion(cursor,cnx)
-            return metodoes
+            return metodos
         except Exception as e:
             super().cerrarConexion(cursor,cnx)
             raise e
