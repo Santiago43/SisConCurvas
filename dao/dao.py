@@ -5,9 +5,9 @@ class dao:
     docstring
     """
     def __init__(self):
-        self.user='concurva_sis'
+        self.user='concurvas'
         self.password='XTVwTewvQp2cTfC'
-        self.database='concurva_sistema'
+        self.database='concurvas'
         self.host='127.0.0.1'
     def connectDB(self):
         cnx = mysql.connector.connect(user=self.user, password = self.password, database=self.database, host=self.host)
