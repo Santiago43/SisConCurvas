@@ -19,7 +19,7 @@ from ControladorMetodoCompra import consultarMetodosDeCompra
 from ControladorMotivo import consultarMotivos
 from ControladorModalidadPago import consultarModalidadesDePago
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER']="imgProducto"
+
 CORS(app, resources={r'/*': {'origins': '*'}})
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
