@@ -1,5 +1,7 @@
+import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from werkzeug import utils
 
 from ControladorOrdenVenta import consultarOrdenes, crearOrden, actualizarOrden, eliminarOrden
 from ControladorRol import consultarRoles, crearRol,actualizarRol, eliminarRol, agregarPermisoARol, removerPermisoARol
@@ -17,8 +19,10 @@ from ControladorMetodoCompra import consultarMetodosDeCompra
 from ControladorMotivo import consultarMotivos
 from ControladorModalidadPago import consultarModalidadesDePago
 app = Flask(__name__)
-
+app.config['UPLOAD_FOLDER']="imgProducto"
 CORS(app, resources={r'/*': {'origins': '*'}})
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 
 def noAutorizado(response_object):
     response_object['tipo']="error"
@@ -563,6 +567,26 @@ def modalidades():
     response_object = {'tipo': 'OK'}
     response_object=consultarModalidadesDePago(response_object)
     return jsonify(response_object)
+
+
+@app.route("/imgProducto",methods=['POST','GET'])
+def imgProducto():
+    """
+    Ruta para subir imágenes de productos
+    """
+    target = os.path.join(APP_ROOT, "../homeConcurvas/img/productos/")
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    print(request.files)
+    if 'file' not in request.files:
+        error = "Missing data source!"
+        return jsonify({'error': error})
+    file = request.files['file']
+    fileName = file.filename
+    destination = '/'.join([target, fileName])
+    file.save(destination)
+    success = "Success!"
+    return jsonify({'file': success})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
