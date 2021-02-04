@@ -13,17 +13,17 @@ class InventarioDao(dao):
         Parámetros:
         - producto : que es el producto que se agregará al inventario 
         """
-        try:
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
+        try:    
             args=(producto.referenciaProducto,producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.precioMayorista)
             sql='''insert into Inventario(Referencia_Producto_ID,Descripcion,Url_imagen,Stock,Precio_costo,Precio_venta,Precio_mayorista)
             values(%s,%s,%s,%s,%s,%s,%s);'''
             cursor.execute(sql,args)
             cnx.commit()
-            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def consultarProducto(self,id):
@@ -32,10 +32,10 @@ class InventarioDao(dao):
         Parámetros:
         - id : que es el ID de producto 
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql= "select * from Inventario where Referencia_Producto_ID=%s;"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql,(id,))
             result = cursor.fetchone()
             producto=None
@@ -50,6 +50,7 @@ class InventarioDao(dao):
             super().cerrarConexion(cursor,cnx)
             return producto
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def actualizarProducto(self,producto):
@@ -58,6 +59,8 @@ class InventarioDao(dao):
         Parámetros:
         - producto : que es el producto que se actualizará
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql = '''update Inventario
             set Descripcion=%s,
@@ -67,8 +70,6 @@ class InventarioDao(dao):
             Precio_venta=%s,
             Precio_mayorista=%s
             where Referencia_Producto_ID=%s;'''
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql,(producto.descripcion,producto.urlImagen,producto.stock,producto.precioCosto,producto.precioVenta,producto.precioMayorista,producto.referenciaProducto))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
@@ -101,10 +102,10 @@ class InventarioDao(dao):
         - producto : que es el producto al que se le agregará la categoría
         - categoria: que es el categoria que se le agregará al producto
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql='insert into Inventario_tiene_Categoria (Inventario_Referencia_producto_ID,categoria_ID) values (%s,%s);'
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql,(producto.referenciaProducto,categoria.id))
             cnx.commit()
             super().cerrarConexion(cursor,cnx)
@@ -118,25 +119,25 @@ class InventarioDao(dao):
         - producto : que es el producto al que se le removerá la categoría
         - categoria: que es el categoría que se le removerá al producto
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql='delete from Inventario_tiene_Categoria where (Referencia_producto_ID,categoria_ID) values (%s,%s)'
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql,(producto.referenciaProducto,categoria.id))
             cursor.commit()
-            super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
+            super().cerrarConexion(cursor,cnx)
             raise e
 
     def consultarProductos(self):
         """
         Método que permite consultar la lista de productos existentes 
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql= "select * from Inventario;"
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql)
             results=cursor.fetchall()
             productos=[]
