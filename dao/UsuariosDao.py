@@ -171,10 +171,10 @@ class UsuariosDao(dao):
         - usuario: que es el usuario al que se le agregará la dirección
         - dirección: que es la dirección que se le agregará al usuario
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql= ''
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql)
             super().cerrarConexion(cursor,cnx)
             return True
@@ -188,12 +188,12 @@ class UsuariosDao(dao):
         - nombreUsuario: que es el nombre de usuario 
         - contraseña: que es la contraseña del usuario  
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario from Usuario as u
             inner join Persona as p on p.Persona_ID=u.Persona_ID
-            where u.usuario = %s and u.Contraseña=sha(%s);'''
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
+            where u.usuario = %s and u.Contraseña=sha(%s);'''    
             cursor.execute(sql,(nombreUsuario,contraseña))
             result = cursor.fetchone()
             usuario=None
