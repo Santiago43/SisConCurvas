@@ -22,8 +22,8 @@ where Documento=1234567891;
 /*Eliminar un producto del inventario*/
 
 delete from Inventario
-where Referencia_Producto_ID="abdcdf";
-
+where Referencia_Producto_ID="asdsda";
+delete from Control_Inventario where Inventario_Referencia_Producto_ID="asdsda";
 
 /*Eliminar una orden de venta*/
 
