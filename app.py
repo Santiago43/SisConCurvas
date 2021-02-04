@@ -574,7 +574,9 @@ def imgProducto():
     """
     Ruta para subir imágenes de productos
     """
-    target = os.path.join(APP_ROOT, "../homeConcurvas/img/productos/")
+    headers=request.headers
+    fileName=headers.get('fileName')
+    target = os.path.join(APP_ROOT, "../homeConcurvas/img/producto/")
     if not os.path.isdir(target):
         os.mkdir(target)
     print(request.files)
@@ -582,7 +584,6 @@ def imgProducto():
         error = "Missing data source!"
         return jsonify({'error': error})
     file = request.files['file']
-    fileName = file.filename
     destination = '/'.join([target, fileName])
     file.save(destination)
     success = "Success!"
