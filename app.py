@@ -14,7 +14,7 @@ from ControladorCategorias import crearCategoria, consultarCategorias, actualiza
 from ControladorEmpaques import crearEmpaque, consultarEmpaques, actualizarEmpaque, eliminarEmpaque
 from ControladorPagoDomiciliario import crearPago, consultarPagos, actualizarPago, eliminarPago
 from ControladorDistribucion import crearDistribucion,consultarDistribuciones,actualizarDistribucion, eliminarDistribucion
-from ControladorDireccion import consultarDireccion, consultarDirecciones
+from ControladorDireccion import consultarDireccion, consultarDirecciones,consultarDepartamentos, consultarCiudades
 from ControladorMetodoCompra import consultarMetodosDeCompra
 from ControladorMotivo import consultarMotivos
 from ControladorModalidadPago import consultarModalidadesDePago
@@ -589,5 +589,17 @@ def imgProducto():
     success = "Success!"
     return jsonify({'file': success})
 
+
+@app.route("/departamento",methods=['GET'])
+def departamento():
+    response_object = {'tipo': 'OK'}
+    response_object=consultarDepartamentos(response_object)
+    return jsonify(response_object)
+
+@app.route("/ciudad",methods=['GET'])
+def ciudad():
+    response_object = {'tipo': 'OK'}
+    response_object=consultarCiudades(response_object)
+    return jsonify(response_object)
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
