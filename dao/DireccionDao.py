@@ -120,8 +120,8 @@ class DireccionDao(dao):
             ciudades=list()
             for row in cursor:
                 ciudades.append(Ciudad(row[0],row[1],row[2]))
-            return ciudades
             super().cerrarConexion(cursor,cnx)
+            return ciudades
         except Exception as e:
             super().cerrarConexion(cursor,cnx)
             raise e
