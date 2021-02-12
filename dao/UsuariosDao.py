@@ -214,11 +214,11 @@ class UsuariosDao(dao):
         Parámetros:
         - token : que es el token del usuario 
         """
+        cnx=super().connectDB()
+        cursor=cnx.cursor()
         try:
             sql= '''select p.*,u.Rol_ID,u.Contraseña,u.usuario_ID,u.Url_imagen,u.Tipo_documento,u.Documento,u.estado,u.token,u.usuario
             from Persona as p inner join Usuario as u on u.Persona_ID=p.Persona_ID where u.token=%s;'''
-            cnx=super().connectDB()
-            cursor=cnx.cursor()
             cursor.execute(sql,(token,))
             result = cursor.fetchone()
             usuario=None
