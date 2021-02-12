@@ -110,9 +110,38 @@ class ClienteDao(dao):
                 where p.Telefono="'''+str(cliente.telefono)+'''";'''
                 cursor.execute(sql2)
                 for row in cursor:
-                    direccion=Direccion(row[0],row[1],row[2],row[3],row[4])
+                    direccion=Direccion(row[0],row[1],row[2],row[3])
                     cliente.direcciones.append(direccion)
                 clientes.append(cliente)
             return clientes
+        except Exception as e:
+            raise e
+    def consultarClientePorID(self,id):
+        """
+        Método que permite consultar un cliente mediante su id
+        Parámetros:
+        - id : que es el id del cliente 
+        """
+        try:
+            sql= '''select p.*,tipo_cliente,c.Cliente_ID from Persona as p 
+            inner join Cliente as c 
+            on c.Persona_ID=p.Persona_ID
+            where c.Cliente_ID="'''+str(id)+'''";'''
+            cnx=super().connectDB()
+            cursor=cnx.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            cliente=None
+            if result is not None:
+                cliente = Cliente(result[0],result[1],result[2],result[3],result[4],result[5],result[6],list(),result[7],result[8])
+                sql2='''select d.* from Direccion as d
+                inner join Persona_tiene_Direccion as pd on d.Direccion_id
+                inner join Persona as p on p.Persona_ID=pd.Persona_ID
+                where p.Telefono="'''+str(cliente.telefono)+'''";'''
+                cursor.execute(sql2)
+                for row in cursor:
+                    direccion=Direccion(row[0],row[1],row[2],row[3])
+                    cliente.direcciones.append(direccion)
+            return cliente
         except Exception as e:
             raise e
