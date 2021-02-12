@@ -9,6 +9,7 @@ from dao.DireccionDao import DireccionDao
 from dao.OrigenDao import OrigenDao
 from dao.ModalidadPagoDao import ModalidadPagoDao
 from dao.MetodoCompraDao import MetodoCompraDao
+from dao.ClienteDao import ClienteDao
 
 def crearOrden(data,response_object,editor):
     """
@@ -24,7 +25,7 @@ def crearOrden(data,response_object,editor):
     origen_ID=data.get('origen_ID')
     modalidad_pago_ID=data.get('modalidad_pago_ID')
     metodo_compra_ID=data.get('metodo_compra_ID')
-    direccion_ID=data.get('direccion_ID')
+    
     cliente_ID=data.get('cliente_ID')
     usuario_ID=data.get('usuario_ID')
     estado=data.get('estado')
@@ -33,15 +34,18 @@ def crearOrden(data,response_object,editor):
     tipo_venta=data.get('tipo_venta')
     descuento=data.get('descuento')
     precio=data.get('precio')
+    clienteDao=ClienteDao()
+    cliente=clienteDao.consultarClientePorID(cliente_ID)
+    direccion_ID=cliente.direcciones[0].direccion_ID
     ordenVenta=OrdenVenta(None,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,None,nota,fecha_entrega,tipo_venta,descuento,list(),precio)
     dao=OrdenDao()
     idorden = dao.crearOrden(ordenVenta)
     if idorden is not None:
         response_object['mensaje']="Orden creada"
-        texto="El usuario "+editor.usuario+" creó la orden '"+idorden+"'"
-        control=Control_venta(None,editor.usuario_ID,idorden,None,texto)
+        texto="El usuario "+editor.usuario+" creó la orden '"+str(idorden[0])+"'"
+        control=Control_venta(None,editor.usuario_ID,idorden[0],None,texto)
         controlDao=ControlDao()
-        controlDao.crearControlRol(control)
+        controlDao.crearControlVenta(control)
     else:
         response_object['tipo']="Error"
         response_object['mensaje']="Error al crear la orden"
