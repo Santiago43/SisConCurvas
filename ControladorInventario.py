@@ -27,7 +27,7 @@ def crearProducto(data,response_object,usuario):
             categoriaDao=CategoriaDao()
             for categoria in categorias:
                 print(categoria)
-                categoriaObj=categoriaDao.consultarCategoria(categoria['id'])
+                categoriaObj=categoriaDao.consultarCategoria(categoria)
                 dao.agregarCategoria(producto,categoriaObj)
             control=Control_inventario(usuario.usuario_ID,None,referenciaProducto,None,0,"Se crea: "+descripcion,stock,True)
             controlDao=ControlDao()
