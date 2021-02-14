@@ -54,6 +54,12 @@ values (
 (select Rol_ID from Rol where Nombre="Vendedor"),
 (select Permiso_ID from Permiso where Nombre="Orden.crear"));
 
+
+insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
+values (
+(select Rol_ID from Rol where Nombre="Administrador"),
+(select Permiso_ID from Permiso where Nombre="Orden.crear"));
+
 insert into Rol_tiene_Permiso(Rol_ID,Permiso_ID) 
 values (
 (select Rol_ID from Rol where Nombre="Administrador"),
@@ -193,7 +199,7 @@ insert into Direccion (Ciudad_ID, Barrio, Direccion) values ((select Ciudad_ID f
 insert into Direccion (Ciudad_ID, Barrio, Direccion) values ((select Ciudad_ID from Ciudad where Nombre="Soacha"),"San Mateo",'cra 14 este # 32a');
 
 insert into Persona_tiene_Direccion(Persona_ID,Direccion_id)
-values (3,1);
+values (4,1);
 /*Insertar origen*/
 
 insert into Origen (Nombre_origen) values ("Facebook");
