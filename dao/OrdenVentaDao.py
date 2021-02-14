@@ -24,11 +24,6 @@ class OrdenDao(dao):
             (%s,%s,%s,%s,%s,%s,%s,%s,sysdate(),%s,%s,%s,%s,%s);
             '''
             cursor.execute(sql,(orden.motivo_ID,orden.origen_ID,orden.modalidad_pago_ID,orden.metodo_compra_ID,orden.direccion_ID,orden.cliente_ID,orden.usuario_ID,orden.estado,orden.nota,orden.fecha_entrega,orden.tipo_venta,orden.descuento,orden.precio))
-            for productoEnOrden in orden.productos:
-                sql2=''' insert into Orden_venta_tiene_Producto 
-                (Orden_venta_ID,Inventario_Referencia_Producto_ID,cantidad) 
-                values (%s,%s,%s);  '''
-                cursor.execute(sql2,(orden.orden_ID,productoEnOrden.producto.referenciaProducto,productoEnOrden.cantidad))
             cnx.commit()
             sql3 = 'select Orden_venta_ID from Orden_venta order by Orden_venta_ID desc limit 1;'
             cursor.execute(sql3)
