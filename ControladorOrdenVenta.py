@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from dao.models import Usuario,OrdenVenta,Control_venta
+from dao.models import Usuario,OrdenVenta,Control_venta,ProductoEnOrden,Inventario
 from dao.OrdenVentaDao import OrdenDao
 from dao.RolesDao import RolesDao
 from dao.UsuariosDao import UsuariosDao
@@ -10,6 +10,7 @@ from dao.OrigenDao import OrigenDao
 from dao.ModalidadPagoDao import ModalidadPagoDao
 from dao.MetodoCompraDao import MetodoCompraDao
 from dao.ClienteDao import ClienteDao
+from dao.InventarioDao import InventarioDao
 
 def crearOrden(data,response_object,editor):
     """
@@ -25,7 +26,6 @@ def crearOrden(data,response_object,editor):
     origen_ID=data.get('origen_ID')
     modalidad_pago_ID=data.get('modalidad_pago_ID')
     metodo_compra_ID=data.get('metodo_compra_ID')
-    
     cliente_ID=data.get('cliente_ID')
     usuario_ID=data.get('usuario_ID')
     estado=data.get('estado')
@@ -34,16 +34,23 @@ def crearOrden(data,response_object,editor):
     tipo_venta=data.get('tipo_venta')
     descuento=data.get('descuento')
     precio=data.get('precio')
+    productos=data.get('productos')
     clienteDao=ClienteDao()
     cliente=clienteDao.consultarClientePorID(cliente_ID)
     direccion_ID=cliente.direcciones[0].direccion_ID
     ordenVenta=OrdenVenta(None,motivo_ID,origen_ID,modalidad_pago_ID,metodo_compra_ID,direccion_ID,cliente_ID,usuario_ID,estado,None,nota,fecha_entrega,tipo_venta,descuento,list(),precio)
     dao=OrdenDao()
     idorden = dao.crearOrden(ordenVenta)
+    ordenVenta.ordenVenta_ID=idorden
+    inventarioDao=InventarioDao()
+    for producto in productos:
+        productoCompra=inventarioDao.consultarProducto(producto['referenciaProducto'])
+        productoEnOrden=ProductoEnOrden(productoCompra,producto['cantidad'])
+        dao.agregarProducto(ordenVenta,productoEnOrden)
     if idorden is not None:
         response_object['mensaje']="Orden creada"
-        texto="El usuario "+editor.usuario+" creó la orden '"+str(idorden[0])+"'"
-        control=Control_venta(None,editor.usuario_ID,idorden[0],None,texto)
+        texto="El usuario "+editor.usuario+" creó la orden '"+str(idorden)+"'"
+        control=Control_venta(None,editor.usuario_ID,idorden,None,texto)
         controlDao=ControlDao()
         controlDao.crearControlVenta(control)
     else:
