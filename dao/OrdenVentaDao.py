@@ -29,7 +29,7 @@ class OrdenDao(dao):
             cursor.execute(sql3)
             ordenID = cursor.fetchone()
             super().cerrarConexion(cursor,cnx)
-            return ordenID
+            return ordenID[0]
         except Exception as e:
             super().cerrarConexion(cursor,cnx)
             raise e
@@ -116,7 +116,7 @@ class OrdenDao(dao):
             super().cerrarConexion(cursor,cnx)
             raise e
 
-    def agregarProducto(self, productoEnOrden):
+    def agregarProducto(self, orden,productoEnOrden):
         """
         Método que permite agregar un producto en una orden
         - producto : que es el producto que se agregará a la orden
@@ -128,8 +128,8 @@ class OrdenDao(dao):
             values (%s,%s,%s);'''
             cnx=super().connectDB()
             cursor=cnx.cursor()
-            cursor.execute(sql,(productoEnOrden.orden.ordenVenta_ID,productoEnOrden.producto.referenciaProducto))
-            cursor.commit()
+            cursor.execute(sql,(orden.ordenVenta_ID,productoEnOrden.producto.referenciaProducto,productoEnOrden.cantidad))
+            cnx.commit()
             super().cerrarConexion(cursor,cnx)
             return True
         except Exception as e:
