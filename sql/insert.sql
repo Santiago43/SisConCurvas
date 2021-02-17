@@ -200,8 +200,10 @@ insert into Direccion (Ciudad_ID, Barrio, Direccion) values ((select Ciudad_ID f
 
 insert into Persona_tiene_Direccion(Persona_ID,Direccion_id)
 values (4,1);
-/*Insertar origen*/
 
+insert into Persona_tiene_Direccion(Persona_ID,Direccion_id)
+values (5,1);
+/*Insertar origen*/
 insert into Origen (Nombre_origen) values ("Facebook");
 insert into Origen (Nombre_origen) values ("WhatsApp");
 
